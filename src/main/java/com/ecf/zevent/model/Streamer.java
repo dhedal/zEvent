@@ -19,7 +19,7 @@ public class Streamer {
     private String email;
     private int age;
     private String chaine;
-
+    private Rule rule;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -91,6 +91,14 @@ public class Streamer {
         this.updatedAt = updatedAt;
     }
 
+    public Rule getRule() {
+        return rule;
+    }
+
+    public void setRule(Rule rule) {
+        this.rule = rule;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Streamer{");
@@ -101,6 +109,7 @@ public class Streamer {
         sb.append(", email='").append(email).append('\'');
         sb.append(", age=").append(age);
         sb.append(", chaine='").append(chaine).append('\'');
+        sb.append(", rule='").append(rule).append('\'');
         sb.append(", createdAt=").append(createdAt);
         sb.append(", updatedAt=").append(updatedAt);
         sb.append('}');
