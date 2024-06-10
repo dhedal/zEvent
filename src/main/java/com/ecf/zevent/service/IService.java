@@ -1,5 +1,7 @@
 package com.ecf.zevent.service;
 
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+
 import java.util.List;
 
 public interface IService<T> {

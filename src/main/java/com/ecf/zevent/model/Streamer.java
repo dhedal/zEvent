@@ -90,4 +90,20 @@ public class Streamer {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Streamer{");
+        sb.append("id=").append(id);
+        sb.append(", firstName='").append(firstName).append('\'');
+        sb.append(", lastName='").append(lastName).append('\'');
+        sb.append(", matricule='").append(matricule).append('\'');
+        sb.append(", email='").append(email).append('\'');
+        sb.append(", age=").append(age);
+        sb.append(", chaine='").append(chaine).append('\'');
+        sb.append(", createdAt=").append(createdAt);
+        sb.append(", updatedAt=").append(updatedAt);
+        sb.append('}');
+        return sb.toString();
+    }
 }
