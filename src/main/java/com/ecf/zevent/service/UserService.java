@@ -1,5 +1,6 @@
 package com.ecf.zevent.service;
 
+import com.ecf.zevent.model.IEntity;
 import com.ecf.zevent.model.User;
 import com.ecf.zevent.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

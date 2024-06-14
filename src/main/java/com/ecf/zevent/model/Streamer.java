@@ -1,26 +1,32 @@
 package com.ecf.zevent.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-public class Streamer {
+public class Streamer implements IEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+    @Column(nullable = false, length = 50)
     private String firstName;
+    @Column(nullable = false, length = 50)
     private String lastName;
+    @Column(unique = true, nullable = false)
     private String matricule;
+    @Column(unique = true, nullable = false, length = 100)
     private String email;
+    @Column(nullable = false)
     private int age;
+    @Column(nullable = false, length = 100)
     private String chaine;
+    @Column(nullable = false)
     private Rule rule;
+    @Column(nullable = false)
     private LocalDateTime createdAt;
+    @Column(nullable = true)
     private LocalDateTime updatedAt;
 
     public Long getId() {

@@ -5,8 +5,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import java.time.LocalDateTime;
+
 @Entity
-public class User {
+public class User implements IEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
@@ -15,6 +17,16 @@ public class User {
 
     public Long getId() {
         return id;
+    }
+
+    @Override
+    public void setCreatedAt(LocalDateTime updatedAt) {
+
+    }
+
+    @Override
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+
     }
 
     public String getEmail() {

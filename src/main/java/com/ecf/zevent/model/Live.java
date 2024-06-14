@@ -5,17 +5,24 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-public class Live {
+public class Live implements IEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    private String libelle;
-    private String thematique;
+    @Column(nullable = false, length = 100)
+    private String label;
+    @Column(nullable = false, length = 50)
+    private String theme;
+    @Column(nullable = false)
     private LocalDateTime dateStart;
+    @Column(nullable = false)
     private LocalDateTime dateEnd;
-    private int pegi;
+    @Column(nullable = false)
+    private Pegi pegi;
+    @Column(nullable = false)
     private LocalDateTime createdAt;
+    @Column(nullable = true)
     private LocalDateTime updatedAt;
 
     @ManyToOne
@@ -26,24 +33,20 @@ public class Live {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getLabel() {
+        return label;
     }
 
-    public String getLibelle() {
-        return libelle;
+    public void setLabel(String label) {
+        this.label = label;
     }
 
-    public void setLibelle(String libelle) {
-        this.libelle = libelle;
+    public String getTheme() {
+        return theme;
     }
 
-    public String getThematique() {
-        return thematique;
-    }
-
-    public void setThematique(String thematique) {
-        this.thematique = thematique;
+    public void setTheme(String theme) {
+        this.theme = theme;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -78,11 +81,32 @@ public class Live {
         this.dateEnd = dateEnd;
     }
 
-    public int getPegi() {
+    public Pegi getPegi() {
         return pegi;
     }
 
-    public void setPegi(int pegi) {
+    public void setPegi(Pegi pegi) {
         this.pegi = pegi;
+    }
+
+    public Streamer getStreamer() { return this.streamer;}
+
+    public void setStreamer(Streamer streamer) {
+        this.streamer = streamer;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Live{");
+        sb.append("id=").append(id);
+        sb.append(", label='").append(label).append('\'');
+        sb.append(", theme='").append(theme).append('\'');
+        sb.append(", dateStart=").append(dateStart);
+        sb.append(", dateEnd=").append(dateEnd);
+        sb.append(", pegi=").append(pegi);
+        sb.append(", createdAt=").append(createdAt);
+        sb.append(", updatedAt=").append(updatedAt);
+        sb.append('}');
+        return sb.toString();
     }
 }
