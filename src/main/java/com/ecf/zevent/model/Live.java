@@ -1,6 +1,7 @@
 package com.ecf.zevent.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -20,7 +21,8 @@ public class Live implements IEntity{
     private LocalDateTime dateEnd;
     @Column(nullable = false)
     private Pegi pegi;
-    @Column(nullable = false)
+    @CreationTimestamp
+    @Column(updatable = false)
     private LocalDateTime createdAt;
     @Column(nullable = true)
     private LocalDateTime updatedAt;

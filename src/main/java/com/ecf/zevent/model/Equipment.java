@@ -1,6 +1,7 @@
 package com.ecf.zevent.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -17,7 +18,8 @@ public class Equipment implements IEntity{
     private String brand;
     @Column(nullable = false)
     private Integer quantity;
-    @Column(nullable = false)
+    @CreationTimestamp
+    @Column(updatable = false)
     private LocalDateTime createdAt;
     @Column(nullable = true)
     private LocalDateTime updatedAt;

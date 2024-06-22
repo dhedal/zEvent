@@ -1,6 +1,7 @@
 package com.ecf.zevent.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -24,7 +25,8 @@ public class Streamer implements IEntity{
     private String chaine;
     @Column(nullable = false)
     private Rule rule;
-    @Column(nullable = false)
+    @CreationTimestamp
+    @Column(updatable = false)
     private LocalDateTime createdAt;
     @Column(nullable = true)
     private LocalDateTime updatedAt;
