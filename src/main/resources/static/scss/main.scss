@@ -1,2 +1,54 @@
 @import url("../node_modules/bootstrap-icons/font/bootstrap-icons.min.css");
 @import 'custom';
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+main {
+  margin-bottom: 200px;
+}
+
+footer.footer {
+  padding: 15px;
+  position:absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+p{
+  font-family: $font-family-serif;
+  font-size: 18px;
+}
+
+.hero-scene {
+  position: relative;
+  &::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    background-image: url(../img/bg.bmp);
+    background-size: cover;
+    filter:brightness(0.3);
+  }
+
+  *{
+    position:relative;
+  }
+
+  .hero-scene-content {
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.text-justify {
+  text-align: justify;
+}
