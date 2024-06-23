@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 public class Live implements IEntity{
@@ -14,7 +15,7 @@ public class Live implements IEntity{
     @Column(nullable = false, length = 100)
     private String label;
     @Column(nullable = false, length = 50)
-    private String theme;
+    private ThematiqueType theme;
     @Column(nullable = false)
     private LocalDateTime dateStart;
     @Column(nullable = false)
@@ -43,11 +44,11 @@ public class Live implements IEntity{
         this.label = label;
     }
 
-    public String getTheme() {
+    public ThematiqueType getTheme() {
         return theme;
     }
 
-    public void setTheme(String theme) {
+    public void setTheme(ThematiqueType theme) {
         this.theme = theme;
     }
 
@@ -110,5 +111,28 @@ public class Live implements IEntity{
         sb.append(", updatedAt=").append(updatedAt);
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(31);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj) return true;
+        if(null == obj || !(obj instanceof Live)) return false;
+        Live that = (Live) obj;
+        if(this.id == null && that.id == null) {
+            return Objects.equals(this.label, that.label) &&
+                    Objects.equals(this.theme, that.theme) &&
+                    Objects.equals(this.dateStart, that.dateStart) &&
+                    Objects.equals(this.dateEnd, that.dateEnd) &&
+                    Objects.equals(this.createdAt, that.createdAt) &&
+                    Objects.equals(this.updatedAt, that.updatedAt);
+        }
+
+        return Objects.equals(this.id, that.id);
+
     }
 }

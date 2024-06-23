@@ -1,9 +1,6 @@
 package com.ecf.zevent.service;
 
-import com.ecf.zevent.model.Live;
-import com.ecf.zevent.model.Pegi;
-import com.ecf.zevent.model.Rule;
-import com.ecf.zevent.model.Streamer;
+import com.ecf.zevent.model.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -38,7 +35,7 @@ public class LiveServiceTest {
         return streamer;
     }
 
-    private Live newLive(String label, String theme, LocalDateTime dateStart, Duration duration, Pegi pegi,
+    private Live newLive(String label, ThematiqueType theme, LocalDateTime dateStart, Duration duration, Pegi pegi,
                          Streamer streamer) {
         Live live = new Live();
         live.setLabel(label);
@@ -56,7 +53,7 @@ public class LiveServiceTest {
         streamer = this.streamerService.save(streamer);
         assertNotNull(streamer.getId());
 
-        Live live = this.newLive("let'play", "Cyber-punk 2077",
+        Live live = this.newLive("let'play", ThematiqueType.FPS,
                 LocalDateTime.of(2024, Month.JUNE, 15, 20, 30),
                 Duration.ofHours(2).plus(Duration.ofMinutes(30)),
                 Pegi.PEGI_16,
@@ -83,7 +80,7 @@ public class LiveServiceTest {
         streamer = this.streamerService.save(streamer);
         assertNotNull(streamer.getId());
 
-        Live live = this.newLive("let'play", "Cyber-punk 2077",
+        Live live = this.newLive("let'play", ThematiqueType.MOBA,
                 LocalDateTime.of(2024, Month.JUNE, 15, 20, 30),
                 Duration.ofHours(2).plus(Duration.ofMinutes(30)),
                 Pegi.PEGI_16,
@@ -119,7 +116,7 @@ public class LiveServiceTest {
         streamer = this.streamerService.save(streamer);
         assertNotNull(streamer.getId());
 
-        Live live = this.newLive("let'play", "Cyber-punk 2077",
+        Live live = this.newLive("let'play", ThematiqueType.RTS,
                 LocalDateTime.of(2024, Month.JUNE, 15, 20, 30),
                 Duration.ofHours(2).plus(Duration.ofMinutes(30)),
                 Pegi.PEGI_16,
@@ -143,17 +140,17 @@ public class LiveServiceTest {
         Streamer s3 = this.streamerService.save(this.newSTreamer("david", "hedgar", 45, "youtube", Rule.ADMIN));
 
         List<Live> lives = List.of(
-                this.newLive("let'play", "Astrobot",
+                this.newLive("let'play", ThematiqueType.JEUX_D_AVENTURE_ET_DE_ROLE,
                     LocalDateTime.of(2024, Month.JUNE, 15, 20, 30),
                     Duration.ofHours(2).plus(Duration.ofMinutes(30)),
                     Pegi.PEGI_3,
                     s1),
-                this.newLive("let'play", "Cyber-punk 2077",
+                this.newLive("let'play", ThematiqueType.JEUX_DE_COURSE,
                     LocalDateTime.of(2024, Month.JUNE, 15, 20, 30),
                     Duration.ofHours(2).plus(Duration.ofMinutes(30)),
                     Pegi.PEGI_16,
                     s2),
-                 this.newLive("let'play", "GTA-9",
+                 this.newLive("let'play", ThematiqueType.SURVIVAL_HORROR,
                     LocalDateTime.of(2024, Month.JUNE, 15, 20, 30),
                     Duration.ofHours(2).plus(Duration.ofMinutes(30)),
                     Pegi.PEGI_18,
@@ -165,4 +162,81 @@ public class LiveServiceTest {
         assertEquals(liveCount + lives.size(), this.liveService.listAll().size());
 
     }
+
+    @Test
+    public void testFindLivesByDate() {
+        Streamer streamer = this.newSTreamer("alexandre", "hedgar", 45, "youtube", Rule.STREAMER);
+        this.streamerService.save(streamer);
+
+        Live live = this.newLive("let'play", ThematiqueType.JEUX_DE_CARTES_ET_DE_STRATEGIE,
+                LocalDateTime.of(2024, Month.JUNE, 15, 20, 30),
+                Duration.ofHours(2).plus(Duration.ofMinutes(30)),
+                Pegi.PEGI_3,
+                streamer);
+        this.liveService.save(live);
+
+        List<Live> results = this.liveService.findLivesByDate(live.getDateStart().toLocalDate().plusDays(1));
+        assertNotNull(results);
+        assertTrue(results.isEmpty());
+
+        results = this.liveService.findLivesByDate(live.getDateStart().toLocalDate());
+        assertNotNull(results);
+        assertFalse(results.isEmpty());
+        assertTrue(results.contains(live));
+
+        System.out.println(this.liveService.findLivesByStreamer(streamer));
+        System.out.println(results);
+    }
+
+    @Test
+    public void testFindLivesByStreamer() {
+        Streamer streamer = this.newSTreamer("alexandre", "hedgar", 45, "youtube", Rule.STREAMER);
+        this.streamerService.save(streamer);
+
+        Live live = this.newLive("let'play", ThematiqueType.MMORPG,
+                LocalDateTime.of(2024, Month.JUNE, 15, 20, 30),
+                Duration.ofHours(2).plus(Duration.ofMinutes(30)),
+                Pegi.PEGI_3,
+                streamer);
+        this.liveService.save(live);
+
+        List<Live> results = this.liveService.findLivesByStreamer(streamer);
+        assertNotNull(results);
+        assertFalse(results.isEmpty());
+        assertTrue(results.contains(live));
+    }
+
+    @Test
+    public void testFindLivesByTheme() {
+        Streamer streamer = this.newSTreamer("alexandre", "hedgar", 45, "youtube", Rule.STREAMER);
+        this.streamerService.save(streamer);
+
+        List<Live> livesFPS = List.of(
+                this.newLive("Call of duty", ThematiqueType.RTS,
+                        LocalDateTime.of(2024, Month.JUNE, 15, 20, 30),
+                        Duration.ofHours(2).plus(Duration.ofMinutes(30)),
+                        Pegi.PEGI_16,
+                        streamer),
+                this.newLive("Cyber punk 2077", ThematiqueType.RTS,
+                        LocalDateTime.of(2024, Month.JUNE, 15, 20, 30),
+                        Duration.ofHours(2).plus(Duration.ofMinutes(30)),
+                        Pegi.PEGI_16,
+                        streamer),
+                this.newLive("Doom", ThematiqueType.RTS,
+                        LocalDateTime.of(2024, Month.JUNE, 15, 20, 30),
+                        Duration.ofHours(2).plus(Duration.ofMinutes(30)),
+                        Pegi.PEGI_12,
+                        streamer)
+        );
+        livesFPS.forEach(live -> this.liveService.save(live));
+
+        List<Live> results = this.liveService.findLivesByTheme(ThematiqueType.RTS);
+        assertNotNull(results);
+        results.forEach(live -> {
+            assertTrue(livesFPS.contains(live));
+        });
+        
+    }
+
+
 }
