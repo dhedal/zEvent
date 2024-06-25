@@ -94,8 +94,32 @@ public class StreamerServiceTest {
 
     }
 
+    @Test
+    public void testPseudoList() {
+        int streamerCount = this.streamerService.listAll().size();
+
+        List<Streamer> streamers = List.of(
+                this.newSTreamer("manu", "chao", 67, "twitch", Rule.USER),
+                this.newSTreamer("lucie", "herman", 39, "drama", Rule.STREAMER),
+                this.newSTreamer("rodrigue", "rodriguer", 45, "youtube", Rule.ADMIN)
+        );
+
+        streamers.forEach(streamer -> this.streamerService.save(streamer));
+
+        List<String> pseudos = this.streamerService.getPseudoList();
+        assertNotNull(pseudos);
+        assertEquals(streamerCount + streamers.size(), pseudos.size());
+        
+        streamers.forEach(streamer -> assertTrue(pseudos.contains(streamer.getPseudo())));
+
+
+
+
+    }
+
     private Streamer newSTreamer(String firstName, String lastName, int age, String chaine, Rule rule) {
         Streamer streamer = new Streamer();
+        streamer.setPseudo(firstName + "-" + lastName);
         streamer.setFirstName(firstName);
         streamer.setLastName(lastName);
         streamer.setMatricule(UUID.randomUUID().toString());

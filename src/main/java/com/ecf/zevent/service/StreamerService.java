@@ -5,6 +5,8 @@ import com.ecf.zevent.repository.StreamerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class StreamerService extends AbstractService<StreamerRepository, Streamer>{
 
@@ -14,4 +16,9 @@ public class StreamerService extends AbstractService<StreamerRepository, Streame
     }
 
 
+    public List<String> getPseudoList(){
+        List<Streamer> streamers = this.listAll();
+        return streamers.stream().map(Streamer::getPseudo)
+                .toList();
+    }
 }
