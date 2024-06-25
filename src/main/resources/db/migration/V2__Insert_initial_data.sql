@@ -1,15 +1,15 @@
-INSERT INTO streamer (first_name, last_name, matricule, email, age, chaine, rule, id) VALUES
-('John', 'Doe', 'JD123', 'john.doe@example.com', 25, 'JohnDoeGaming', 2, 1),
-('Jane', 'Smith', 'JS456', 'jane.smith@example.com', 30, 'JaneSmithPlays',  2, 2),
-('Alice', 'Johnson', 'AJ789', 'alice.johnson@example.com', 28, 'AliceJ', 2, 3),
-('Bob', 'Brown', 'BB101', 'bob.brown@example.com', 32, 'BobB', 2, 4),
-('Charlie', 'Davis', 'CD102', 'charlie.davis@example.com', 22, 'CharlieD', 2, 5),
-('David', 'Wilson', 'DW103', 'david.wilson@example.com', 27, 'DavidW', 2, 6),
-('Eva', 'Martinez', 'EM104', 'eva.martinez@example.com', 29, 'EvaM', 2, 7),
-('Frank', 'Miller', 'FM105', 'frank.miller@example.com', 35, 'FrankM', 2, 8),
-('Grace', 'Lee', 'GL106', 'grace.lee@example.com', 24, 'GraceL', 2, 9),
-('Hank', 'Taylor', 'HT1010', 'hank.taylor@example.com', 26, 'HankT', 2, 10),
-('David', 'Hedgar', 'HT107', 'davidhedgar@yahoo.fr', 46, 'Z-Event', 3, 11);
+INSERT INTO streamer (pseudo, first_name, last_name, matricule, email, age, chaine, rule, id) VALUES
+('JDoe', 'John', 'Doe', 'JD123', 'john.doe@example.com', 25, 'JohnDoeGaming', 2, 1),
+('JaneSmith', 'Jane', 'Smith', 'JS456', 'jane.smith@example.com', 30, 'JaneSmithPlays',  2, 2),
+('AliceJ', 'Alice', 'Johnson', 'AJ789', 'alice.johnson@example.com', 28, 'AliceJ', 2, 3),
+('BobBrown', 'Bob', 'Brown', 'BB101', 'bob.brown@example.com', 32, 'BobB', 2, 4),
+('CharlieDavis', 'Charlie', 'Davis', 'CD102', 'charlie.davis@example.com', 22, 'CharlieD', 2, 5),
+('DWilson', 'David', 'Wilson', 'DW103', 'david.wilson@example.com', 27, 'DavidW', 2, 6),
+('EvaMar', 'Eva', 'Martinez', 'EM104', 'eva.martinez@example.com', 29, 'EvaM', 2, 7),
+('FrankMiler', 'Frank', 'Miller', 'FM105', 'frank.miller@example.com', 35, 'FrankM', 2, 8),
+('GraceLee', 'Grace', 'Lee', 'GL106', 'grace.lee@example.com', 24, 'GraceL', 2, 9),
+('HankTaylor', 'Hank', 'Taylor', 'HT1010', 'hank.taylor@example.com', 26, 'HankT', 2, 10),
+('DHedgar', 'David', 'Hedgar', 'HT107', 'davidhedgar@yahoo.fr', 46, 'Z-Event', 3, 11);
 
 INSERT INTO live (id, label, theme, date_start, date_end, pegi, streamer_id) VALUES
  (1, 'Live 1 by John', 1, '2023-06-22 10:00:00', '2023-06-22 12:00:00', 18, 1),

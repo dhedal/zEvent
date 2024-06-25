@@ -235,7 +235,7 @@ public class LiveServiceTest {
         results.forEach(live -> {
             assertTrue(livesFPS.contains(live));
         });
-        
+
     }
 
 

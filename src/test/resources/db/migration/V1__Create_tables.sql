@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS `streamer` (
 `chaine` varchar(100) NOT NULL,
 `created_at` datetime(6) DEFAULT NULL,
 `email` varchar(100) NOT NULL,
+`pseudo` varchar(50) NOT NULL,
 `first_name` varchar(50) NOT NULL,
 `last_name` varchar(50) NOT NULL,
 `matricule` varchar(255) NOT NULL,

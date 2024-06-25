@@ -12,6 +12,8 @@ public class Streamer implements IEntity{
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @Column(nullable = false, length = 50)
+    private String pseudo;
+    @Column(nullable = false, length = 50)
     private String firstName;
     @Column(nullable = false, length = 50)
     private String lastName;
@@ -37,6 +39,14 @@ public class Streamer implements IEntity{
 
     public String getFirstName() {
         return firstName;
+    }
+
+    public String getPseudo() {
+        return pseudo;
+    }
+
+    public void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
     }
 
     public void setFirstName(String firstName) {
@@ -111,6 +121,7 @@ public class Streamer implements IEntity{
     public String toString() {
         final StringBuilder sb = new StringBuilder("Streamer{");
         sb.append("id=").append(id);
+        sb.append(", pseudo='").append(pseudo).append('\'');
         sb.append(", firstName='").append(firstName).append('\'');
         sb.append(", lastName='").append(lastName).append('\'');
         sb.append(", matricule='").append(matricule).append('\'');
