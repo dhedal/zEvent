@@ -1,5 +1,8 @@
 package com.ecf.zevent.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ThematiqueType {
     JEUX_VIDEO_COMPETITIFS(1,"Jeux Vidéo Compétitifs", "Compétitions intenses de jeux vidéo en tête-à-tête ou en équipes."),
     SPEEDRUNNING(2, "Speedrunning", "Réalisation de jeux vidéo dans un temps record."),

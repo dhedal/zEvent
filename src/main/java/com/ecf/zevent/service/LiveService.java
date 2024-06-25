@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class LiveService extends AbstractService<LiveRepository, Live> {
@@ -32,6 +33,10 @@ public class LiveService extends AbstractService<LiveRepository, Live> {
     public List<Live> findLivesByTheme(ThematiqueType theme){
         List<Live> lives = this.repository.findAllByTheme(theme);
         return lives;
+    }
+
+    public List<ThematiqueType> getThematiqueList() {
+        return Stream.of(ThematiqueType.values()).toList();
     }
 
 }

@@ -24,7 +24,15 @@
             liveMenuFilterSubmitBtn.addEventListener("click", () => {
                 let rq = "";
                 if(!dateFilterInput.disabled) {
-                    console.log(getStreamersPseudo());
+                    console.log(dateFilterInput.value);
+                }
+
+                if(!thematiqueFilterInput.disabled) {
+                    console.log(getLiveThematiqueList());
+                }
+
+                if(!streamerFilterInput.disabled) {
+                    console.log(getStreamerPseudoList());
                 }
             });
 

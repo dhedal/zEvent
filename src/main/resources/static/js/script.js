@@ -12,8 +12,14 @@ const sanitizeHtml = (text) => {
     return tempHtml.innerHTML;
 };
 
-const getStreamersPseudo = async () => {
-    const response = await fetch(API_URL + "streamer/list/pseudo");
+const getStreamerPseudoList = async () => {
+    const response = await fetch(API_URL + "streamer/pseudo/list");
     const names = await response.json();
     return names;
+}
+
+const getLiveThematiqueList = async () => {
+    const response = await fetch(API_URL + "live/thematique/list");
+    const thematiques = await response.json();
+    return thematiques;
 }

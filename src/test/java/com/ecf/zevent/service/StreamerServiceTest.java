@@ -109,12 +109,8 @@ public class StreamerServiceTest {
         List<String> pseudos = this.streamerService.getPseudoList();
         assertNotNull(pseudos);
         assertEquals(streamerCount + streamers.size(), pseudos.size());
-        
+
         streamers.forEach(streamer -> assertTrue(pseudos.contains(streamer.getPseudo())));
-
-
-
-
     }
 
     private Streamer newSTreamer(String firstName, String lastName, int age, String chaine, Rule rule) {
