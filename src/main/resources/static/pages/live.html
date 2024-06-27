@@ -13,17 +13,21 @@
             <div class="mb-3">
                 <input type="checkbox" class="form-check-input" id="dateMenuFilterCheckboxId">
                 <label for="dateMenuFilterInputId" class="form-label">Jour</label>
-                <input type="date" class="form-control" id="dateMenuFilterInputId" aria-describedby="emailHelp">
+                <input type="date" class="form-control visually-hidden" id="dateMenuFilterInputId" aria-describedby="emailHelp">
             </div>
             <div class="mb-3">
-                <input type="checkbox" class="form-check-input" id="thematiqueMenuFilterCheckboxId">
-                <label for="thematiqueMenuFilterInputId" class="form-label">Thématique</label>
-                <input type="password" class="form-control" id="thematiqueMenuFilterInputId">
+                <input type="checkbox" class="form-check-input" id="thematiqueCheckboxId">
+                <label for="thematiqueSelectId" class="form-label">Thématique</label>
+                <select id="thematiqueSelectId" class="form-select visually-hidden" aria-label="Liste de pseudo des streamers" >
+                    <option value="">choisissez une thématique ...</option>
+                </select>
             </div>
             <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="streamerMenuFilterCheckboxId">
-                <label for="streamerMenuFilterInputId" class="form-label">Streamer</label>
-                <input type="password" class="form-control" id="streamerMenuFilterInputId">
+                <input type="checkbox" class="form-check-input" id="streamerPseudoCheckboxId">
+                <label for="streamerSelectId" class="form-label">Streamer</label>
+                <select id="streamerSelectId" class="form-select visually-hidden" aria-label="Liste de pseudo des streamers">
+                    <option value="">selectionnez une streamer ...</option>
+                </select>
             </div>
             <button class="btn btn-primary" id="liveMenuFilterSubmitBtn">Rechercher</button>
         </div>

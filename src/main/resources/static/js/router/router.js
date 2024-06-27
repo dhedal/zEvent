@@ -14,7 +14,7 @@ const getRouteByUrl = (url) => {
 };
 
 //
-const loadContentPage = async () => {
+export const loadContentPage = async () => {
     const path = window.location.pathname;
 
     const actualRoute = getRouteByUrl(path);
@@ -27,7 +27,7 @@ const loadContentPage = async () => {
 
     if(actualRoute.pathJs != ""){
         let scripTag = document.createElement("script");
-        scripTag.setAttribute("type", "text/javascript");
+        scripTag.setAttribute("type", "module");
         scripTag.setAttribute("src", actualRoute.pathJs);
         document.querySelector("body").appendChild(scripTag);
     }
@@ -49,4 +49,3 @@ window.onpopstate = loadContentPage;
 // Assignation de la fonction routeEvent à la propriété route de la fenêtre
 window.route = routeEvent;
 
-loadContentPage();

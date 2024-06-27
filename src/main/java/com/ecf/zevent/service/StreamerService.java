@@ -21,4 +21,8 @@ public class StreamerService extends AbstractService<StreamerRepository, Streame
         return streamers.stream().map(Streamer::getPseudo)
                 .toList();
     }
+
+    public Streamer findByPseudo( String pseudo) {
+        return this.repository.findByPseudo(pseudo);
+    }
 }

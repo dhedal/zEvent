@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface LiveRepository extends JpaRepository<Live, Long> {
+public interface LiveRepository extends JpaRepository<Live, Long>, LiveRepositoryCustom{
 
     @Query("SELECT l FROM Live l WHERE FUNCTION('DATE', l.dateStart) = ?1")
     public List<Live> findAllByDate(LocalDate localDate);
@@ -20,4 +20,6 @@ public interface LiveRepository extends JpaRepository<Live, Long> {
     public List<Live> findAllByStreamer(Streamer streamer);
 
     public List<Live> findAllByTheme(ThematiqueType theme);
+
+//    public List<Live> findLivesBy(LocalDate date, ThematiqueType thematiqueType, Streamer streamer);
 }

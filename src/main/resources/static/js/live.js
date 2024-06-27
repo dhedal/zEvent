@@ -1,45 +1,49 @@
+import {fetchLiveThematiqueList, fetchStreamerPseudoList, fetchLives} from "./service/apiService.js";
 
-
-(function() {
+const loadLiveScript = () => {
     'use strict';
-    document.querySelector('.material-design-hamburger__icon').addEventListener(
-        'click',
-        function() {
-            const addInputListenerFn = (filterId, checkboxId) => {
-                const inputFilter = document.getElementById(filterId);
-                const checkbox = document.getElementById(checkboxId);
 
-                inputFilter.disabled = true;
-                checkbox.addEventListener("click", () => {
-                    inputFilter.disabled = !checkbox.checked;
-                });
-                return inputFilter;
-            };
+    const dateMenuFilterCheckbox = document.getElementById("dateMenuFilterCheckboxId");
+    const dateMenuFilterInput = document.getElementById("dateMenuFilterInputId");
+    dateMenuFilterCheckbox.addEventListener("click", () => {
+        dateMenuFilterInput.classList.toggle("visually-hidden");
+        if(dateMenuFilterCheckbox.checked) dateMenuFilterInput.value = "";
+    });
 
-            const dateFilterInput = addInputListenerFn("dateMenuFilterInputId", "dateMenuFilterCheckboxId");
-            const thematiqueFilterInput = addInputListenerFn("thematiqueMenuFilterInputId", "thematiqueMenuFilterCheckboxId");
-            const streamerFilterInput = addInputListenerFn("streamerMenuFilterInputId", "streamerMenuFilterCheckboxId");
+    const thematiqueSelect = document.getElementById("thematiqueSelectId");
+    fetchLiveThematiqueList().then(thematiqueList => {
+        thematiqueList.forEach(thematique => {
+            const option = document.createElement("option");
+            option.value = thematique.label;
+            option.textContent = thematique.label;
+            thematiqueSelect.appendChild(option);
+        });
+    });
+    const thematiqueMenuFilterCheckbox = document.getElementById("thematiqueCheckboxId");
+    thematiqueMenuFilterCheckbox.addEventListener("click", () => {
+        thematiqueSelect.classList.toggle("visually-hidden");
+    });
 
-            const liveMenuFilterSubmitBtn = document.getElementById("liveMenuFilterSubmitBtn");
-            liveMenuFilterSubmitBtn.addEventListener("click", () => {
-                let rq = "";
-                if(!dateFilterInput.disabled) {
-                    console.log(dateFilterInput.value);
-                }
+    const streamerPseudoSelect = document.getElementById("streamerSelectId");
+    fetchStreamerPseudoList().then(pseudoList => {
+        pseudoList.forEach(pseudo => {
+            const option = document.createElement("option");
+            option.value = pseudo;
+            option.textContent = pseudo;
+            streamerPseudoSelect.appendChild(option);
+        });
+    });
+    const streamerPseudoCheckbox = document.getElementById("streamerPseudoCheckboxId");
+    streamerPseudoCheckbox.addEventListener("click", () => {
+        streamerPseudoSelect.classList.toggle("visually-hidden");
+    });
 
-                if(!thematiqueFilterInput.disabled) {
-                    console.log(getLiveThematiqueList());
-                }
-
-                if(!streamerFilterInput.disabled) {
-                    console.log(getStreamerPseudoList());
-                }
-            });
-
+    const openCloseFilterBtn = document.querySelector(".material-design-hamburger__icon");
+    openCloseFilterBtn.addEventListener("click", () => {
             document.body.classList.toggle('background--blur');
-            this.parentNode.nextElementSibling.classList.toggle('menu--on');
+        openCloseFilterBtn.parentNode.nextElementSibling.classList.toggle('menu--on');
 
-            let child = this.childNodes[1].classList;
+            const child = openCloseFilterBtn.childNodes[1].classList;
 
             if (child.contains('material-design-hamburger__icon--to-arrow')) {
                 child.remove('material-design-hamburger__icon--to-arrow');
@@ -49,5 +53,21 @@
                 child.add('material-design-hamburger__icon--to-arrow');
             }
         });
-})();
 
+    const submitBtn = document.getElementById("liveMenuFilterSubmitBtn");
+    submitBtn.addEventListener("click", () => {
+        let rq = "/" + (dateMenuFilterCheckbox.checked ? dateMenuFilterInput.value : "NONE");
+        rq += "/" + (thematiqueMenuFilterCheckbox.checked ? thematiqueSelect.value : "NONE");
+        rq += "/" + (streamerPseudoCheckbox.checked ? streamerPseudoSelect.value : "NONE");
+        console.log(rq);
+        fetchLives(rq).then(response => {
+            console.log(response);
+        });
+
+    });
+};
+
+
+(function() {
+    loadLiveScript();
+})();

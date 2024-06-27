@@ -113,6 +113,15 @@ public class StreamerServiceTest {
         streamers.forEach(streamer -> assertTrue(pseudos.contains(streamer.getPseudo())));
     }
 
+    @Test
+    public void testFindStreamerByPseudo() {
+        Streamer streamer = this.newSTreamer("zar", "toch", 45, "youtube", Rule.STREAMER);
+        this.streamerService.save(streamer);
+        Streamer result = this.streamerService.findByPseudo(streamer.getPseudo());
+        assertNotNull(result);
+        assertEquals(streamer, result);
+    }
+
     private Streamer newSTreamer(String firstName, String lastName, int age, String chaine, Rule rule) {
         Streamer streamer = new Streamer();
         streamer.setPseudo(firstName + "-" + lastName);

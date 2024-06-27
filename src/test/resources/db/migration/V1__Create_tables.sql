@@ -1,19 +1,20 @@
 CREATE TABLE IF NOT EXISTS `streamer` (
-`id` bigint NOT NULL,
 `age` int NOT NULL,
-`chaine` varchar(100) NOT NULL,
+`rule` int NOT NULL,
 `created_at` datetime(6) DEFAULT NULL,
-`email` varchar(100) NOT NULL,
-`pseudo` varchar(50) NOT NULL,
+`id` bigint NOT NULL,
+`updated_at` datetime(6) DEFAULT NULL,
 `first_name` varchar(50) NOT NULL,
 `last_name` varchar(50) NOT NULL,
+`pseudo` varchar(50) NOT NULL,
+`chaine` varchar(100) NOT NULL,
+`email` varchar(100) NOT NULL,
 `matricule` varchar(255) NOT NULL,
-`rule` int NOT NULL,
-`updated_at` datetime(6) DEFAULT NULL,
 PRIMARY KEY (`id`),
+UNIQUE KEY `UKg9wso2ihi5bm2y1kup7c250d5` (`pseudo`),
 UNIQUE KEY `UK2shs6h3sf08t0vldshliuwvjw` (`email`),
 UNIQUE KEY `UKaoysjgkrh6vp74oa6jhendvn7` (`matricule`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 
 CREATE TABLE IF NOT EXISTS `live` (
 `id` bigint NOT NULL,

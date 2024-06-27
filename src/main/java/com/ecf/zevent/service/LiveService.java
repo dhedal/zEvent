@@ -15,6 +15,9 @@ import java.util.stream.Stream;
 public class LiveService extends AbstractService<LiveRepository, Live> {
 
     @Autowired
+    private StreamerService streamerService;
+
+    @Autowired
     public LiveService(LiveRepository repository) {
         super(repository);
     }
@@ -37,6 +40,14 @@ public class LiveService extends AbstractService<LiveRepository, Live> {
 
     public List<ThematiqueType> getThematiqueList() {
         return Stream.of(ThematiqueType.values()).toList();
+    }
+
+    public List<Live> findLivesBy(LocalDate date, ThematiqueType thematiqueType, String streamerPseudo) {
+        Streamer streamer = null;
+        if(streamerPseudo != null && !streamerPseudo.isEmpty()){
+            streamer = this.streamerService.findByPseudo(streamerPseudo);
+        }
+        return this.repository.findLivesBy(date, thematiqueType, streamer);
     }
 
 }

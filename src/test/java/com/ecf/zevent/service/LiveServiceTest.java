@@ -8,6 +8,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.List;
@@ -27,6 +28,7 @@ public class LiveServiceTest {
         Streamer streamer = new Streamer();
         streamer.setFirstName(firstName);
         streamer.setLastName(lastName);
+        streamer.setPseudo(firstName+"-"+lastName);
         streamer.setMatricule(UUID.randomUUID().toString());
         streamer.setEmail(firstName + lastName + Math.random() + "@email.com");
         streamer.setAge(age);
@@ -238,5 +240,130 @@ public class LiveServiceTest {
 
     }
 
+    @Test
+    public void testFindLiveByDateAndThematiqueAndStreamer() {
+        Streamer streamer = this.newSTreamer("Julien", "Chièze", 45, "youtube", Rule.STREAMER);
+        Streamer streamer2 = this.newSTreamer("X", "Serve", 45, "youtube", Rule.STREAMER);
+        this.streamerService.save(streamer);
+        this.streamerService.save(streamer2);
+
+        Live live1 = this.newLive(
+                "Elden ring",
+                ThematiqueType.JEUX_D_AVENTURE_ET_DE_ROLE,
+                LocalDateTime.of(2024, Month.JUNE, 15, 20, 30),
+                Duration.ofHours(2).plus(Duration.ofMinutes(30)),
+                Pegi.PEGI_16,
+                streamer);
+        Live live1b = this.newLive(
+                "Doom 4",
+                ThematiqueType.FPS,
+                LocalDateTime.of(2024, Month.JUNE, 15, 20, 30),
+                Duration.ofHours(2).plus(Duration.ofMinutes(30)),
+                Pegi.PEGI_16,
+                streamer2);
+        this.liveService.save(live1);
+        this.liveService.save(live1b);
+
+
+        Live live2 =  this.newLive(
+                "Cyber punk 2077",
+                ThematiqueType.FPS,
+                LocalDateTime.of(2024, Month.JUNE, 16, 20, 30),
+                Duration.ofHours(2).plus(Duration.ofMinutes(30)),
+                Pegi.PEGI_16,
+                streamer);
+        this.liveService.save(live2);
+
+        Live live3 = this.newLive(
+                "Tekken 8",
+                ThematiqueType.JEUX_DE_COMBAT,
+                LocalDateTime.of(2024, Month.JUNE, 17, 20, 30),
+                Duration.ofHours(2).plus(Duration.ofMinutes(30)),
+                Pegi.PEGI_12,
+                streamer);
+        Live live3b = this.newLive(
+                "Zelda",
+                ThematiqueType.JEUX_D_AVENTURE_ET_DE_ROLE,
+                LocalDateTime.of(2024, Month.JUNE, 17, 20, 30),
+                Duration.ofHours(2).plus(Duration.ofMinutes(30)),
+                Pegi.PEGI_12,
+                streamer);
+        this.liveService.save(live3);
+        this.liveService.save(live3b);
+
+        // TEST LA DATE
+        LocalDate localDate = LocalDate.of(2024, Month.JUNE, 15);
+        List<Live> result = this.liveService.findLivesBy(localDate, null, null);
+        assertNotNull(result);
+        assertTrue(result.contains(live1));
+        assertTrue(result.contains(live1b));
+        assertFalse(result.contains(live2));
+        assertFalse(result.contains(live3));
+        assertFalse(result.contains(live3b));
+
+        // TEST LA THEMATIQUE
+        result = this.liveService.findLivesBy(null, ThematiqueType.JEUX_DE_COMBAT, null);
+        assertNotNull(result);
+        assertTrue(result.contains(live3));
+        assertFalse(result.contains(live1));
+        assertFalse(result.contains(live1b));
+        assertFalse(result.contains(live2));
+        assertFalse(result.contains(live3b));
+
+        // TEST LE PSEUDO
+        result = this.liveService.findLivesBy(null, null, streamer.getPseudo());
+        assertNotNull(result);
+        assertTrue(result.contains(live3));
+        assertTrue(result.contains(live1));
+        assertTrue(result.contains(live2));
+        assertTrue(result.contains(live3b));
+        assertFalse(result.contains(live1b));
+
+
+        // TEST LA DATE ET LA THEMATIQUE
+        result = this.liveService.findLivesBy(localDate, ThematiqueType.FPS, null);
+        assertNotNull(result);
+        assertTrue(result.contains(live1b));
+        assertFalse(result.contains(live1));
+        assertFalse(result.contains(live2));
+        assertFalse(result.contains(live3));
+        assertFalse(result.contains(live3b));
+
+        // TEST LA DATE ET LE PSEUDO
+        result = this.liveService.findLivesBy(localDate, null, streamer2.getPseudo());
+        assertNotNull(result);
+        assertTrue(result.contains(live1b));
+        assertFalse(result.contains(live1));
+        assertFalse(result.contains(live2));
+        assertFalse(result.contains(live3));
+        assertFalse(result.contains(live3b));
+
+        // TEST LA THEMATIQUE ET LE PSEUDO
+        result = this.liveService.findLivesBy(null, ThematiqueType.JEUX_D_AVENTURE_ET_DE_ROLE, streamer.getPseudo());
+        assertNotNull(result);
+        assertTrue(result.contains(live1));
+        assertTrue(result.contains(live3b));
+        assertFalse(result.contains(live1b));
+        assertFalse(result.contains(live2));
+        assertFalse(result.contains(live3));
+
+        // TEST LA DATE, LA THEMATIQUE ET LE PSEUDO 1
+        result = this.liveService.findLivesBy(localDate, ThematiqueType.FPS, streamer2.getPseudo());
+        assertNotNull(result);
+        assertTrue(result.contains(live1b));
+        assertFalse(result.contains(live1));
+        assertFalse(result.contains(live3b));
+        assertFalse(result.contains(live2));
+        assertFalse(result.contains(live3));
+
+        // TEST LA DATE, LA THEMATIQUE ET LE PSEUDO 2
+        result = this.liveService.findLivesBy(localDate, ThematiqueType.JEUX_D_AVENTURE_ET_DE_ROLE, streamer2.getPseudo());
+        assertNotNull(result);
+        assertFalse(result.contains(live1b));
+        assertFalse(result.contains(live1));
+        assertFalse(result.contains(live3b));
+        assertFalse(result.contains(live2));
+        assertFalse(result.contains(live3));
+    }
 
 }

@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StreamerRepository extends JpaRepository<Streamer, Long> {
+
+    public Streamer findByPseudo(String pseudo);
 }

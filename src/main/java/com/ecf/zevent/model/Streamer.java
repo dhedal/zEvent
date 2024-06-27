@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 public class Streamer implements IEntity{
@@ -11,7 +12,7 @@ public class Streamer implements IEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    @Column(nullable = false, length = 50)
+    @Column(unique = true, nullable = false, length = 50)
     private String pseudo;
     @Column(nullable = false, length = 50)
     private String firstName;
@@ -133,5 +134,30 @@ public class Streamer implements IEntity{
         sb.append(", updatedAt=").append(updatedAt);
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(32);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj) return true;
+        if(null == obj || !(obj instanceof Streamer)) return false;
+        Streamer that = (Streamer) obj;
+        if(this.id == null && that.id == null) {
+            return Objects.equals(this.age, that.age) &&
+                    Objects.equals(this.chaine, that.chaine) &&
+                    Objects.equals(this.createdAt, that.createdAt) &&
+                    Objects.equals(this.email, that.email) &&
+                    Objects.equals(this.firstName, this.lastName) &&
+                    Objects.equals(this.lastName, that.lastName) &&
+                    Objects.equals(this.pseudo, that.pseudo) &&
+                    Objects.equals(this.matricule, that.matricule) &&
+                    Objects.equals(this.rule, that.rule);
+        }
+
+        return Objects.equals(this.id, that.id);
     }
 }
