@@ -367,7 +367,7 @@ public class LiveServiceTest {
     }
 
     @Test
-    public void testFindByAgeLessThanEqual() {
+    public void testFindLivesByDateStartGreaterThanEqual() {
         LocalDateTime localDateTime = LocalDateTime.now();
         List<Live> result = this.liveService.findByDateStartGreaterThanEqual(localDateTime);
         result.forEach(System.out::println);
