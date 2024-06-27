@@ -1,4 +1,4 @@
-import {fetchLiveThematiqueList, fetchStreamerPseudoList, fetchLives} from "./service/apiService.js";
+import {fetchLiveThematiqueList, fetchStreamerPseudoList, fetchLives, fetchTodayAndUpcomingLives} from "./service/apiService.js";
 
 const loadLiveScript = () => {
     'use strict';
@@ -69,4 +69,7 @@ const loadLiveScript = () => {
 
 (function() {
     loadLiveScript();
+    fetchTodayAndUpcomingLives().then(response => {
+        console.log(response);
+    });
 })();

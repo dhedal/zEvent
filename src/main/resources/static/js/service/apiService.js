@@ -15,3 +15,8 @@ export const fetchLives = async (rq) => {
     const response = await fetch(API_LIVE_URL + "list/param" + rq);
     return await response.json();
 };
+
+export const fetchTodayAndUpcomingLives = async () => {
+    const response = await fetch(API_LIVE_URL + "list/dateStart/greaterThanEquals");
+    return await response.json();
+}

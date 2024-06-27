@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -41,6 +42,12 @@ public class LiveController {
         LocalDate localDate = LocalDate.parse(date);
         ThematiqueType thematiqueType = ThematiqueType.getByLabel(thematique);
         List<Live> lives = this.liveService.findLivesBy(localDate, thematiqueType, streamer);
+        return ResponseEntity.ok(lives);
+    }
+
+    @GetMapping(path = "/list/dateStart/greaterThanEquals", produces = "application/hal+json")
+    public ResponseEntity<List<Live>> getTodayAndUpcomingLives(){
+        List<Live> lives = this.liveService.findByDateStartGreaterThanEqual(LocalDateTime.now());
         return ResponseEntity.ok(lives);
     }
 
