@@ -2,6 +2,8 @@ package com.ecf.zevent.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.util.stream.Stream;
+
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ThematiqueType {
     JEUX_VIDEO_COMPETITIFS(1,"Jeux Vidéo Compétitifs", "Compétitions intenses de jeux vidéo en tête-à-tête ou en équipes."),
@@ -42,5 +44,10 @@ public enum ThematiqueType {
 
     public String getDescription() {
         return description;
+    }
+
+    public static ThematiqueType getByLabel(String label) {
+        return Stream.of(ThematiqueType.values()).filter(thematiqueType -> thematiqueType.getLabel().equals(label))
+                .findFirst().get();
     }
 }

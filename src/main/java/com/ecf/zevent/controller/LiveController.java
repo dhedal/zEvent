@@ -36,12 +36,12 @@ public class LiveController {
             @PathVariable String date,
             @PathVariable String thematique,
             @PathVariable String streamer) {
-        System.out.println("********************************************************************************");
-        System.out.println(date);
-        System.out.println(thematique);
-        System.out.println(streamer);
-        System.out.println("********************************************************************************");
-        return ResponseEntity.ok(List.of());
+        String none = "NONE";
+        if("NONE".equals(date) && "NONE".equals(thematique) && "NONE".equals(streamer)) return ResponseEntity.ok(List.of());
+        LocalDate localDate = LocalDate.parse(date);
+        ThematiqueType thematiqueType = ThematiqueType.getByLabel(thematique);
+        List<Live> lives = this.liveService.findLivesBy(localDate, thematiqueType, streamer);
+        return ResponseEntity.ok(lives);
     }
 
 }

@@ -21,5 +21,5 @@ public interface LiveRepository extends JpaRepository<Live, Long>, LiveRepositor
 
     public List<Live> findAllByTheme(ThematiqueType theme);
 
-//    public List<Live> findLivesBy(LocalDate date, ThematiqueType thematiqueType, Streamer streamer);
+    public List<Live> findByDateStartGreaterThanEqual(LocalDateTime localDateTime);
 }

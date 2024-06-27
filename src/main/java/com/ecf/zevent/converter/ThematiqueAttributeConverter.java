@@ -2,9 +2,11 @@ package com.ecf.zevent.converter;
 
 import com.ecf.zevent.model.ThematiqueType;
 import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
 import java.util.stream.Stream;
 
+@Converter(autoApply = true)
 public class ThematiqueAttributeConverter implements AttributeConverter<ThematiqueType, Integer> {
     @Override
     public Integer convertToDatabaseColumn(ThematiqueType thematiqueType) {

@@ -366,4 +366,22 @@ public class LiveServiceTest {
         assertFalse(result.contains(live3));
     }
 
+    @Test
+    public void testFindByAgeLessThanEqual() {
+        LocalDateTime localDateTime = LocalDateTime.now();
+        List<Live> result = this.liveService.findByDateStartGreaterThanEqual(localDateTime);
+        result.forEach(System.out::println);
+        assertNotNull(result);
+        assertTrue(result.size() >= 1);
+        result.forEach(live -> assertTrue(live.getDateStart().isAfter(localDateTime)));
+
+        List<Live> lives = this.liveService.listAll();
+        assertNotNull(lives);
+        assertTrue(lives.size() >= 1);
+        int  nbLivesSupLocalDateTime = (int) lives.stream()
+                .filter(live -> live.getDateStart().isAfter(localDateTime))
+                .count();
+        assertTrue(nbLivesSupLocalDateTime == result.size());
+    }
+
 }

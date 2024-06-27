@@ -14,7 +14,7 @@ public class Live implements IEntity{
     private Long id;
     @Column(nullable = false, length = 100)
     private String label;
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false)
     private ThematiqueType theme;
     @Column(nullable = false)
     private LocalDateTime dateStart;

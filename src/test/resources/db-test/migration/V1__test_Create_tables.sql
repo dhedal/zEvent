@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `streamer` (
+CREATE TABLE IF NOT EXISTS`streamer` (
 `age` int NOT NULL,
 `rule` int NOT NULL,
 `created_at` datetime(6) DEFAULT NULL,
@@ -14,18 +14,18 @@ PRIMARY KEY (`id`),
 UNIQUE KEY `UKg9wso2ihi5bm2y1kup7c250d5` (`pseudo`),
 UNIQUE KEY `UK2shs6h3sf08t0vldshliuwvjw` (`email`),
 UNIQUE KEY `UKaoysjgkrh6vp74oa6jhendvn7` (`matricule`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE IF NOT EXISTS `live` (
-`id` bigint NOT NULL,
+`pegi` int NOT NULL,
+`theme` int NOT NULL,
 `created_at` datetime(6) DEFAULT NULL,
 `date_end` datetime(6) NOT NULL,
 `date_start` datetime(6) NOT NULL,
-`label` varchar(100) NOT NULL,
-`pegi` int NOT NULL,
-`theme` tinyint NOT NULL,
-`updated_at` datetime(6) DEFAULT NULL,
+`id` bigint NOT NULL,
 `streamer_id` bigint NOT NULL,
+`updated_at` datetime(6) DEFAULT NULL,
+`label` varchar(100) NOT NULL,
 PRIMARY KEY (`id`),
 KEY `FKt1y90s6o73739607ri4jty9vc` (`streamer_id`),
 CONSTRAINT `FKt1y90s6o73739607ri4jty9vc` FOREIGN KEY (`streamer_id`) REFERENCES `streamer` (`id`)

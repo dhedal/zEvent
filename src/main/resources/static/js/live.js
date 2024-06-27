@@ -2,6 +2,7 @@ import {fetchLiveThematiqueList, fetchStreamerPseudoList, fetchLives} from "./se
 
 const loadLiveScript = () => {
     'use strict';
+    const submitBtn = document.getElementById("liveMenuFilterSubmitBtn");
 
     const dateMenuFilterCheckbox = document.getElementById("dateMenuFilterCheckboxId");
     const dateMenuFilterInput = document.getElementById("dateMenuFilterInputId");
@@ -54,7 +55,7 @@ const loadLiveScript = () => {
             }
         });
 
-    const submitBtn = document.getElementById("liveMenuFilterSubmitBtn");
+
     submitBtn.addEventListener("click", () => {
         let rq = "/" + (dateMenuFilterCheckbox.checked ? dateMenuFilterInput.value : "NONE");
         rq += "/" + (thematiqueMenuFilterCheckbox.checked ? thematiqueSelect.value : "NONE");
@@ -63,10 +64,8 @@ const loadLiveScript = () => {
         fetchLives(rq).then(response => {
             console.log(response);
         });
-
     });
 };
-
 
 (function() {
     loadLiveScript();
