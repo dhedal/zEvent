@@ -47,6 +47,7 @@ public class LiveService extends AbstractService<LiveRepository, Live> {
         Streamer streamer = null;
         if(streamerPseudo != null && !streamerPseudo.isEmpty()){
             streamer = this.streamerService.findByPseudo(streamerPseudo);
+            System.out.println(streamer);
         }
         return this.repository.findLivesBy(date, thematiqueType, streamer);
     }

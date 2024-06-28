@@ -48,6 +48,6 @@ public enum ThematiqueType {
 
     public static ThematiqueType getByLabel(String label) {
         return Stream.of(ThematiqueType.values()).filter(thematiqueType -> thematiqueType.getLabel().equals(label))
-                .findFirst().get();
+                .findFirst().orElse(null);
     }
 }

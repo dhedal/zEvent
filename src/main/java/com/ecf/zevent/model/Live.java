@@ -2,9 +2,11 @@ package com.ecf.zevent.model;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 public class Live implements IEntity{
@@ -12,8 +14,13 @@ public class Live implements IEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(updatable = false, nullable = false, unique = true, length = 36)
+    private UUID uuid;
     @Column(nullable = false, length = 100)
-    private String label;
+    private String title;
+    @Column(nullable = true, length = 255)
+    private String description;
     @Column(nullable = false)
     private ThematiqueType theme;
     @Column(nullable = false)
@@ -36,12 +43,28 @@ public class Live implements IEntity{
         return id;
     }
 
-    public String getLabel() {
-        return label;
+    public UUID getUuid() {
+        return uuid;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public ThematiqueType getTheme() {
@@ -102,7 +125,8 @@ public class Live implements IEntity{
     public String toString() {
         final StringBuilder sb = new StringBuilder("Live{");
         sb.append("id=").append(id);
-        sb.append(", label='").append(label).append('\'');
+        sb.append(", title='").append(title).append('\'');
+        sb.append(", description='").append(description).append('\'');
         sb.append(", theme='").append(theme).append('\'');
         sb.append(", dateStart=").append(dateStart);
         sb.append(", dateEnd=").append(dateEnd);
@@ -124,7 +148,9 @@ public class Live implements IEntity{
         if(null == obj || !(obj instanceof Live)) return false;
         Live that = (Live) obj;
         if(this.id == null && that.id == null) {
-            return Objects.equals(this.label, that.label) &&
+            return Objects.equals(this.uuid, that.uuid) &&
+                    Objects.equals(this.title, that.title) &&
+                    Objects.equals(this.description, that.description) &&
                     Objects.equals(this.theme, that.theme) &&
                     Objects.equals(this.dateStart, that.dateStart) &&
                     Objects.equals(this.dateEnd, that.dateEnd) &&

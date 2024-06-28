@@ -1,5 +1,15 @@
 import {fetchLiveThematiqueList, fetchStreamerPseudoList, fetchLives, fetchTodayAndUpcomingLives} from "./service/apiService.js";
+import {LiveCard, LivesCardHandler} from "./component/liveComponent.js";
 
+const fillLives = (lives) => {
+    const livesCard = document.getElementById("liveCardContainer");
+    livesCard.innerHTML = "";
+    lives.forEach(live => {
+        const liveCard = document.createElement("live-card");
+        liveCard.item = live;
+        livesCard.appendChild(liveCard);
+    });
+};
 const loadLiveScript = () => {
     'use strict';
     const submitBtn = document.getElementById("liveMenuFilterSubmitBtn");
@@ -61,15 +71,15 @@ const loadLiveScript = () => {
         rq += "/" + (thematiqueMenuFilterCheckbox.checked ? thematiqueSelect.value : "NONE");
         rq += "/" + (streamerPseudoCheckbox.checked ? streamerPseudoSelect.value : "NONE");
         console.log(rq);
-        fetchLives(rq).then(response => {
-            console.log(response);
-        });
+        fetchLives(rq).then(lives => fillLives(lives));
     });
 };
 
+
+
 (function() {
     loadLiveScript();
-    fetchTodayAndUpcomingLives().then(response => {
-        console.log(response);
-    });
+    fetchTodayAndUpcomingLives().then(lives => fillLives(lives));
 })();
+
+// document.addEventListener('DOMContentLoaded', () => {});

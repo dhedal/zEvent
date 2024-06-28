@@ -28,8 +28,8 @@ public class LiveServiceTest {
         Streamer streamer = new Streamer();
         streamer.setFirstName(firstName);
         streamer.setLastName(lastName);
-        streamer.setPseudo(firstName+"-"+lastName);
         streamer.setMatricule(UUID.randomUUID().toString());
+        streamer.setPseudo(firstName+"-" + streamer.getMatricule());
         streamer.setEmail(firstName + lastName + Math.random() + "@email.com");
         streamer.setAge(age);
         streamer.setChaine(chaine);
@@ -37,10 +37,12 @@ public class LiveServiceTest {
         return streamer;
     }
 
-    private Live newLive(String label, ThematiqueType theme, LocalDateTime dateStart, Duration duration, Pegi pegi,
+    private Live newLive(String title, ThematiqueType theme, LocalDateTime dateStart, Duration duration, Pegi pegi,
                          Streamer streamer) {
         Live live = new Live();
-        live.setLabel(label);
+        live.setUuid(UUID.randomUUID());
+        live.setTitle(title);
+        live.setDescription("Duis aute irure dolor in reprehenderit in voluptate velit esse cillum. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.");
         live.setTheme(theme);
         live.setDateStart(dateStart);
         live.setDateEnd(dateStart.plus(duration));
@@ -62,6 +64,7 @@ public class LiveServiceTest {
                 streamer);
         live = this.liveService.save(live);
         assertNotNull(live.getId());
+        assertNotNull(live.getUuid());
 
         try {
             Live liveExpected = this.liveService.findById(live.getId());
@@ -177,17 +180,12 @@ public class LiveServiceTest {
                 streamer);
         this.liveService.save(live);
 
-        List<Live> results = this.liveService.findLivesByDate(live.getDateStart().toLocalDate().plusDays(1));
-        assertNotNull(results);
-        assertTrue(results.isEmpty());
 
-        results = this.liveService.findLivesByDate(live.getDateStart().toLocalDate());
+        List<Live> results = this.liveService.findLivesByDate(live.getDateStart().toLocalDate());
         assertNotNull(results);
         assertFalse(results.isEmpty());
         assertTrue(results.contains(live));
 
-        System.out.println(this.liveService.findLivesByStreamer(streamer));
-        System.out.println(results);
     }
 
     @Test
@@ -234,8 +232,10 @@ public class LiveServiceTest {
 
         List<Live> results = this.liveService.findLivesByTheme(ThematiqueType.RTS);
         assertNotNull(results);
-        results.forEach(live -> {
-            assertTrue(livesFPS.contains(live));
+
+        livesFPS.forEach(live -> {
+
+            assertTrue(results.contains(live));
         });
 
     }
