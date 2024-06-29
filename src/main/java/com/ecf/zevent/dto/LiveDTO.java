@@ -20,6 +20,7 @@ public class LiveDTO {
     private Pegi pegi;
     private String streamerPseudo;
 
+    private LiveDTO(){}
     private LiveDTO(Live live) {
         this.uuid = live.getUuid();
         this.title = live.getTitle();
@@ -120,5 +121,9 @@ public class LiveDTO {
                 .filter(Objects::nonNull)
                 .map(LiveDTO::parse)
                 .toList();
+    }
+
+    public static LiveDTO getEmpty(){
+        return new LiveDTO();
     }
 }

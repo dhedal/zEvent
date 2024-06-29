@@ -35,6 +35,47 @@
 
 </section>
 
-<div id="liveCardContainer" class="row row-cols-1 row-cols-md-3 g-4">
+<div id="livesCardContainer" class="row row-cols-1 row-cols-md-3 g-4">
 </div>
-<!--<lives-card id="liveCardContainer"></lives-card>-->
+
+<div id="liveCardDetailContainer" class="visually-hidden row">
+    <div class="card border-primary mb-3 col-4" >
+        <div class="row g-2">
+            <div class="col-md-4">
+                <img src="img/avatar-3814049_640.png" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 id="streamerPseudoId" class="card-title"></h5>
+                    <p class="card-text">retrouvez moi sur ma chaine <span id="chaineId" class="card-list"></span></p>
+                    <p class="card-text"><button id="showStreamLivesBtn" class="btn btn-outline-primary">voir tous mes lives</button></p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <h4 id="liveTitleId" class="card-title"></h4>
+                <p id="liveDescriptionId" class="card-text"></p>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-primary mb-3 col-8">
+        <div class="row g-2">
+            <video width="320" height="240" controls >
+                <source src="" type="video/mp4" />
+                <source src="" type="video/webm" />
+            </video>
+            <button class="btn btn-outline-primary">Je m'inscris à ce live</button>
+        </div>
+        <div class="card-body">
+            <p class="card-text">
+                <small class="text-body-secondary fs-6 d-flex justify-content-between">
+                    <span id="thematiqueId" class="card-link"></span>
+                    <span id="pegiId" class="card-link"></span>
+                </small>
+            </p>
+        </div>
+        </div>
+    </div>
+
+</div>
