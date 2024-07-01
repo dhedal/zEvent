@@ -1,10 +1,13 @@
 package com.ecf.zevent.model;
 
+import com.ecf.zevent.converter.ListThematiqueTypeAttributeConverter;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -22,7 +25,7 @@ public class Live implements IEntity{
     @Column(nullable = true, length = 255)
     private String description;
     @Column(nullable = false)
-    private ThematiqueType theme;
+    private List<ThematiqueType> themes;
     @Column(nullable = false)
     private LocalDateTime dateStart;
     @Column(nullable = false)
@@ -32,7 +35,7 @@ public class Live implements IEntity{
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
-    @Column(nullable = true)
+    @UpdateTimestamp
     private LocalDateTime updatedAt;
 
     @ManyToOne
@@ -67,12 +70,12 @@ public class Live implements IEntity{
         this.description = description;
     }
 
-    public ThematiqueType getTheme() {
-        return theme;
+    public List<ThematiqueType> getThemes() {
+        return themes;
     }
 
-    public void setTheme(ThematiqueType theme) {
-        this.theme = theme;
+    public void setThemes(List<ThematiqueType> themes) {
+        this.themes = themes;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -127,7 +130,7 @@ public class Live implements IEntity{
         sb.append("id=").append(id);
         sb.append(", title='").append(title).append('\'');
         sb.append(", description='").append(description).append('\'');
-        sb.append(", theme='").append(theme).append('\'');
+        sb.append(", themes='").append(themes).append('\'');
         sb.append(", dateStart=").append(dateStart);
         sb.append(", dateEnd=").append(dateEnd);
         sb.append(", pegi=").append(pegi);
@@ -151,7 +154,6 @@ public class Live implements IEntity{
             return Objects.equals(this.uuid, that.uuid) &&
                     Objects.equals(this.title, that.title) &&
                     Objects.equals(this.description, that.description) &&
-                    Objects.equals(this.theme, that.theme) &&
                     Objects.equals(this.dateStart, that.dateStart) &&
                     Objects.equals(this.dateEnd, that.dateEnd) &&
                     Objects.equals(this.createdAt, that.createdAt) &&

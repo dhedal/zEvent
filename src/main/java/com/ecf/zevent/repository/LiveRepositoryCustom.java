@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface LiveRepositoryCustom {
     public List<Live> findLivesBy(LocalDate date, ThematiqueType thematiqueType, Streamer streamer);
+    public List<Live> findLivesByTheme(ThematiqueType thematiqueType);
+    public List<Live> findLivesByThemes(List<ThematiqueType> thematiqueTypes);
 }

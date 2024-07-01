@@ -1,5 +1,5 @@
 import { ApiService} from "./service/apiService.js";
-import {LiveCard} from "./component/liveComponent.js";
+import {LiveCard, extractThemeLabel} from "./component/liveComponent.js";
 
 (function() {
     const toggleFilterMenu = () => {
@@ -50,12 +50,11 @@ import {LiveCard} from "./component/liveComponent.js";
         }
 
         ApiService.fetchStreamerByPseudo(live.streamerPseudo).then(streamer => {
-            console.log(streamer);
             document.getElementById("streamerPseudoId").textContent = streamer.pseudo;
             document.getElementById("chaineId").textContent = streamer.chaine;
             document.getElementById("liveTitleId").textContent = live.title;
             document.getElementById("liveDescriptionId").textContent = live.description;
-            document.getElementById("thematiqueId").textContent = live.theme.label;
+            document.getElementById("thematiqueId").textContent = extractThemeLabel(live.themes);
             document.getElementById("pegiId").textContent = live.pegi.label;
             document.getElementById("showStreamLivesBtn").addEventListener("click", event => {
                 const rq = "/NONE/NONE/" + streamer.pseudo;
@@ -123,6 +122,9 @@ import {LiveCard} from "./component/liveComponent.js";
     loadLiveScript();
     ApiService.fetchTodayAndUpcomingLives().then(lives => fillLives(lives));
 })();
+
+
+
 
 // document.addEventListener('DOMContentLoaded', () => {});
 // TODO: faire le menuFilter (css)

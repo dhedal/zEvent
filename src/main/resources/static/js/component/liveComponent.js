@@ -1,4 +1,6 @@
-
+export const extractThemeLabel = (themes) => {
+    return themes.map((t) => t.label).join(", ");
+}
 
 export class LiveCard extends HTMLElement {
     constructor() {
@@ -86,7 +88,7 @@ export class LiveCard extends HTMLElement {
         const smallText = document.createElement("small");
         rdv.appendChild(smallText);
         smallText.setAttribute("class", "fs-6 d-flex justify-content-between text-body-secondary");
-        smallText.innerHTML = '<span class="card-link">'+ live.theme.label + '</span>, <span class="card-link">'+ live.pegi.label + '</span>';
+        smallText.innerHTML = '<span class="card-link">'+ extractThemeLabel(live.themes) + '</span>, <span class="card-link">'+ live.pegi.label + '</span>';
 
         this.shadowRoot.innerHTML = "";
         this.shadowRoot.appendChild(wrapper);

@@ -6,7 +6,7 @@ import jakarta.persistence.Converter;
 
 import java.util.stream.Stream;
 
-@Converter(autoApply = true)
+//@Converter(autoApply = true)
 public class ThematiqueAttributeConverter implements AttributeConverter<ThematiqueType, Integer> {
     @Override
     public Integer convertToDatabaseColumn(ThematiqueType thematiqueType) {

@@ -1,8 +1,9 @@
-package com.ecf.zevent.service;
+package com.ecf.zevent.test.service;
 
 
 import com.ecf.zevent.model.Rule;
 import com.ecf.zevent.model.Streamer;
+import com.ecf.zevent.service.StreamerService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

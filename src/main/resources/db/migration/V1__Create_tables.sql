@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `live` (
 `uuid` binary(36) NOT NULL,
 `title` varchar(100) NOT NULL,
 `description` varchar(255) DEFAULT NULL,
-`theme` int NOT NULL,
+`themes` varchar(255) NOT NULL,
 `pegi` int NOT NULL,
 `date_end` datetime(6) NOT NULL,
 `date_start` datetime(6) NOT NULL,

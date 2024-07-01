@@ -14,7 +14,7 @@ public class LiveDTO {
     private UUID uuid;
     private String title;
     private String description;
-    private ThematiqueType theme;
+    private List<ThematiqueType> themes;
     private LocalDateTime dateStart;
     private LocalDateTime dateEnd;
     private Pegi pegi;
@@ -25,7 +25,7 @@ public class LiveDTO {
         this.uuid = live.getUuid();
         this.title = live.getTitle();
         this.description = live.getDescription();
-        this.theme = live.getTheme();
+        this.themes = live.getThemes();
         this.pegi = live.getPegi();
         this.dateStart = live.getDateStart();
         this.dateEnd = live.getDateEnd();
@@ -56,12 +56,12 @@ public class LiveDTO {
         this.description = description;
     }
 
-    public ThematiqueType getTheme() {
-        return theme;
+    public List<ThematiqueType> getThemes() {
+        return themes;
     }
 
-    public void setTheme(ThematiqueType theme) {
-        this.theme = theme;
+    public void setTheme(List<ThematiqueType> themes) {
+        this.themes = themes;
     }
 
     public LocalDateTime getDateStart() {
@@ -102,7 +102,7 @@ public class LiveDTO {
         sb.append("uuid=").append(uuid);
         sb.append(", title='").append(title).append('\'');
         sb.append(", description='").append(description).append('\'');
-        sb.append(", theme=").append(theme);
+        sb.append(", themes=").append(themes);
         sb.append(", dateStart=").append(dateStart);
         sb.append(", dateEnd=").append(dateEnd);
         sb.append(", pegi=").append(pegi);

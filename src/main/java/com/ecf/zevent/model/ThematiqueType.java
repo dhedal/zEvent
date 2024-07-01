@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ThematiqueType {
+    NONE(0, "sans theme", ""),
     JEUX_VIDEO_COMPETITIFS(1,"Jeux Vidéo Compétitifs", "Compétitions intenses de jeux vidéo en tête-à-tête ou en équipes."),
     SPEEDRUNNING(2, "Speedrunning", "Réalisation de jeux vidéo dans un temps record."),
     MOBA(3, "MOBA (Multiplayer Online Battle Arena)", "Jeux de stratégie en temps réel où des équipes de joueurs s'affrontent."),
@@ -50,4 +51,12 @@ public enum ThematiqueType {
         return Stream.of(ThematiqueType.values()).filter(thematiqueType -> thematiqueType.getLabel().equals(label))
                 .findFirst().orElse(null);
     }
+
+    public static ThematiqueType getByKey(Integer key){
+        if(key == null || key.intValue() < 1 || key.intValue() > 16) return ThematiqueType.NONE;
+        return Stream.of(ThematiqueType.values())
+                .filter(thematique -> thematique.getKey().equals(key))
+                .findFirst().orElse(ThematiqueType.NONE);
+    }
 }
+

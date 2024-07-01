@@ -22,7 +22,7 @@ public abstract class AbstractService<R extends JpaRepository, T extends IEntity
 
     @Transactional
    public T save(T entity){
-        this.LOG.info("sauvegarde");
+        this.LOG.info("save :: " + entity.toString());
         if(entity != null && entity.getId() != null) entity.setUpdatedAt(LocalDateTime.now());
         else entity.setCreatedAt(LocalDateTime.now());
         return (T) this.repository.save(entity);
