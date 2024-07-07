@@ -18,6 +18,12 @@ export class ApiService {
         return await response.json();
     };
 
+    static fetchLivesByStreamerPseudo = async (pseudo) => {
+        const rq = "/NONE/NONE/" + pseudo;
+        const response = await fetch(API_LIVE_URL + "list/param" + rq);
+        return await response.json();
+    }
+
     static fetchTodayAndUpcomingLives = async () => {
         const response = await fetch(API_LIVE_URL + "list/dateStart/greaterThanEquals");
         return await response.json();
@@ -27,6 +33,13 @@ export class ApiService {
         const response = await fetch(API_STREAMER_URL + "pseudo/" + pseudo);
         return await response.json();
     }
+
+    static fetchThemeAndPegiList = async () => {
+        const response = await fetch(API_LIVE_URL + "theme-and-pegi-list");
+        return await response.json();
+    };
+
+
 }
 
 

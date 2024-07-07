@@ -3,7 +3,7 @@ export const extractThemeLabel = (themes) => {
 }
 
 export class LiveCard extends HTMLElement {
-    constructor() {
+    constructor(isEditable = false) {
         super();
         this.attachShadow({mode: "open"});
     }
@@ -17,25 +17,54 @@ export class LiveCard extends HTMLElement {
         this.dispatchEvent(event);
     }
 
+    onEditClick() {
+        const event = new CustomEvent("live-card-edit-click", {
+            detail: {item : this.item},
+            bubbles: true,
+            composed: true
+        });
+        this.dispatchEvent(event);
+    }
+
+
     static get observedAttributes() {
-        return ["data-item"];
+        return ["data-item", "is-editable"];
     }
 
     attributeChangedCallback(name, oldValue, newValue){
-        if(name === "data-item") {
-            this.render(JSON.parse(newValue));
+        if(name === "data-item" && oldValue !== newValue) {
+            this.item = JSON.parse(newValue);
         }
+        if(name === "is-editable" && oldValue !== newValue) {
+            this.isEditable = newValue === 'true';
+        }
+        this.render();
     }
 
     set item(value) {
-        this.setAttribute("data-item", JSON.stringify(value));
+        const newValue = JSON.stringify(value);
+        if(newValue !== this.getAttribute("data-item")) {
+            this.setAttribute("data-item", newValue);
+        }
+    }
+
+    set isEditable(value) {
+        const newValue = JSON.stringify(value);
+        if(newValue !== this.getAttribute("is-editable")) {
+            this.setAttribute("is-editable", newValue);
+        }
     }
 
     get item() {
         return JSON.parse(this.getAttribute("data-item"));
     }
 
-    render(live){
+    get isEditable() {
+        return this.getAttribute("is-editable" ) === 'true';
+    }
+
+    render(){
+        const live = this.item;
         let day, time;
         [day, time] = live.dateStart.split("T");
 
@@ -70,11 +99,11 @@ export class LiveCard extends HTMLElement {
         description.setAttribute("class", "card-text text-body-secondary");
         description.textContent = live.description;
 
-        const details = document.createElement("small");
-        cardBody.appendChild(details);
-        details.setAttribute("class", "d-flex justify-content-end");
-        details.innerHTML = '<a href="javascript:void(0);" class="card-link">détails</a>';
-        details.addEventListener("click", () => this.onDetailsClick());
+        const liveLink = document.createElement("small");
+        cardBody.appendChild(liveLink);
+        liveLink.setAttribute("class", "d-flex justify-content-end");
+        liveLink.innerHTML = '<a href="javascript:void(0);" class="card-link">' + (this.isEditable ? 'édit' : 'détails') +'</a>';
+        liveLink.addEventListener("click", () => this.isEditable ? this.onEditClick() : this.onDetailsClick());
 
 
         const cardFooter = document.createElement("div");
@@ -101,5 +130,71 @@ export class LiveCard extends HTMLElement {
 
     }
 }
-
 customElements.define("live-card", LiveCard);
+
+export class ThemeButtonComponent extends HTMLElement {
+    constructor() {
+        super();
+        this.attachShadow({mode: "open"});
+    }
+
+    onThemeButtonClick() {
+        const event = new CustomEvent("theme-button-click", {
+            detail: {item : this.item},
+            bubbles: true,
+            composed: true
+        });
+        this.dispatchEvent(event);
+    }
+
+    static get observedAttributes() {
+        return ["data-item"];
+    }
+
+    attributeChangedCallback(name, oldValue, newValue){
+        if(name === "data-item") {
+            this.render(JSON.parse(newValue));
+        }
+    }
+
+    set item(value) {
+        this.setAttribute("data-item", JSON.stringify(value));
+    }
+
+    get item() {
+        return JSON.parse(this.getAttribute("data-item"));
+    }
+
+    getId() {
+        return "themeButton-" + this.item.key;
+    }
+
+    render(theme){
+
+        const btnGroup = document.createElement("div");
+        btnGroup.setAttribute("id", this.getId());
+        btnGroup.setAttribute("class","btn-group m-2");
+        btnGroup.addEventListener("click", event => this.onThemeButtonClick());
+
+
+        const btnPart1 = document.createElement("button");
+        btnGroup.appendChild(btnPart1);
+        btnPart1.setAttribute("class", "btn btn-outline-primary");
+        btnPart1.textContent = theme.label;
+
+        const btnPart2 = document.createElement("button");
+        btnGroup.appendChild(btnPart2);
+        btnPart2.setAttribute("class", "btn btn-primary");
+        btnPart2.textContent = "X";
+
+        this.shadowRoot.innerHTML = "";
+        this.shadowRoot.appendChild(btnGroup);
+
+        const link = document.createElement("link");
+        link.setAttribute("rel", "stylesheet");
+        link.setAttribute("href", "scss/main.css");
+        this.shadowRoot.appendChild(link);
+    }
+}
+
+customElements.define("theme-button", ThemeButtonComponent);

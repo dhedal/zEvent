@@ -66,14 +66,6 @@ public class LiveService extends AbstractService<LiveRepository, Live> {
 
     /**
      *
-     * @return
-     */
-    public List<ThematiqueType> getThematiqueList() {
-        return Stream.of(ThematiqueType.values()).toList();
-    }
-
-    /**
-     *
      * @param date
      * @param thematiqueType
      * @param streamerPseudo

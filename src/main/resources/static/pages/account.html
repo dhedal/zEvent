@@ -1,0 +1,132 @@
+
+<div class="container-fluid">
+    <ul class="nav nav-tabs" id="livesTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="lives-tab" data-bs-toggle="tab" data-bs-target="#lives-tab-pane" type="button" role="tab" aria-controls="lives-tab-pane" aria-selected="true">Mes lives</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="live-edit-tab" data-bs-toggle="tab" data-bs-target="#live-edit-tab-pane" type="button" role="tab" aria-controls="live-edit-tab-pane" aria-selected="false">Editer un live</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="user-inscription-tab" data-bs-toggle="tab" data-bs-target="#user-inscription-tab-pane" type="button" role="tab" aria-controls="user-inscription-tab-pane" aria-selected="false">Inscriptions des utilisateurs</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="statistic-tab" data-bs-toggle="tab" data-bs-target="#statistic-tab-pane" type="button" role="tab" aria-controls="statistic-tab-pane" aria-selected="false">Statistique</button>
+        </li>
+    </ul>
+    <div class="tab-content" id="livesTabContent">
+        <div class="tab-pane fade show active" id="lives-tab-pane" role="tabpanel" aria-labelledby="lives-tab" tabindex="0"></div>
+
+        <!-- LIVE EDIT PANE-->
+        <div class="tab-pane fade" id="live-edit-tab-pane" role="tabpanel" aria-labelledby="live-edit-tab" tabindex="0">
+            <div class="container">
+                <div class="mb-3">
+                    <button id="lives-tab-btn" class="btn btn-outline-primary">
+                        Selectionner un live à modifier
+                    </button>
+                </div>
+                <form class="needs-validation" novalidate>
+                    <div class="row g-3">
+                        <div class="col-sm-12">
+                            <label for="liveTitle" class="form-label">Titre</label>
+                            <input type="text" class="form-control" id="liveTitle" placeholder="" value="" required>
+                            <div class="invalid-feedback">
+                                Le titre du live est requis.
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <label for="liveDescription" class="form-label">Déscription (Optionnel)</label>
+                            <textarea class="form-control" id="liveDescription" rows="3"></textarea>
+                        </div>
+                        <div class="invalid-feedback">
+                            La description doit avoir moin de 250 charactères.
+                        </div>
+
+                        <hr class="my-4">
+
+                        <div class="col-12">
+                            <label for="liveTheme" class="form-label">Themes</label>
+                            <select class="form-select" id="liveTheme" required>
+                                <option value="">Choisir au moin un theme...</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Au moin un theme est requis.
+                            </div>
+                            <div id="themesSelectedDiv" >
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="livePegi" class="form-label">PEGI</label>
+                            <select class="form-select" id="livePegi" required>
+                                <option value="">Choisir...</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Le PEGI est obligatoire.
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <div class="col-4">
+                            <label for="dateStart" class="form-label">Date de debut du live</label>
+                            <input type="date" class="form-control" id="dateStart"  required>
+                            <div class="invalid-feedback">
+                                La date est requise.
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <label for="hourStart" class="form-label">Heure</label>
+                            <select class="form-select" id="hourStart" required>
+                                <option value="">Choose...</option>
+                            </select><div class="invalid-feedback">
+                                L'heure est requise.
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <label for="minuteStart" class="form-label">Minute</label>
+                            <select class="form-select" id="minuteStart" required>
+                                <option value="">Choose...</option>
+                            </select><div class="invalid-feedback">
+                            Les minutes sont requise.
+                        </div>
+                        </div>
+
+                        <div class="col-4">
+                            <label for="dateEnd" class="form-label">Date de fin du live</label>
+                            <input type="date" class="form-control" id="dateEnd"  required>
+                            <div class="invalid-feedback">
+                                La date est requise.
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <label for="hourEnd" class="form-label">Heure</label>
+                            <select class="form-select" id="hourEnd" required>
+                                <option value="">Choose...</option>
+                            </select><div class="invalid-feedback">
+                            L'heure est requise.
+                        </div>
+                        </div>
+                        <div class="col-4">
+                            <label for="minuteEnd" class="form-label">Minute</label>
+                            <select class="form-select" id="minuteEnd" required>
+                                <option value="">Choose...</option>
+                            </select><div class="invalid-feedback">
+                            Les minutes sont requise.
+                        </div>
+                        </div>
+                    </div>
+                </form>
+                <hr class="my-4">
+                <button id="sendLiveFormBtn" class="btn btn-primary px-3">Valider</button>
+                <button id="cancelLiveFormBtn" class="btn btn-outline-danger px-3" >Annuler</button>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="user-inscription-tab-pane" role="tabpanel" aria-labelledby="user-inscription-tab" tabindex="0"></div>
+        <div class="tab-pane fade" id="statistic-tab-pane" role="tabpanel" aria-labelledby="statistic-tab" tabindex="0"></div>
+    </div>
+
+
+</div>

@@ -1,6 +1,7 @@
 package com.ecf.zevent.controller;
 
 import com.ecf.zevent.dto.LiveDTO;
+import com.ecf.zevent.dto.ThemeAndPegiListDTO;
 import com.ecf.zevent.model.Live;
 import com.ecf.zevent.model.ThematiqueType;
 import com.ecf.zevent.service.LiveService;
@@ -32,12 +33,12 @@ public class LiveController {
 
     @GetMapping(path = "/thematique/list", produces = "application/hal+json")
     public ResponseEntity<List<ThematiqueType>> getThematiqueType() {
-        try {
-            return ResponseEntity.ok(this.liveService.getThematiqueList());
-        } catch (Exception ex) {
-            LOG.error(ex.toString());
-        }
-        return ResponseEntity.ok(List.of());
+        return ResponseEntity.ok(List.of(ThematiqueType.values()));
+    }
+
+    @GetMapping(path = "/theme-and-pegi-list", produces = "application/hal+json")
+    public ResponseEntity<ThemeAndPegiListDTO> getThemeAndPegiList() {
+        return ResponseEntity.ok(new ThemeAndPegiListDTO());
     }
 
     @GetMapping(path = "/list/param/{date}/{thematique}/{streamer}", produces = "application/hal+json")
