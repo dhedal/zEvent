@@ -29,4 +29,14 @@ export class DateUtils {
         return new DateUtils(new Date(dateString));
     }
 
+    static parseToDate(date, hours, minutes) {
+        const format = `${date}T${DateUtils.formatHoursOrMinutes(hours)}:${DateUtils.formatHoursOrMinutes(minutes)}:00`;
+        return new Date(format);
+    }
+
+    static formatHoursOrMinutes(data) {
+        data += "";
+        return data.length < 2 ? "0" + data : data;
+    }
+
 }
