@@ -338,3 +338,6 @@ class LiveForm {
 })();
 
 // TODO: il faut créer le service d'authentification avant d'envoyer et enregistrer les données du live;
+// TODO: un live peut être modifié
+// TODO: l'onglet nombre d'utilsateur inscrit par live
+// TODO: l'onglet statistique
