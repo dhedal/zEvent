@@ -3,22 +3,36 @@ package com.ecf.zevent.dto;
 import com.ecf.zevent.model.Rule;
 import com.ecf.zevent.model.Streamer;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class StreamerDTO {
 
+    private UUID uuid;
     private String pseudo;
-    private int age;
+    private String email;
+    private LocalDate birthDate;
     private String chaine;
     private Rule rule;
 
     private StreamerDTO(){}
     private StreamerDTO(Streamer streamer) {
+        this.uuid = streamer.getUuid();
         this.pseudo = streamer.getPseudo();
-        this.age = streamer.getAge();
+        this.birthDate = streamer.getBirthDate();
+        this.email = streamer.getEmail();
         this.chaine = streamer.getChaine();
         this.rule = streamer.getRule();
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public String getPseudo() {
@@ -29,12 +43,20 @@ public class StreamerDTO {
         this.pseudo = pseudo;
     }
 
-    public int getAge() {
-        return age;
+    public String getEmail() {
+        return email;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 
     public String getChaine() {
@@ -56,8 +78,10 @@ public class StreamerDTO {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("StreamerDTO{");
-        sb.append("pseudo='").append(pseudo).append('\'');
-        sb.append(", age='").append(age).append('\'');
+        sb.append("uuid=").append(uuid);
+        sb.append(", pseudo='").append(pseudo).append('\'');
+        sb.append(", email='").append(email).append('\'');
+        sb.append(", birthDate=").append(birthDate);
         sb.append(", chaine='").append(chaine).append('\'');
         sb.append(", rule=").append(rule);
         sb.append('}');

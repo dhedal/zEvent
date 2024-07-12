@@ -30,18 +30,6 @@ public class LiveServiceTest {
     @Autowired
     private LiveService liveService;
 
-    private Streamer newSTreamer(String firstName, String lastName, int age, String chaine, Rule rule) {
-        Streamer streamer = new Streamer();
-        streamer.setFirstName(firstName);
-        streamer.setLastName(lastName);
-        streamer.setMatricule(UUID.randomUUID().toString());
-        streamer.setPseudo(firstName+"-" + streamer.getMatricule());
-        streamer.setEmail(firstName + lastName + Math.random() + "@email.com");
-        streamer.setAge(age);
-        streamer.setChaine(chaine);
-        streamer.setRule(rule);
-        return streamer;
-    }
 
     private Live newLive(String title, List<ThematiqueType> themes, LocalDateTime dateStart, Duration duration, Pegi pegi,
                          Streamer streamer) {
@@ -59,7 +47,7 @@ public class LiveServiceTest {
 
     @Test
     public void testCreateAndSaveNewLive() {
-        Streamer streamer = this.newSTreamer("david", "hedgar", 45, "youtube", Rule.STREAMER);
+        Streamer streamer = StreamerServiceTest.newSTreamer("david", "hedgar", "youtube", Rule.STREAMER);
         streamer = this.streamerService.save(streamer);
         assertNotNull(streamer.getId());
 
@@ -86,7 +74,7 @@ public class LiveServiceTest {
 
     @Test
     public void testLiveUpdated() {
-        Streamer streamer = this.newSTreamer("david", "hedgar", 45, "youtube", Rule.STREAMER);
+        Streamer streamer = StreamerServiceTest.newSTreamer("david", "hedgar", "youtube", Rule.STREAMER);
         streamer = this.streamerService.save(streamer);
         assertNotNull(streamer.getId());
 
@@ -122,7 +110,7 @@ public class LiveServiceTest {
 
     @Test
     public void testDeleteLive() {
-        Streamer streamer = this.newSTreamer("david", "hedgar", 45, "youtube", Rule.STREAMER);
+        Streamer streamer = StreamerServiceTest.newSTreamer("david", "hedgar", "youtube", Rule.STREAMER);
         streamer = this.streamerService.save(streamer);
         assertNotNull(streamer.getId());
 
@@ -145,9 +133,9 @@ public class LiveServiceTest {
     public void testLiveAll() {
         int  liveCount = this.liveService.listAll().size();
 
-        Streamer s1 = this.streamerService.save(this.newSTreamer("anne-marie", "thiam", 67, "twitch", Rule.STREAMER));
-        Streamer s2 = this.streamerService.save(this.newSTreamer("sarah", "hedgar", 39, "drama", Rule.STREAMER));
-        Streamer s3 = this.streamerService.save(this.newSTreamer("david", "hedgar", 45, "youtube", Rule.ADMIN));
+        Streamer s1 = this.streamerService.save(StreamerServiceTest.newSTreamer("anne-marie", "thiam", "twitch", Rule.STREAMER));
+        Streamer s2 = this.streamerService.save(StreamerServiceTest.newSTreamer("sarah", "hedgar", "drama", Rule.STREAMER));
+        Streamer s3 = this.streamerService.save(StreamerServiceTest.newSTreamer("david", "hedgar", "youtube", Rule.ADMIN));
 
         List<Live> lives = List.of(
                 this.newLive("let'play", List.of(ThematiqueType.JEUX_D_AVENTURE_ET_DE_ROLE),
@@ -175,7 +163,7 @@ public class LiveServiceTest {
 
     @Test
     public void testFindLivesByDate() {
-        Streamer streamer = this.newSTreamer("alexandre", "hedgar", 45, "youtube", Rule.STREAMER);
+        Streamer streamer = StreamerServiceTest.newSTreamer("alexandre", "hedgar", "youtube", Rule.STREAMER);
         this.streamerService.save(streamer);
 
         Live live = this.newLive("let'play", List.of(ThematiqueType.JEUX_DE_CARTES_ET_DE_STRATEGIE),
@@ -195,7 +183,7 @@ public class LiveServiceTest {
 
     @Test
     public void testFindLivesByStreamer() {
-        Streamer streamer = this.newSTreamer("alexandre", "hedgar", 45, "youtube", Rule.STREAMER);
+        Streamer streamer = StreamerServiceTest.newSTreamer("alexandre", "hedgar", "youtube", Rule.STREAMER);
         this.streamerService.save(streamer);
 
         Live live = this.newLive("let'play", List.of(ThematiqueType.MMORPG),
@@ -213,7 +201,7 @@ public class LiveServiceTest {
 
     @Test
     public void testFindLivesByTheme() {
-        Streamer streamer = this.newSTreamer("alexandre", "hedgar", 45, "youtube", Rule.STREAMER);
+        Streamer streamer = StreamerServiceTest.newSTreamer("alexandre", "hedgar", "youtube", Rule.STREAMER);
         this.streamerService.save(streamer);
 
         List<Live> livesFPS = List.of(
@@ -247,8 +235,8 @@ public class LiveServiceTest {
 
     @Test
     public void testFindLiveByDateAndThematiqueAndStreamer() {
-        Streamer streamer = this.newSTreamer("Julien", "Chièze", 45, "youtube", Rule.STREAMER);
-        Streamer streamer2 = this.newSTreamer("X", "Serve", 45, "youtube", Rule.STREAMER);
+        Streamer streamer = StreamerServiceTest.newSTreamer("Julien", "Chièze", "youtube", Rule.STREAMER);
+        Streamer streamer2 = StreamerServiceTest.newSTreamer("X", "Serve", "youtube", Rule.STREAMER);
         this.streamerService.save(streamer);
         this.streamerService.save(streamer2);
 
@@ -391,7 +379,7 @@ public class LiveServiceTest {
 
     @Test
     public void testFindLivesByThemes() {
-        Streamer streamer = this.newSTreamer("alexandre", "hedgar", 45, "youtube", Rule.STREAMER);
+        Streamer streamer = StreamerServiceTest.newSTreamer("alexandre", "hedgar", "youtube", Rule.STREAMER);
         this.streamerService.save(streamer);
 
         List<Live> livesFPS = List.of(

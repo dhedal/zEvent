@@ -2,9 +2,12 @@ package com.ecf.zevent.model;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 public class Streamer implements IEntity{
@@ -12,18 +15,19 @@ public class Streamer implements IEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(updatable = false, nullable = false, unique = true, length = 36)
+    private UUID uuid;
     @Column(unique = true, nullable = false, length = 50)
     private String pseudo;
     @Column(nullable = false, length = 50)
     private String firstName;
     @Column(nullable = false, length = 50)
     private String lastName;
-    @Column(unique = true, nullable = false)
-    private String matricule;
     @Column(unique = true, nullable = false, length = 100)
     private String email;
     @Column(nullable = false)
-    private int age;
+    private LocalDate birthDate;
     @Column(nullable = false, length = 100)
     private String chaine;
     @Column(nullable = false)
@@ -36,6 +40,14 @@ public class Streamer implements IEntity{
 
     public Long getId() {
         return id;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public String getFirstName() {
@@ -61,15 +73,6 @@ public class Streamer implements IEntity{
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
-    public String getMatricule() {
-        return matricule;
-    }
-
-    public void setMatricule(String matricule) {
-        this.matricule = matricule;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -78,12 +81,12 @@ public class Streamer implements IEntity{
         this.email = email;
     }
 
-    public int getAge() {
-        return age;
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 
     public String getChaine() {
@@ -125,9 +128,8 @@ public class Streamer implements IEntity{
         sb.append(", pseudo='").append(pseudo).append('\'');
         sb.append(", firstName='").append(firstName).append('\'');
         sb.append(", lastName='").append(lastName).append('\'');
-        sb.append(", matricule='").append(matricule).append('\'');
         sb.append(", email='").append(email).append('\'');
-        sb.append(", age=").append(age);
+        sb.append(", birthDate=").append(birthDate);
         sb.append(", chaine='").append(chaine).append('\'');
         sb.append(", rule='").append(rule).append('\'');
         sb.append(", createdAt=").append(createdAt);
@@ -147,15 +149,15 @@ public class Streamer implements IEntity{
         if(null == obj || !(obj instanceof Streamer)) return false;
         Streamer that = (Streamer) obj;
         if(this.id == null && that.id == null) {
-            return Objects.equals(this.age, that.age) &&
-                    Objects.equals(this.chaine, that.chaine) &&
-                    Objects.equals(this.createdAt, that.createdAt) &&
+            return Objects.equals(this.uuid, that.uuid) &&
+                    Objects.equals(this.email, that.email) &&
+                    Objects.equals(this.pseudo, that.pseudo) &&
                     Objects.equals(this.email, that.email) &&
                     Objects.equals(this.firstName, this.lastName) &&
                     Objects.equals(this.lastName, that.lastName) &&
-                    Objects.equals(this.pseudo, that.pseudo) &&
-                    Objects.equals(this.matricule, that.matricule) &&
-                    Objects.equals(this.rule, that.rule);
+                    Objects.equals(this.birthDate, that.birthDate) &&
+                    Objects.equals(this.rule, that.rule) &&
+                    Objects.equals(this.createdAt, that.createdAt);
         }
 
         return Objects.equals(this.id, that.id);
