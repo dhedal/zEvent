@@ -32,6 +32,8 @@ public class Streamer implements IEntity{
     private String chaine;
     @Column(nullable = false)
     private Rule rule;
+    @Column(nullable = false)
+    private StreamerStatus status;
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
@@ -121,17 +123,23 @@ public class Streamer implements IEntity{
         this.rule = rule;
     }
 
+    public StreamerStatus getStatus() { return this.status;}
+
+    public void setStatus(StreamerStatus status) { this.status = status;}
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Streamer{");
         sb.append("id=").append(id);
+        sb.append(", uuid=").append(uuid);
         sb.append(", pseudo='").append(pseudo).append('\'');
         sb.append(", firstName='").append(firstName).append('\'');
         sb.append(", lastName='").append(lastName).append('\'');
         sb.append(", email='").append(email).append('\'');
         sb.append(", birthDate=").append(birthDate);
         sb.append(", chaine='").append(chaine).append('\'');
-        sb.append(", rule='").append(rule).append('\'');
+        sb.append(", rule=").append(rule);
+        sb.append(", status=").append(status);
         sb.append(", createdAt=").append(createdAt);
         sb.append(", updatedAt=").append(updatedAt);
         sb.append('}');
@@ -157,6 +165,7 @@ public class Streamer implements IEntity{
                     Objects.equals(this.lastName, that.lastName) &&
                     Objects.equals(this.birthDate, that.birthDate) &&
                     Objects.equals(this.rule, that.rule) &&
+                    Objects.equals(this.status, that.status) &&
                     Objects.equals(this.createdAt, that.createdAt);
         }
 

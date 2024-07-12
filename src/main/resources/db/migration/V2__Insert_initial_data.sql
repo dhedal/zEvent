@@ -1,15 +1,15 @@
-INSERT INTO streamer (id, uuid, birth_date, first_name, last_name, pseudo, email, chaine, rule) VALUES
-(-1, UUID(), '1999-01-01', 'John', 'Doe', 'JDoe', 'john.doe@example.com', 'JohnDoeGaming', 2),
-(-2, UUID(), '1994-01-01', 'Jane', 'Smith', 'JaneSmith', 'jane.smith@example.com', 'JaneSmithPlays', 2),
-(-3, UUID(), '1996-01-01', 'Alice', 'Johnson', 'AliceJ', 'alice.johnson@example.com', 'AliceJ', 2),
-(-4, UUID(), '1992-01-01', 'Bob', 'Brown', 'BobBrown', 'bob.brown@example.com', 'BobB', 2),
-(-5, UUID(), '2002-01-01', 'Charlie', 'Davis', 'CharlieDavis', 'charlie.davis@example.com', 'CharlieD', 2),
-(-6, UUID(), '1997-01-01', 'David', 'Wilson', 'DWilson', 'david.wilson@example.com', 'DavidW', 2),
-(-7, UUID(), '1995-01-01', 'Eva', 'Martinez', 'EvaMar', 'eva.martinez@example.com', 'EvaM', 2),
-(-8, UUID(), '1989-01-01', 'Frank', 'Miller', 'FrankMiler', 'frank.miller@example.com', 'FrankM', 2),
-(-9, UUID(), '2000-01-01', 'Grace', 'Lee', 'GraceLee', 'grace.lee@example.com', 'GraceL', 2),
-(-10, UUID(), '1998-01-01', 'Hank', 'Taylor', 'HankTaylor', 'hank.taylor@example.com', 'HankT', 2),
-(-11, UUID(), '1978-01-01', 'David', 'Hedgar', 'DHedgar', 'davidhedgar@yahoo.fr', 'Z-Event', 3);
+INSERT INTO streamer (id, uuid, birth_date, first_name, last_name, pseudo, email, chaine, rule, status) VALUES
+(-1, UUID(), '1999-01-01', 'John', 'Doe', 'JDoe', 'john.doe@example.com', 'JohnDoeGaming', 2, 2),
+(-2, UUID(), '1994-01-01', 'Jane', 'Smith', 'JaneSmith', 'jane.smith@example.com', 'JaneSmithPlays', 2, 2),
+(-3, UUID(), '1996-01-01', 'Alice', 'Johnson', 'AliceJ', 'alice.johnson@example.com', 'AliceJ', 2, 2),
+(-4, UUID(), '1992-01-01', 'Bob', 'Brown', 'BobBrown', 'bob.brown@example.com', 'BobB', 2, 2),
+(-5, UUID(), '2002-01-01', 'Charlie', 'Davis', 'CharlieDavis', 'charlie.davis@example.com', 'CharlieD', 2, 2),
+(-6, UUID(), '1997-01-01', 'David', 'Wilson', 'DWilson', 'david.wilson@example.com', 'DavidW', 2, 2),
+(-7, UUID(), '1995-01-01', 'Eva', 'Martinez', 'EvaMar', 'eva.martinez@example.com', 'EvaM', 2, 2),
+(-8, UUID(), '1989-01-01', 'Frank', 'Miller', 'FrankMiler', 'frank.miller@example.com', 'FrankM', 2, 2),
+(-9, UUID(), '2000-01-01', 'Grace', 'Lee', 'GraceLee', 'grace.lee@example.com', 'GraceL', 2, 2),
+(-10, UUID(), '1998-01-01', 'Hank', 'Taylor', 'HankTaylor', 'hank.taylor@example.com', 'HankT', 2, 2),
+(-11, UUID(), '1978-01-01', 'David', 'Hedgar', 'DHedgar', 'davidhedgar@yahoo.fr', 'Z-Event', 3, 2);
 
 INSERT INTO live (id, uuid, title, description, themes, date_start, date_end, pegi, streamer_id) VALUES
 (-1, UUID(), 'Live 1', 'Description 1: Lorem ipsum dolor sit amet, consectetur adipiscing elit.', '1', '2025-01-01 10:00:00', '2025-01-01 12:00:00', 1, -1),

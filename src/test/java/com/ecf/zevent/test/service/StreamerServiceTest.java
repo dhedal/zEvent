@@ -3,6 +3,7 @@ package com.ecf.zevent.test.service;
 
 import com.ecf.zevent.model.Rule;
 import com.ecf.zevent.model.Streamer;
+import com.ecf.zevent.model.StreamerStatus;
 import com.ecf.zevent.service.StreamerService;
 import com.ecf.zevent.test.utils.DateUtils;
 import org.junit.jupiter.api.Test;
@@ -39,6 +40,7 @@ public class StreamerServiceTest {
         streamer.setBirthDate(DateUtils.randomBirthDate());
         streamer.setChaine(chaine);
         streamer.setRule(rule);
+        streamer.setStatus(StreamerStatus.STREAMER_ACTIVATE);
         return streamer;
     }
 
@@ -61,6 +63,7 @@ public class StreamerServiceTest {
             assertEquals(streamerExpected.getFirstName(), streamerCreated.getFirstName());
             assertEquals(streamerExpected.getLastName(), streamerCreated.getLastName());
             assertEquals(Rule.STREAMER, streamerExpected.getRule());
+            assertEquals(StreamerStatus.STREAMER_ACTIVATE, streamerExpected.getStatus());
         } catch (Throwable ex) {
             fail(ex.toString());
         }
@@ -146,8 +149,5 @@ public class StreamerServiceTest {
         assertNotNull(result);
         assertEquals(streamer, result);
     }
-
-
-
 
 }

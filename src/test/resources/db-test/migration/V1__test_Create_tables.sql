@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS `streamer` (
 `email` varchar(100) NOT NULL,
 `chaine` varchar(100) NOT NULL,
 `rule` int NOT NULL,
+`status` int NOT NULL,
 `created_at` datetime(6) DEFAULT NULL,
 `updated_at` datetime(6) DEFAULT NULL,
 PRIMARY KEY (`id`),
