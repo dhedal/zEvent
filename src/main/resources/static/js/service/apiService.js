@@ -8,6 +8,11 @@ export class ApiService {
         return await response.json();
     };
 
+    static fetchStreamerList = async () => {
+        const response = await fetch(API_STREAMER_URL + "list");
+        return await response.json();
+    }
+
     static fetchLiveThematiqueList = async () => {
         const response = await fetch(API_LIVE_URL + "thematique/list");
         return await response.json();

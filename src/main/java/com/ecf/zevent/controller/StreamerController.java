@@ -32,8 +32,13 @@ public class StreamerController {
     @GetMapping(path = "/pseudo/list", produces = "application/hal+json")
     public ResponseEntity<List<String>> getPseudoList() {
         List<String> pseudos = this.streamerService.getPseudoList();
-        System.out.println(pseudos);
         return ResponseEntity.ok(pseudos);
+    }
+
+    @GetMapping(path = "/list", produces = "application/hal+json")
+    public ResponseEntity<List<StreamerDTO>> getStreamerList() {
+        List<Streamer> streamers = this.streamerService.listAll();
+        return ResponseEntity.ok(StreamerDTO.parse(this.streamerService.listAll()));
     }
 
     @GetMapping(path = "/pseudo/{pseudo}", produces = "application/hal+json")
