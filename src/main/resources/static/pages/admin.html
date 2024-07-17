@@ -11,6 +11,119 @@
         <div>
             <button class="btn btn-outline-primary">Créer un streamer</button>
         </div>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#streamerModal" data-bs-whatever="Inscription">Nouveau Streamer</button>
+
         <div id="streamerTableContainerId" class="table-responsive small"></div>
     </div>
+
+<!--    STREAMER MODAL DEBUT-->
+    <div class="modal fade" id="streamerModal" tabindex="-1" aria-labelledby="streamerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="streamerModalLabel"></h1>
+<!--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+                </div>
+                <div class="modal-body">
+                    <form id="streamerForm" class="needs-validation" novalidate>
+                        <div class="row g-3">
+                            <div class="col-sm-12">
+                                <label for="firstName" class="form-label">Prénom</label>
+                                <input type="text" class="form-control" id="firstName" required>
+                                <div class="invalid-feedback">
+                                    Le prénom est requis.
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label for="lastName" class="form-label">Nom</label>
+                                <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+                                <div class="invalid-feedback">
+                                    Le nom est requis.
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label for="pseudo" class="form-label">Pseudo</label>
+                                <input type="text" class="form-control" id="pseudo"  value="" required>
+                                <div class="invalid-feedback">
+                                    Le pseudo est requis.
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email"  value="" required>
+                                <div class="invalid-feedback">
+                                    L'email est requis.
+                                </div>
+                            </div>
+                            <div class="col-7">
+
+                                <label for="birthDate" class="form-label">
+                                    Date de naissance <span class="text-primary fs-6">(age >= 13)</span>
+                                </label>
+                                <input type="date" class="form-control" id="birthDate"  required>
+                                <div class="invalid-feedback">
+                                    La date doit être inférieur à <span id="dateLimitError"></span>.
+                                </div>
+                            </div>
+
+                            <hr class="my-4"/>
+
+                            <div class="col-4">
+                                <label for="rule" class="form-label">Role</label>
+                                <select class="form-select" id="rule" required>
+                                    <option value="">Choose...</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Le role est requis.
+                                </div>
+                            </div>
+
+                            <div class="col-4">
+                                <label for="status" class="form-label">Status du compte</label>
+                                <select class="form-select" id="status" required>
+                                    <option value="">Choose...</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Le status du compte est requise.
+                                </div>
+                            </div>
+                            <hr class="my-4"/>
+
+                            <div class="col-sm-12">
+                                <label for="channel" class="form-label">Nom de ma chaine</label>
+                                <input type="text" class="form-control" id="channel"  value="" required>
+                                <div class="invalid-feedback">
+                                    le nom de chaine est requis.
+                                </div>
+                            </div>
+
+                            <hr class="my-4"/>
+                            <small class="col-sm-12 text-primary">
+                                <p>Le mot de passe doit contenir </p>
+                                <ul>
+                                    <li class="form-control" id="charLengthError"><span class="fs-6">au moin 8 charactères</span></li>
+                                    <li class="form-control" id="charUpperLowerError">des majuscules, des minuscules</li>
+                                    <li class="form-control" id="charNumberError">au moin un chiffre</li>
+                                    <li class="form-control" id="charSpecialError">au moin un charactère spécial : !@#$%&*?:+-</li>
+                                </ul>
+                            </small>
+                            <div class="col-sm-12">
+                                <label for="passwordId" class="form-label">Mot de passe</label>
+                                <input type="password" class="form-control" id="passwordId"  required>
+                            </div>
+                            <div class="col-sm-12">
+                                <label for="password2" class="form-label">Ressaisir le mot de passe</label>
+                                <input type="password" class="form-control" id="password2" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="streamerFormCancelBtn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button id="streamerFormSubmitBtn" type="button" class="btn btn-primary">Enregistrer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--    STREAMER MODAL FIN-->
 </div>

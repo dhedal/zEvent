@@ -128,23 +128,54 @@ export class Rule {
     }
 }
 
+export class StreamerStatus {
+    key;
+    label;
+    description;
+
+    constructor(key, label, description) {
+        this.key = key;
+        this.label = label;
+        this.description = description;
+    }
+
+    static parse(other) {
+        return new StreamerStatus(other.key, other.label, other.description);
+    }
+
+    stringify = () => { return JSON.stringify(this);}
+}
+
 export class Streamer {
-    matricule;
+    uuid;
+    firstName;
+    lastName;
     pseudo;
-    age;
+    email;
+    birthDate;
+    channel;
     rule;
-    chaine;
+    status;
+    password;
+
 
     constructor() {
+        this.uuid = "";
+        this.password = "";
     }
 
     static parse(other) {
         const streamer = new Streamer();
-        // streamer.matricule = other.matricule;
+        streamer.uuid = other.uuid;
+        streamer.firstName = other.firstName;
+        streamer.lastName = other.lastName;
         streamer.pseudo = other.pseudo;
-        streamer.age = other.age;
-        streamer.chaine = other.chaine;
+        streamer.email = other.email;
+        streamer.birthDate = other.birthDate;
+        streamer.channel = other.channel;
         streamer.rule = Rule.parse(other.rule);
+        streamer.status = Rule.parse(other.status);
+        streamer.password = other.password;
         return streamer;
     }
 

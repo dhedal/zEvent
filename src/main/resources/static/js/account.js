@@ -235,7 +235,7 @@ class LiveForm {
         input.classList.add("is-invalid");
         input.classList.remove("is-valid");
         return false;
-    };
+    }
 
     validateDescription = (input) => {
         if(input.value == "") {

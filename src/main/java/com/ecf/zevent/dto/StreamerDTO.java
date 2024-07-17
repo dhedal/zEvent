@@ -17,7 +17,7 @@ public class StreamerDTO {
     private String pseudo;
     private String email;
     private LocalDate birthDate;
-    private String chaine;
+    private String channel;
     private Rule rule;
     private StreamerStatus status;
 
@@ -29,7 +29,7 @@ public class StreamerDTO {
         this.pseudo = streamer.getPseudo();
         this.birthDate = streamer.getBirthDate();
         this.email = streamer.getEmail();
-        this.chaine = streamer.getChaine();
+        this.channel = streamer.getChaine();
         this.rule = streamer.getRule();
         this.status = streamer.getStatus();
     }
@@ -72,12 +72,12 @@ public class StreamerDTO {
         this.birthDate = birthDate;
     }
 
-    public String getChaine() {
-        return chaine;
+    public String getChannel() {
+        return channel;
     }
 
-    public void setChaine(String chaine) {
-        this.chaine = chaine;
+    public void setChannel(String channel) {
+        this.channel = channel;
     }
 
     public Rule getRule() {
@@ -105,7 +105,7 @@ public class StreamerDTO {
         sb.append(", pseudo='").append(pseudo).append('\'');
         sb.append(", email='").append(email).append('\'');
         sb.append(", birthDate=").append(birthDate);
-        sb.append(", chaine='").append(chaine).append('\'');
+        sb.append(", channel='").append(channel).append('\'');
         sb.append(", rule=").append(rule);
         sb.append(", status=").append(status);
         sb.append('}');
@@ -117,11 +117,25 @@ public class StreamerDTO {
         return new StreamerDTO(streamer);
     }
 
-    public static List<StreamerDTO> parse(List<Streamer> streamers) {
+    public static List<StreamerDTO> parseStreamerListToStreamerDTOList(List<Streamer> streamers) {
         return streamers.stream()
                 .filter(Objects::nonNull)
                 .map(StreamerDTO::parse)
                 .toList();
+    }
+
+    public static Streamer parseStreamerDTOToStreamer(StreamerDTO dto){
+        Streamer streamer = new Streamer();
+        streamer.setUuid(dto.uuid);
+        streamer.setFirstName(dto.firstName);
+        streamer.setLastName(dto.lastName);
+        streamer.setPseudo(dto.pseudo);
+        streamer.setEmail(dto.email);
+        streamer.setChaine(dto.channel);
+        streamer.setBirthDate(dto.birthDate);
+        streamer.setRule(dto.rule);
+        streamer.setStatus(dto.status);
+        return streamer;
     }
 
     public static StreamerDTO getEmpty() { return new StreamerDTO();}

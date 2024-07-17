@@ -1,8 +1,12 @@
 package com.ecf.zevent.model;
 
+import com.ecf.zevent.util.RuleDeserializer;
+import com.ecf.zevent.util.StreamerStatusDeserializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
+@JsonDeserialize(using = StreamerStatusDeserializer.class)
 public enum StreamerStatus {
 
     REGISTRATION_REQUEST(1, "en attente","Demande d'inscription"),
@@ -29,5 +33,11 @@ public enum StreamerStatus {
 
     public String getDescription() {
         return description;
+    }
+
+    public static StreamerStatus getByKey(int key) {
+        if(key == REGISTRATION_REQUEST.key) return REGISTRATION_REQUEST;
+        if(key == STREAMER_ACTIVATE.key) return STREAMER_ACTIVATE;
+        return STREAMER_SUSPENDED;
     }
 }

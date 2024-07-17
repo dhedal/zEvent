@@ -3,6 +3,17 @@ const API_STREAMER_URL = API_URL + "streamer/";
 const API_LIVE_URL = API_URL + "live/";
 
 export class ApiService {
+
+    static postSaveStreamer = async (streamer) => {
+        const response = await fetch(API_STREAMER_URL, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: streamer.stringify()
+        });
+        return await response.json();
+    }
     static fetchStreamerPseudoList = async () => {
         const response = await fetch(API_STREAMER_URL + "pseudo/list");
         return await response.json();
@@ -12,6 +23,11 @@ export class ApiService {
         const response = await fetch(API_STREAMER_URL + "list");
         return await response.json();
     }
+
+    static fetchRuleAndStatusList = async () => {
+        const response = await fetch(API_STREAMER_URL + "rule-and-status-list");
+        return await response.json();
+    };
 
     static fetchLiveThematiqueList = async () => {
         const response = await fetch(API_LIVE_URL + "thematique/list");

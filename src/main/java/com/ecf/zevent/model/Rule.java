@@ -1,8 +1,11 @@
 package com.ecf.zevent.model;
 
+import com.ecf.zevent.util.RuleDeserializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
+@JsonDeserialize(using = RuleDeserializer.class)
 public enum Rule {
 
     USER(1, "user"), STREAMER(2, "streamer"), ADMIN(3, "admin");
@@ -19,5 +22,11 @@ public enum Rule {
 
     public String getLabel() {
         return label;
+    }
+
+    public static Rule getByKey(int key) {
+        if(key == STREAMER.key) return STREAMER;
+        if(key == ADMIN.key) return ADMIN;
+        return USER;
     }
 }
