@@ -7,11 +7,10 @@ import com.ecf.zevent.model.StreamerStatus;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 public class StreamerDTO {
 
-    private UUID uuid;
+    private String uuid;
     private String firstName;
     private String lastName;
     private String pseudo;
@@ -29,24 +28,34 @@ public class StreamerDTO {
         this.pseudo = streamer.getPseudo();
         this.birthDate = streamer.getBirthDate();
         this.email = streamer.getEmail();
-        this.channel = streamer.getChaine();
+        this.channel = streamer.getChannel();
         this.rule = streamer.getRule();
         this.status = streamer.getStatus();
     }
 
-    public UUID getUuid() {
+    public String getUuid() {
         return uuid;
     }
 
-    public void setUuid(UUID uuid) {
+    public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 
-    public String getFirstName() { return this.firstName;}
-    public void setFirstName(String firstName) {this.firstName = firstName;}
+    public String getFirstName() {
+        return firstName;
+    }
 
-    public String getLastName() { return this.lastName;}
-    public void setLastName(String lastName) {this.lastName = lastName;}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
     public String getPseudo() {
         return pseudo;
@@ -131,7 +140,7 @@ public class StreamerDTO {
         streamer.setLastName(dto.lastName);
         streamer.setPseudo(dto.pseudo);
         streamer.setEmail(dto.email);
-        streamer.setChaine(dto.channel);
+        streamer.setChannel(dto.channel);
         streamer.setBirthDate(dto.birthDate);
         streamer.setRule(dto.rule);
         streamer.setStatus(dto.status);

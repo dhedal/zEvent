@@ -34,7 +34,6 @@ public class LiveServiceTest {
     private Live newLive(String title, List<ThematiqueType> themes, LocalDateTime dateStart, Duration duration, Pegi pegi,
                          Streamer streamer) {
         Live live = new Live();
-        live.setUuid(UUID.randomUUID());
         live.setTitle(title);
         live.setDescription("Duis aute irure dolor in reprehenderit in voluptate velit esse cillum. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.");
         live.setThemes(themes);

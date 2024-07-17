@@ -1,6 +1,5 @@
 package com.ecf.zevent.util;
 
-import com.ecf.zevent.model.Rule;
 import com.ecf.zevent.model.StreamerStatus;
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;

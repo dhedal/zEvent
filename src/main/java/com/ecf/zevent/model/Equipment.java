@@ -10,6 +10,8 @@ public class Equipment implements IEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+    @Column(updatable = false, nullable = false, unique = true, length = 36)
+    private String uuid;
     @Enumerated(EnumType.STRING)
     private EquipmentType equipmentType;
     @Column(nullable = false)
@@ -27,6 +29,16 @@ public class Equipment implements IEntity{
     @Override
     public Long getId() {
         return id;
+    }
+
+    @Override
+    public String getUuid() {
+        return uuid;
+    }
+
+    @Override
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public EquipmentType getEquipmentType() {

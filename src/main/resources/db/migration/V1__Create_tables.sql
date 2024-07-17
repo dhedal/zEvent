@@ -1,12 +1,12 @@
 CREATE TABLE IF NOT EXISTS `streamer` (
 `id` bigint NOT NULL,
-`uuid` binary(36) NOT NULL,
+`uuid` varchar(36) NOT NULL,
 `birth_date` date NOT NULL,
 `first_name` varchar(50) NOT NULL,
 `last_name` varchar(50) NOT NULL,
 `pseudo` varchar(50) NOT NULL,
 `email` varchar(100) NOT NULL,
-`chaine` varchar(100) NOT NULL,
+`channel` varchar(100) NOT NULL,
 `rule` int NOT NULL,
 `status` int NOT NULL,
 `created_at` datetime(6) DEFAULT NULL,
@@ -36,19 +36,23 @@ CONSTRAINT `FKt1y90s6o73739607ri4jty9vc` FOREIGN KEY (`streamer_id`) REFERENCES 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE IF NOT EXISTS `equipment` (
-`id` bigint NOT NULL,
-`brand` varchar(255) NOT NULL,
-`created_at` datetime(6) DEFAULT NULL,
-`equipment_type` enum('ACCESORIES','CAMERA','CAPTURE_CARD','COMPUTER','FURNITURE','HEADPHONES','INTERNET_CONNECTION','LIGHTING','MICROPHONE','MONITOR','SOFTWARE') DEFAULT NULL,
-`label` varchar(255) NOT NULL,
 `quantity` int NOT NULL,
+`created_at` datetime(6) DEFAULT NULL,
+`id` bigint NOT NULL,
 `updated_at` datetime(6) DEFAULT NULL,
-PRIMARY KEY (`id`)
+`brand` varchar(255) NOT NULL,
+`label` varchar(255) NOT NULL,
+`uuid` varchar(255) NOT NULL,
+`equipment_type` enum('ACCESORIES','CAMERA','CAPTURE_CARD','COMPUTER','FURNITURE','HEADPHONES','INTERNET_CONNECTION','LIGHTING','MICROPHONE','MONITOR','SOFTWARE') DEFAULT NULL,
+PRIMARY KEY (`id`),
+UNIQUE KEY `UK7emrr367d9h47cv4eg8c3jb68` (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE IF NOT EXISTS `user` (
 `id` bigint NOT NULL,
-`email` varchar(255) DEFAULT NULL,
 `live_id` bigint DEFAULT NULL,
-PRIMARY KEY (`id`)
+`uuid` varchar(36) NOT NULL,
+`email` varchar(255) DEFAULT NULL,
+PRIMARY KEY (`id`),
+UNIQUE KEY `UK1xc1iry6gqjrvh5cpajiq7l2f` (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

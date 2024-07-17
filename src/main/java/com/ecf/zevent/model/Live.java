@@ -17,9 +17,8 @@ public class Live implements IEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(updatable = false, nullable = false, unique = true, length = 36)
-    private UUID uuid;
+    private String uuid;
     @Column(nullable = false, length = 100)
     private String title;
     @Column(nullable = true, length = 255)
@@ -41,16 +40,16 @@ public class Live implements IEntity{
     @ManyToOne
     @JoinColumn(name="streamer_id", nullable = false)
     private Streamer streamer;
-
+    @Override
     public Long getId() {
         return id;
     }
-
-    public UUID getUuid() {
+    @Override
+    public String getUuid() {
         return uuid;
     }
-
-    public void setUuid(UUID uuid) {
+    @Override
+    public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 

@@ -89,6 +89,11 @@ export class StreamerTable{
     createAndGetTr(streamer) {
         const tr = document.createElement("tr");
         tr.setAttribute("id", streamer.uuid);
+        this.fillLine(tr, streamer);
+        return tr;
+    }
+
+    fillLine(tr, streamer) {
         tr.appendChild(this.createAndGetTdCheckbox(streamer.uuid));
         tr.appendChild(this.createAndGetTd(streamer.firstName));
         tr.appendChild(this.createAndGetTd(streamer.lastName));
@@ -99,7 +104,6 @@ export class StreamerTable{
         tr.appendChild(this.createAndGetTd(streamer.rule.label));
         tr.appendChild(this.createAndGetTd(streamer.status.label));
         tr.appendChild(this.createAndGetTdButton(streamer.uuid));
-        return tr;
     }
 
     clear(){
@@ -108,9 +112,15 @@ export class StreamerTable{
     }
 
     addStreamer(streamer) {
-        if(this.streamerMap.has(streamer.uuid)) return;
+        if(this.streamerMap.has(streamer.uuid)) {
+            const tr = document.getElementById(streamer.uuid);
+            tr.innerHTML = "";
+            this.fillLine(tr, streamer);
+        }
+        else {
+            this.tbody.appendChild(this.createAndGetTr(streamer));
+        }
         this.streamerMap.set(streamer.uuid, streamer);
-        this.tbody.appendChild(this.createAndGetTr(streamer));
     }
 
     addStreamerArray(streamerArray) {
@@ -276,6 +286,18 @@ export class StreamerForm {
         return false;
     }
 
+    validateEmail = (email) => {
+        if(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+            email.classList.add("is-valid");
+            email.classList.remove("is-invalid");
+            return true;
+        }
+
+        email.classList.remove("is-valid");
+        email.classList.add("is-invalid");
+        return false;
+    }
+
     validatePassWord = (password) => {
         const value = password.value;
         const check = !Array.of(
@@ -313,7 +335,7 @@ export class StreamerForm {
             this.validateInputRequired(this.firstName),
             this.validateInputRequired(this.lastName),
             this.validateInputRequired(this.pseudo),
-            this.validateInputRequired(this.email),
+            this.validateEmail(this.email),
             this.validateInputRequired(this.channel),
             this.validateDateLimit(this.birthDate),
             this.validateInputRequired(this.rule),

@@ -25,10 +25,17 @@ public class StreamerController {
 
     @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<StreamerDTO> saveStreamer(@RequestBody StreamerDTO streamerDTO) {
-        LOG.info(streamerDTO.toString());
-        Streamer streamer = StreamerDTO.parseStreamerDTOToStreamer(streamerDTO);
-        streamer = this.streamerService.save(streamer);
-        return ResponseEntity.ok(StreamerDTO.parse(streamer));
+        try {
+            LOG.debug(streamerDTO.toString());
+            Streamer streamer = StreamerDTO.parseStreamerDTOToStreamer(streamerDTO);
+            LOG.debug(streamer.toString());
+            streamer = this.streamerService.save(streamer);
+            LOG.debug(streamer.toString());
+            return ResponseEntity.ok(StreamerDTO.parse(streamer));
+        } catch (Exception e){
+            LOG.error(e.toString());
+        }
+        return ResponseEntity.ok(StreamerDTO.getEmpty());
     }
 
     @GetMapping(path = "/id", produces = "application/hal+json")

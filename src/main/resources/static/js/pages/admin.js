@@ -27,8 +27,8 @@ const fetchDatas = async () => {
         form.form.addEventListener("data-streamer-submit", event => {
             const streamerData = event.detail.data;
             console.log(streamerData);
-            ApiService.postSaveStreamer(streamerData).then(response => {
-                console.log(response);
+            ApiService.postSaveStreamer(streamerData).then(streamer => {
+                streamerTable.addStreamer(streamer);
             });
         });
     });

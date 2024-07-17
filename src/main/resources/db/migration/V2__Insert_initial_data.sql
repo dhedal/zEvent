@@ -1,4 +1,4 @@
-INSERT INTO streamer (id, uuid, birth_date, first_name, last_name, pseudo, email, chaine, rule, status) VALUES
+INSERT INTO streamer (id, uuid, birth_date, first_name, last_name, pseudo, email, channel, rule, status) VALUES
 (-1, UUID(), '1999-01-01', 'John', 'Doe', 'JDoe', 'john.doe@example.com', 'JohnDoeGaming', 2, 2),
 (-2, UUID(), '1994-01-01', 'Jane', 'Smith', 'JaneSmith', 'jane.smith@example.com', 'JaneSmithPlays', 2, 2),
 (-3, UUID(), '1996-01-01', 'Alice', 'Johnson', 'AliceJ', 'alice.johnson@example.com', 'AliceJ', 2, 2),

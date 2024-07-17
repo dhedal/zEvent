@@ -1,9 +1,6 @@
 package com.ecf.zevent.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
@@ -12,11 +9,22 @@ public class User implements IEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+    @Column(updatable = false, nullable = false, unique = true, length = 36)
+    private String uuid;
     private String email;
     private Long liveId;
 
+    @Override
     public Long getId() {
         return id;
+    }
+    @Override
+    public String getUuid() {
+        return uuid;
+    }
+    @Override
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     @Override

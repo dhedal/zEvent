@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public class LiveDTO {
 
-    private UUID uuid;
+    private String uuid;
     private String title;
     private String description;
     private List<ThematiqueType> themes;
@@ -32,11 +32,11 @@ public class LiveDTO {
         this.streamerPseudo = live.getStreamer().getPseudo();
     }
 
-    public UUID getUuid() {
+    public String getUuid() {
         return uuid;
     }
 
-    public void setUuid(UUID uuid) {
+    public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 

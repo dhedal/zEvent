@@ -10,7 +10,7 @@ export class ApiService {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: streamer.stringify()
+            body: JSON.stringify(streamer)
         });
         return await response.json();
     }

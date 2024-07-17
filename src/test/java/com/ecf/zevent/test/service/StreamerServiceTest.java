@@ -14,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -29,16 +28,15 @@ public class StreamerServiceTest {
     private StreamerService streamerService;
     private static Random random = new Random();
 
-    public static Streamer newSTreamer(String firstName, String lastName, String chaine, Rule rule) {
+    public static Streamer newSTreamer(String firstName, String lastName, String channel, Rule rule) {
 
         Streamer streamer = new Streamer();
-        streamer.setUuid(UUID.randomUUID());
         streamer.setPseudo(firstName + "-" + lastName + "-" + random.nextInt(100000));
         streamer.setFirstName(firstName);
         streamer.setLastName(lastName);
         streamer.setEmail(streamer.getPseudo() + "@email.com");
         streamer.setBirthDate(DateUtils.randomBirthDate());
-        streamer.setChaine(chaine);
+        streamer.setChannel(channel);
         streamer.setRule(rule);
         streamer.setStatus(StreamerStatus.STREAMER_ACTIVATE);
         return streamer;
@@ -82,7 +80,7 @@ public class StreamerServiceTest {
             Streamer streamerExpected = this.streamerService.findById(streamerCreated.getId());
             assertNotNull(streamerExpected);
             assertNotNull(streamerExpected.getCreatedAt());
-            assertNotNull(streamerCreated.getUpdatedAt());
+            assertNotNull(streamerExpected.getUpdatedAt());
             assertEquals(streamerExpected.getId(), streamerCreated.getId());
             assertEquals(streamerExpected.getLastName(), streamerCreated.getLastName());
             assertEquals(Rule.STREAMER, streamerExpected.getRule());
@@ -148,6 +146,16 @@ public class StreamerServiceTest {
         Streamer result = this.streamerService.findByPseudo(streamer.getPseudo());
         assertNotNull(result);
         assertEquals(streamer, result);
+    }
+
+    @Test
+    public void testFindStreamerByUuid() {
+        Streamer streamer = this.newSTreamer("zar", "toch", "youtube", Rule.STREAMER);
+        Streamer streamerSaved = this.streamerService.save(streamer);
+        assertNotNull(streamerSaved);
+        assertNotNull(streamerSaved.getUuid());
+        Streamer result = this.streamerService.findByUuid(streamerSaved.getUuid());
+        assertEquals(result, streamerSaved);
     }
 
 }

@@ -7,7 +7,6 @@ import org.hibernate.annotations.GenericGenerator;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.UUID;
 
 @Entity
 public class Streamer implements IEntity{
@@ -15,9 +14,8 @@ public class Streamer implements IEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(updatable = false, nullable = false, unique = true, length = 36)
-    private UUID uuid;
+    private String uuid;
     @Column(unique = true, nullable = false, length = 50)
     private String pseudo;
     @Column(nullable = false, length = 50)
@@ -29,7 +27,7 @@ public class Streamer implements IEntity{
     @Column(nullable = false)
     private LocalDate birthDate;
     @Column(nullable = false, length = 100)
-    private String chaine;
+    private String channel;
     @Column(nullable = false)
     private Rule rule;
     @Column(nullable = false)
@@ -43,12 +41,12 @@ public class Streamer implements IEntity{
     public Long getId() {
         return id;
     }
-
-    public UUID getUuid() {
+    @Override
+    public String getUuid() {
         return uuid;
     }
-
-    public void setUuid(UUID uuid) {
+    @Override
+    public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 
@@ -91,12 +89,12 @@ public class Streamer implements IEntity{
         this.birthDate = birthDate;
     }
 
-    public String getChaine() {
-        return chaine;
+    public String getChannel() {
+        return channel;
     }
 
-    public void setChaine(String chaine) {
-        this.chaine = chaine;
+    public void setChannel(String channel) {
+        this.channel = channel;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -137,7 +135,7 @@ public class Streamer implements IEntity{
         sb.append(", lastName='").append(lastName).append('\'');
         sb.append(", email='").append(email).append('\'');
         sb.append(", birthDate=").append(birthDate);
-        sb.append(", chaine='").append(chaine).append('\'');
+        sb.append(", channel='").append(channel).append('\'');
         sb.append(", rule=").append(rule);
         sb.append(", status=").append(status);
         sb.append(", createdAt=").append(createdAt);
@@ -161,6 +159,7 @@ public class Streamer implements IEntity{
                     Objects.equals(this.email, that.email) &&
                     Objects.equals(this.pseudo, that.pseudo) &&
                     Objects.equals(this.email, that.email) &&
+                    Objects.equals(this.channel, that.channel) &&
                     Objects.equals(this.firstName, this.lastName) &&
                     Objects.equals(this.lastName, that.lastName) &&
                     Objects.equals(this.birthDate, that.birthDate) &&

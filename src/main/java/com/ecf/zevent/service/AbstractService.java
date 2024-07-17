@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 public abstract class AbstractService<R extends JpaRepository, T extends IEntity> implements IService<T> {
 
@@ -24,7 +25,10 @@ public abstract class AbstractService<R extends JpaRepository, T extends IEntity
    public T save(T entity){
         this.LOG.info("save :: " + entity.toString());
         if(entity != null && entity.getId() != null) entity.setUpdatedAt(LocalDateTime.now());
-        else entity.setCreatedAt(LocalDateTime.now());
+        else {
+            entity.setUuid(UUID.randomUUID().toString());
+            entity.setCreatedAt(LocalDateTime.now());
+        }
         return (T) this.repository.save(entity);
    }
 

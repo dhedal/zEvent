@@ -1,15 +1,16 @@
-INSERT INTO streamer (id, uuid, birth_date, first_name, last_name, pseudo, email, chaine, rule, status) VALUES
-(-1, UUID(), '1999-01-01', 'John', 'Doe', 'JDoe', 'john.doe@example.com', 'JohnDoeGaming', 2, 2),
-(-2, UUID(), '1994-01-01', 'Jane', 'Smith', 'JaneSmith', 'jane.smith@example.com', 'JaneSmithPlays', 2, 2),
-(-3, UUID(), '1996-01-01', 'Alice', 'Johnson', 'AliceJ', 'alice.johnson@example.com', 'AliceJ', 2, 2),
-(-4, UUID(), '1992-01-01', 'Bob', 'Brown', 'BobBrown', 'bob.brown@example.com', 'BobB', 2, 2),
-(-5, UUID(), '2002-01-01', 'Charlie', 'Davis', 'CharlieDavis', 'charlie.davis@example.com', 'CharlieD', 2, 2),
-(-6, UUID(), '1997-01-01', 'David', 'Wilson', 'DWilson', 'david.wilson@example.com', 'DavidW', 2, 2),
-(-7, UUID(), '1995-01-01', 'Eva', 'Martinez', 'EvaMar', 'eva.martinez@example.com', 'EvaM', 2, 2),
-(-8, UUID(), '1989-01-01', 'Frank', 'Miller', 'FrankMiler', 'frank.miller@example.com', 'FrankM', 2, 2),
-(-9, UUID(), '2000-01-01', 'Grace', 'Lee', 'GraceLee', 'grace.lee@example.com', 'GraceL', 2, 2),
-(-10, UUID(), '1998-01-01', 'Hank', 'Taylor', 'HankTaylor', 'hank.taylor@example.com', 'HankT', 2, 2),
-(-11, UUID(), '1978-01-01', 'David', 'Hedgar', 'DHedgar', 'davidhedgar@yahoo.fr', 'Z-Event', 3, 2);
+INSERT INTO streamer (id, uuid, birth_date, first_name, last_name, pseudo, email, channel, rule, status) VALUES
+(-1, '123e4567-e89b-12d3-a456-426614174000', '1999-01-01', 'John', 'Doe', 'JDoe', 'john.doe@example.com', 'JohnDoeGaming', 2, 2),
+(-2, '123e4567-e89b-12d3-a456-426614174001', '1994-01-01', 'Jane', 'Smith', 'JaneSmith', 'jane.smith@example.com', 'JaneSmithPlays', 2, 2),
+(-3, '123e4567-e89b-12d3-a456-426614174002', '1996-01-01', 'Alice', 'Johnson', 'AliceJ', 'alice.johnson@example.com', 'AliceJ', 2, 2),
+(-4, '123e4567-e89b-12d3-a456-426614174003', '1992-01-01', 'Bob', 'Brown', 'BobBrown', 'bob.brown@example.com', 'BobB', 2, 2),
+(-5, '123e4567-e89b-12d3-a456-426614174004', '2002-01-01', 'Charlie', 'Davis', 'CharlieDavis', 'charlie.davis@example.com', 'CharlieD', 2, 2),
+(-6, '123e4567-e89b-12d3-a456-426614174005', '1997-01-01', 'David', 'Wilson', 'DWilson', 'david.wilson@example.com', 'DavidW', 2, 2),
+(-7, '123e4567-e89b-12d3-a456-426614174006', '1995-01-01', 'Eva', 'Martinez', 'EvaMar', 'eva.martinez@example.com', 'EvaM', 2, 2),
+(-8, '123e4567-e89b-12d3-a456-426614174007', '1989-01-01', 'Frank', 'Miller', 'FrankMiler', 'frank.miller@example.com', 'FrankM', 2, 2),
+(-9, '123e4567-e89b-12d3-a456-426614174008', '2000-01-01', 'Grace', 'Lee', 'GraceLee', 'grace.lee@example.com', 'GraceL', 2, 2),
+(-10, '123e4567-e89b-12d3-a456-426614174009', '1998-01-01', 'Hank', 'Taylor', 'HankTaylor', 'hank.taylor@example.com', 'HankT', 2, 2),
+(-11, '123e4567-e89b-12d3-a456-426614174010', '1978-01-01', 'David', 'Hedgar', 'DHedgar', 'davidhedgar@yahoo.fr', 'Z-Event', 3, 2);
+
 
 
 INSERT INTO live (id, uuid, title, description, themes, date_start, date_end, pegi, streamer_id) VALUES
