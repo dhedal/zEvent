@@ -44,7 +44,7 @@ public class Live implements IEntity{
     public Long getId() {
         return id;
     }
-    @Override
+
     public String getUuid() {
         return uuid;
     }

@@ -1,6 +1,5 @@
 package com.ecf.zevent.model;
 
-import com.ecf.zevent.util.RuleDeserializer;
 import com.ecf.zevent.util.StreamerStatusDeserializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;

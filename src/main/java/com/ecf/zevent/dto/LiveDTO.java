@@ -29,7 +29,7 @@ public class LiveDTO {
         this.pegi = live.getPegi();
         this.dateStart = live.getDateStart();
         this.dateEnd = live.getDateEnd();
-        this.streamerPseudo = live.getStreamer().getPseudo();
+        this.streamerPseudo = live.getStreamer().getPublicData().getPseudo();
     }
 
     public String getUuid() {

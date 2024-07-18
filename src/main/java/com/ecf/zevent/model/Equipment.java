@@ -31,7 +31,7 @@ public class Equipment implements IEntity{
         return id;
     }
 
-    @Override
+
     public String getUuid() {
         return uuid;
     }

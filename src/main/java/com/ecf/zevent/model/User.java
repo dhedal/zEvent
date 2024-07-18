@@ -18,7 +18,7 @@ public class User implements IEntity{
     public Long getId() {
         return id;
     }
-    @Override
+
     public String getUuid() {
         return uuid;
     }

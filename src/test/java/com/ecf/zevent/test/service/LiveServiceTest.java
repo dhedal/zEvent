@@ -3,6 +3,7 @@ package com.ecf.zevent.test.service;
 import com.ecf.zevent.model.*;
 import com.ecf.zevent.service.LiveService;
 import com.ecf.zevent.service.StreamerService;
+import com.ecf.zevent.test.util.StreamerDataGenerator;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,9 +47,8 @@ public class LiveServiceTest {
 
     @Test
     public void testCreateAndSaveNewLive() {
-        Streamer streamer = StreamerServiceTest.newSTreamer("david", "hedgar", "youtube", Rule.STREAMER);
-        streamer = this.streamerService.save(streamer);
-        assertNotNull(streamer.getId());
+        Streamer streamer = this.streamerService.save(StreamerDataGenerator.generate());
+        StreamerServiceTest.assertNewStreamer(streamer);
 
         Live live = this.newLive("let'play", List.of(ThematiqueType.FPS),
                 LocalDateTime.of(2024, Month.JUNE, 15, 20, 30),
@@ -73,9 +73,8 @@ public class LiveServiceTest {
 
     @Test
     public void testLiveUpdated() {
-        Streamer streamer = StreamerServiceTest.newSTreamer("david", "hedgar", "youtube", Rule.STREAMER);
-        streamer = this.streamerService.save(streamer);
-        assertNotNull(streamer.getId());
+        Streamer streamer = this.streamerService.save(StreamerDataGenerator.generate());
+        StreamerServiceTest.assertNewStreamer(streamer);
 
         Live live = this.newLive("let'play", List.of(ThematiqueType.MOBA),
                 LocalDateTime.of(2024, Month.JUNE, 15, 20, 30),
@@ -109,9 +108,8 @@ public class LiveServiceTest {
 
     @Test
     public void testDeleteLive() {
-        Streamer streamer = StreamerServiceTest.newSTreamer("david", "hedgar", "youtube", Rule.STREAMER);
-        streamer = this.streamerService.save(streamer);
-        assertNotNull(streamer.getId());
+        Streamer streamer = this.streamerService.save(StreamerDataGenerator.generate());
+        StreamerServiceTest.assertNewStreamer(streamer);
 
         Live live = this.newLive("let'play", List.of(ThematiqueType.RTS),
                 LocalDateTime.of(2024, Month.JUNE, 15, 20, 30),
@@ -132,9 +130,13 @@ public class LiveServiceTest {
     public void testLiveAll() {
         int  liveCount = this.liveService.listAll().size();
 
-        Streamer s1 = this.streamerService.save(StreamerServiceTest.newSTreamer("anne-marie", "thiam", "twitch", Rule.STREAMER));
-        Streamer s2 = this.streamerService.save(StreamerServiceTest.newSTreamer("sarah", "hedgar", "drama", Rule.STREAMER));
-        Streamer s3 = this.streamerService.save(StreamerServiceTest.newSTreamer("david", "hedgar", "youtube", Rule.ADMIN));
+        Streamer s1 = this.streamerService.save(StreamerDataGenerator.generate());
+        StreamerServiceTest.assertNewStreamer(s1);
+        Streamer s2 = this.streamerService.save(StreamerDataGenerator.generate());
+        StreamerServiceTest.assertNewStreamer(s2);
+        Streamer s3 = this.streamerService.save(StreamerDataGenerator.generate());
+        StreamerServiceTest.assertNewStreamer(s3);
+
 
         List<Live> lives = List.of(
                 this.newLive("let'play", List.of(ThematiqueType.JEUX_D_AVENTURE_ET_DE_ROLE),
@@ -162,8 +164,8 @@ public class LiveServiceTest {
 
     @Test
     public void testFindLivesByDate() {
-        Streamer streamer = StreamerServiceTest.newSTreamer("alexandre", "hedgar", "youtube", Rule.STREAMER);
-        this.streamerService.save(streamer);
+        Streamer streamer = this.streamerService.save(StreamerDataGenerator.generate());
+        StreamerServiceTest.assertNewStreamer(streamer);
 
         Live live = this.newLive("let'play", List.of(ThematiqueType.JEUX_DE_CARTES_ET_DE_STRATEGIE),
                 LocalDateTime.of(2024, Month.JUNE, 15, 20, 30),
@@ -182,8 +184,8 @@ public class LiveServiceTest {
 
     @Test
     public void testFindLivesByStreamer() {
-        Streamer streamer = StreamerServiceTest.newSTreamer("alexandre", "hedgar", "youtube", Rule.STREAMER);
-        this.streamerService.save(streamer);
+        Streamer streamer = this.streamerService.save(StreamerDataGenerator.generate());
+        StreamerServiceTest.assertNewStreamer(streamer);
 
         Live live = this.newLive("let'play", List.of(ThematiqueType.MMORPG),
                 LocalDateTime.of(2024, Month.JUNE, 15, 20, 30),
@@ -200,8 +202,8 @@ public class LiveServiceTest {
 
     @Test
     public void testFindLivesByTheme() {
-        Streamer streamer = StreamerServiceTest.newSTreamer("alexandre", "hedgar", "youtube", Rule.STREAMER);
-        this.streamerService.save(streamer);
+        Streamer streamer = this.streamerService.save(StreamerDataGenerator.generate());
+        StreamerServiceTest.assertNewStreamer(streamer);
 
         List<Live> livesFPS = List.of(
                 this.newLive("Call of duty", List.of(ThematiqueType.RTS, ThematiqueType.BATTLE_ROYALE),
@@ -234,10 +236,11 @@ public class LiveServiceTest {
 
     @Test
     public void testFindLiveByDateAndThematiqueAndStreamer() {
-        Streamer streamer = StreamerServiceTest.newSTreamer("Julien", "Chièze", "youtube", Rule.STREAMER);
-        Streamer streamer2 = StreamerServiceTest.newSTreamer("X", "Serve", "youtube", Rule.STREAMER);
-        this.streamerService.save(streamer);
-        this.streamerService.save(streamer2);
+        Streamer streamer = this.streamerService.save(StreamerDataGenerator.generate());
+        StreamerServiceTest.assertNewStreamer(streamer);
+
+        Streamer streamer2 = this.streamerService.save(StreamerDataGenerator.generate());
+        StreamerServiceTest.assertNewStreamer(streamer2);
 
         Live live1 = this.newLive(
                 "Elden ring",
@@ -303,7 +306,7 @@ public class LiveServiceTest {
         assertFalse(result.contains(live3b));
 
         // TEST LE PSEUDO
-        result = this.liveService.findLivesBy(null, null, streamer.getPseudo());
+        result = this.liveService.findLivesBy(null, null, streamer.getPublicData().getPseudo());
         assertNotNull(result);
         assertTrue(result.contains(live3));
         assertTrue(result.contains(live1));
@@ -322,7 +325,7 @@ public class LiveServiceTest {
         assertFalse(result.contains(live3b));
 
         // TEST LA DATE ET LE PSEUDO
-        result = this.liveService.findLivesBy(localDate, null, streamer2.getPseudo());
+        result = this.liveService.findLivesBy(localDate, null, streamer2.getPublicData().getPseudo());
         assertNotNull(result);
         assertTrue(result.contains(live1b));
         assertFalse(result.contains(live1));
@@ -331,7 +334,7 @@ public class LiveServiceTest {
         assertFalse(result.contains(live3b));
 
         // TEST LA THEMATIQUE ET LE PSEUDO
-        result = this.liveService.findLivesBy(null, ThematiqueType.JEUX_D_AVENTURE_ET_DE_ROLE, streamer.getPseudo());
+        result = this.liveService.findLivesBy(null, ThematiqueType.JEUX_D_AVENTURE_ET_DE_ROLE, streamer.getPublicData().getPseudo());
         assertNotNull(result);
         assertTrue(result.contains(live1));
         assertTrue(result.contains(live3b));
@@ -340,7 +343,7 @@ public class LiveServiceTest {
         assertFalse(result.contains(live3));
 
         // TEST LA DATE, LA THEMATIQUE ET LE PSEUDO 1
-        result = this.liveService.findLivesBy(localDate, ThematiqueType.FPS, streamer2.getPseudo());
+        result = this.liveService.findLivesBy(localDate, ThematiqueType.FPS, streamer2.getPublicData().getPseudo());
         assertNotNull(result);
         assertTrue(result.contains(live1b));
         assertFalse(result.contains(live1));
@@ -349,7 +352,7 @@ public class LiveServiceTest {
         assertFalse(result.contains(live3));
 
         // TEST LA DATE, LA THEMATIQUE ET LE PSEUDO 2
-        result = this.liveService.findLivesBy(localDate, ThematiqueType.JEUX_D_AVENTURE_ET_DE_ROLE, streamer2.getPseudo());
+        result = this.liveService.findLivesBy(localDate, ThematiqueType.JEUX_D_AVENTURE_ET_DE_ROLE, streamer2.getPublicData().getPseudo());
         assertNotNull(result);
         assertFalse(result.contains(live1b));
         assertFalse(result.contains(live1));
@@ -358,11 +361,15 @@ public class LiveServiceTest {
         assertFalse(result.contains(live3));
     }
 
+    /**
+     * Il faut des lives enregistrés en base de donnée
+     * pour effectuer ce test
+     * TODO: recoder le test unitaire
+     */
     @Test
     public void testFindLivesByDateStartGreaterThanEqual() {
         LocalDateTime localDateTime = LocalDateTime.now();
         List<Live> result = this.liveService.findByDateStartGreaterThanEqual(localDateTime);
-        LOG.info("***********\n" + result.toString());
         assertNotNull(result);
         assertTrue(result.size() >= 1);
         result.forEach(live -> assertTrue(live.getDateStart().isAfter(localDateTime)));
@@ -378,8 +385,8 @@ public class LiveServiceTest {
 
     @Test
     public void testFindLivesByThemes() {
-        Streamer streamer = StreamerServiceTest.newSTreamer("alexandre", "hedgar", "youtube", Rule.STREAMER);
-        this.streamerService.save(streamer);
+        Streamer streamer = this.streamerService.save(StreamerDataGenerator.generate());
+        StreamerServiceTest.assertNewStreamer(streamer);
 
         List<Live> livesFPS = List.of(
                 this.newLive("Call of duty", List.of(ThematiqueType.RTS, ThematiqueType.BATTLE_ROYALE),

@@ -3,8 +3,10 @@ package com.ecf.zevent.test.service;
 
 import com.ecf.zevent.model.Rule;
 import com.ecf.zevent.model.Streamer;
+import com.ecf.zevent.model.StreamerPublicData;
 import com.ecf.zevent.model.StreamerStatus;
 import com.ecf.zevent.service.StreamerService;
+import com.ecf.zevent.test.util.StreamerDataGenerator;
 import com.ecf.zevent.test.utils.DateUtils;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -30,16 +32,17 @@ public class StreamerServiceTest {
 
     public static Streamer newSTreamer(String firstName, String lastName, String channel, Rule rule) {
 
-        Streamer streamer = new Streamer();
-        streamer.setPseudo(firstName + "-" + lastName + "-" + random.nextInt(100000));
-        streamer.setFirstName(firstName);
-        streamer.setLastName(lastName);
-        streamer.setEmail(streamer.getPseudo() + "@email.com");
-        streamer.setBirthDate(DateUtils.randomBirthDate());
-        streamer.setChannel(channel);
-        streamer.setRule(rule);
-        streamer.setStatus(StreamerStatus.STREAMER_ACTIVATE);
-        return streamer;
+//        Streamer streamer = new Streamer();
+//        streamer.setPseudo(firstName + "-" + lastName + "-" + random.nextInt(100000));
+//        streamer.setFirstName(firstName);
+//        streamer.setLastName(lastName);
+//        streamer.setEmail(streamer.getPseudo() + "@email.com");
+//        streamer.setBirthDate(DateUtils.randomBirthDate());
+//        streamer.setChannel(channel);
+//        streamer.setRule(rule);
+//        streamer.setStatus(StreamerStatus.STREAMER_ACTIVATE);
+//        return streamer;
+        return null;
     }
 
     /**
@@ -47,21 +50,11 @@ public class StreamerServiceTest {
      */
     @Test
     public void testCreateAndSaveNewStreamer () {
-        Streamer streamer = this.newSTreamer("david", "hedgar", "youtube", Rule.STREAMER);
-
-        Streamer streamerCreated = this.streamerService.save(streamer);
-
+        Streamer streamerCreated = this.streamerService.save(StreamerDataGenerator.generate());
+        this.assertNewStreamer(streamerCreated);
         try{
-            Streamer streamerExpected = this.streamerService.findById(streamerCreated.getId());
-            assertNotNull(streamerExpected);
-            assertNotNull(streamerExpected.getUuid());
-            assertNotNull(streamerExpected.getCreatedAt());
-            assertNull(streamerCreated.getUpdatedAt());
-            assertEquals(streamerExpected.getId(), streamerCreated.getId());
-            assertEquals(streamerExpected.getFirstName(), streamerCreated.getFirstName());
-            assertEquals(streamerExpected.getLastName(), streamerCreated.getLastName());
-            assertEquals(Rule.STREAMER, streamerExpected.getRule());
-            assertEquals(StreamerStatus.STREAMER_ACTIVATE, streamerExpected.getStatus());
+            Streamer other = this.streamerService.findById(streamerCreated.getId());
+            assertTrue(streamerCreated.equals(other));
         } catch (Throwable ex) {
             fail(ex.toString());
         }
@@ -69,35 +62,31 @@ public class StreamerServiceTest {
 
     @Test
     public void testStreamerUpdated() {
-        Streamer streamer = newSTreamer("david", "hedgar", "youtube", Rule.STREAMER);
+        Streamer streamerCreated = this.streamerService.save(StreamerDataGenerator.generate());
+        this.assertNewStreamer(streamerCreated);
 
-        Streamer streamerCreated = this.streamerService.save(streamer);
+        final String firstName = "alexandre";
+        streamerCreated.getPrivateData().setFirstName(firstName);
+        this.streamerService.save(streamerCreated);
 
-        streamerCreated.setFirstName("alexandre");
-        this.streamerService.save(streamer);
-
-        try{
-            Streamer streamerExpected = this.streamerService.findById(streamerCreated.getId());
-            assertNotNull(streamerExpected);
-            assertNotNull(streamerExpected.getCreatedAt());
-            assertNotNull(streamerExpected.getUpdatedAt());
-            assertEquals(streamerExpected.getId(), streamerCreated.getId());
-            assertEquals(streamerExpected.getLastName(), streamerCreated.getLastName());
-            assertEquals(Rule.STREAMER, streamerExpected.getRule());
-            assertEquals("alexandre", streamerExpected.getFirstName());
+        try {
+            Streamer streamerUpdated = this.streamerService.findById(streamerCreated.getId());
+            assertNotNull(streamerUpdated.getUpdatedAt());
+            assertEquals(firstName, streamerUpdated.getPrivateData().getFirstName());
         } catch (Throwable ex) {
             fail(ex.toString());
         }
+
     }
 
     @Test
     public void testDeleteStreamer() {
-        Streamer streamer = this.newSTreamer("david", "hedgar", "youtube", Rule.STREAMER);
-        final Streamer streamerSaved = this.streamerService.save(streamer);
+        final Streamer streamer = this.streamerService.save(StreamerDataGenerator.generate());
+        this.assertNewStreamer(streamer);
 
         assertThrows(ResourceNotFoundException.class, () -> {
-            this.streamerService.delete(streamerSaved.getId());
-            Streamer streamerDeleted = this.streamerService.findById(streamerSaved.getId());
+            this.streamerService.delete(streamer.getId());
+            Streamer streamerDeleted = this.streamerService.findById(streamer.getId());
             assertNull(streamerDeleted);
         });
 
@@ -107,55 +96,60 @@ public class StreamerServiceTest {
     public void testListAll() {
         int streamerCount = this.streamerService.listAll().size();
 
-        List<Streamer> streamers = List.of(
-                this.newSTreamer("anne-marie", "thiam", "twitch", Rule.USER),
-                this.newSTreamer("sarah", "hedgar", "drama", Rule.STREAMER),
-                this.newSTreamer("david", "hedgar", "youtube", Rule.ADMIN)
-        );
+        List<Streamer> streamers = StreamerDataGenerator.generateList(3);
 
         streamers.forEach(streamer -> this.streamerService.save(streamer));
 
-        assertEquals(streamerCount + streamers.size(), this.streamerService.listAll().size());
+        List<Streamer> list = this.streamerService.listAll();
 
-
+        assertEquals(streamerCount + streamers.size(), list.size());
+        assertTrue(list.containsAll(streamers));
     }
 
     @Test
     public void testPseudoList() {
         int streamerCount = this.streamerService.listAll().size();
 
-        List<Streamer> streamers = List.of(
-                this.newSTreamer("manu", "chao", "twitch", Rule.USER),
-                this.newSTreamer("lucie", "herman", "drama", Rule.STREAMER),
-                this.newSTreamer("rodrigue", "rodriguer", "youtube", Rule.ADMIN)
-        );
-
+        List<Streamer> streamers = StreamerDataGenerator.generateList(3);
+        List<String> pseudoList = streamers.stream()
+                .map(Streamer::getPublicData)
+                .map(StreamerPublicData::getPseudo)
+                .toList();
         streamers.forEach(streamer -> this.streamerService.save(streamer));
 
         List<String> pseudos = this.streamerService.getPseudoList();
+        LOG.info(pseudoList.toString());
+        LOG.info(pseudos.toString());
         assertNotNull(pseudos);
+        assertFalse(pseudos.isEmpty());
         assertEquals(streamerCount + streamers.size(), pseudos.size());
+        assertTrue(pseudos.containsAll(pseudoList));
 
-        streamers.forEach(streamer -> assertTrue(pseudos.contains(streamer.getPseudo())));
     }
 
     @Test
     public void testFindStreamerByPseudo() {
-        Streamer streamer = this.newSTreamer("zar", "toch", "youtube", Rule.STREAMER);
-        this.streamerService.save(streamer);
-        Streamer result = this.streamerService.findByPseudo(streamer.getPseudo());
+        final Streamer streamer = this.streamerService.save(StreamerDataGenerator.generate());
+        this.assertNewStreamer(streamer);
+
+        Streamer result = this.streamerService.findByPseudo(streamer.getPublicData().getPseudo());
         assertNotNull(result);
         assertEquals(streamer, result);
     }
 
     @Test
     public void testFindStreamerByUuid() {
-        Streamer streamer = this.newSTreamer("zar", "toch", "youtube", Rule.STREAMER);
-        Streamer streamerSaved = this.streamerService.save(streamer);
-        assertNotNull(streamerSaved);
-        assertNotNull(streamerSaved.getUuid());
-        Streamer result = this.streamerService.findByUuid(streamerSaved.getUuid());
-        assertEquals(result, streamerSaved);
+        final Streamer streamer = this.streamerService.save(StreamerDataGenerator.generate());
+        this.assertNewStreamer(streamer);
+
+        Streamer result = this.streamerService.findByUuid(streamer.getUuid());
+        assertEquals(result, streamer);
     }
 
+    public static void assertNewStreamer(Streamer streamer) {
+        assertNotNull(streamer);
+        assertNotNull(streamer.getId());
+        assertNotNull(streamer.getUuid());
+        assertNotNull(streamer.getCreatedAt());
+    }
 }

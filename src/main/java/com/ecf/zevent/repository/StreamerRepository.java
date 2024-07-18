@@ -10,8 +10,8 @@ import java.util.UUID;
 @Repository
 public interface StreamerRepository extends JpaRepository<Streamer, Long> {
 
+    @Query("SELECT s FROM Streamer s WHERE s.publicData.pseudo = :pseudo")
     public Streamer findByPseudo(String pseudo);
 
-    @Query("SELECT s FROM Streamer s WHERE s.uuid = :uuid")
-    public Streamer findUuidByUuidString(String uuid);
+    public Streamer findByUuid(String uuid);
 }

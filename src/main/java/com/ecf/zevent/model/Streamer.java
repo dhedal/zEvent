@@ -16,18 +16,16 @@ public class Streamer implements IEntity{
     private Long id;
     @Column(updatable = false, nullable = false, unique = true, length = 36)
     private String uuid;
-    @Column(unique = true, nullable = false, length = 50)
-    private String pseudo;
-    @Column(nullable = false, length = 50)
-    private String firstName;
-    @Column(nullable = false, length = 50)
-    private String lastName;
-    @Column(unique = true, nullable = false, length = 100)
-    private String email;
-    @Column(nullable = false)
-    private LocalDate birthDate;
-    @Column(nullable = false, length = 100)
-    private String channel;
+
+    @Embedded
+    private StreamerPrivateData privateData;
+    @Embedded
+    private StreamerPublicData publicData;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "auth_data_id", referencedColumnName = "id")
+    private AuthenticationData authenticationData;
+
     @Column(nullable = false)
     private Rule rule;
     @Column(nullable = false)
@@ -38,79 +36,42 @@ public class Streamer implements IEntity{
     @Column(nullable = true)
     private LocalDateTime updatedAt;
 
+    @Override
     public Long getId() {
         return id;
     }
-    @Override
+
     public String getUuid() {
         return uuid;
     }
+
     @Override
     public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public StreamerPrivateData getPrivateData() {
+        return privateData;
     }
 
-    public String getPseudo() {
-        return pseudo;
+    public void setPrivateData(StreamerPrivateData privateData) {
+        this.privateData = privateData;
     }
 
-    public void setPseudo(String pseudo) {
-        this.pseudo = pseudo;
+    public StreamerPublicData getPublicData() {
+        return publicData;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setPublicData(StreamerPublicData publicData) {
+        this.publicData = publicData;
     }
 
-    public String getLastName() {
-        return lastName;
+    public AuthenticationData getAuthenticationData() {
+        return authenticationData;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public LocalDate getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public String getChannel() {
-        return channel;
-    }
-
-    public void setChannel(String channel) {
-        this.channel = channel;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setAuthenticationData(AuthenticationData authenticationData) {
+        this.authenticationData = authenticationData;
     }
 
     public Rule getRule() {
@@ -121,27 +82,29 @@ public class Streamer implements IEntity{
         this.rule = rule;
     }
 
-    public StreamerStatus getStatus() { return this.status;}
+    public StreamerStatus getStatus() {
+        return status;
+    }
 
-    public void setStatus(StreamerStatus status) { this.status = status;}
+    public void setStatus(StreamerStatus status) {
+        this.status = status;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 
     @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("Streamer{");
-        sb.append("id=").append(id);
-        sb.append(", uuid=").append(uuid);
-        sb.append(", pseudo='").append(pseudo).append('\'');
-        sb.append(", firstName='").append(firstName).append('\'');
-        sb.append(", lastName='").append(lastName).append('\'');
-        sb.append(", email='").append(email).append('\'');
-        sb.append(", birthDate=").append(birthDate);
-        sb.append(", channel='").append(channel).append('\'');
-        sb.append(", rule=").append(rule);
-        sb.append(", status=").append(status);
-        sb.append(", createdAt=").append(createdAt);
-        sb.append(", updatedAt=").append(updatedAt);
-        sb.append('}');
-        return sb.toString();
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     @Override
@@ -156,18 +119,30 @@ public class Streamer implements IEntity{
         Streamer that = (Streamer) obj;
         if(this.id == null && that.id == null) {
             return Objects.equals(this.uuid, that.uuid) &&
-                    Objects.equals(this.email, that.email) &&
-                    Objects.equals(this.pseudo, that.pseudo) &&
-                    Objects.equals(this.email, that.email) &&
-                    Objects.equals(this.channel, that.channel) &&
-                    Objects.equals(this.firstName, this.lastName) &&
-                    Objects.equals(this.lastName, that.lastName) &&
-                    Objects.equals(this.birthDate, that.birthDate) &&
+                    this.privateData.equals(that.privateData) &&
+                    this.publicData.equals(that.publicData) &&
+                    this.authenticationData.equals(that.authenticationData) &&
                     Objects.equals(this.rule, that.rule) &&
                     Objects.equals(this.status, that.status) &&
-                    Objects.equals(this.createdAt, that.createdAt);
-        }
+                    Objects.equals(this.createdAt, that.createdAt) &&
+                    Objects.equals(this.updatedAt, this.updatedAt);
 
+        }
         return Objects.equals(this.id, that.id);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Streamer{");
+        sb.append("id=").append(id);
+        sb.append(", uuid='").append(uuid).append('\'');
+        sb.append(", privateData=").append(privateData);
+        sb.append(", publicData=").append(publicData);
+        sb.append(", rule=").append(rule);
+        sb.append(", status=").append(status);
+        sb.append(", createdAt=").append(createdAt);
+        sb.append(", updatedAt=").append(updatedAt);
+        sb.append('}');
+        return sb.toString();
     }
 }

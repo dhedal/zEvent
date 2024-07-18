@@ -26,16 +26,16 @@ public class StreamerController {
     @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<StreamerDTO> saveStreamer(@RequestBody StreamerDTO streamerDTO) {
         try {
-            LOG.debug(streamerDTO.toString());
-            Streamer streamer = StreamerDTO.parseStreamerDTOToStreamer(streamerDTO);
-            LOG.debug(streamer.toString());
-            streamer = this.streamerService.save(streamer);
-            LOG.debug(streamer.toString());
-            return ResponseEntity.ok(StreamerDTO.parse(streamer));
+//            LOG.debug(streamerDTO.toString());
+//            Streamer streamer = StreamerDTO.parseStreamerDTOToStreamer(streamerDTO);
+//            LOG.debug(streamer.toString());
+//            streamer = this.streamerService.save(streamer);
+//            LOG.debug(streamer.toString());
+//            return ResponseEntity.ok(StreamerDTO.parse(streamer));
         } catch (Exception e){
             LOG.error(e.toString());
         }
-        return ResponseEntity.ok(StreamerDTO.getEmpty());
+        return ResponseEntity.ok(new StreamerDTO());
     }
 
     @GetMapping(path = "/id", produces = "application/hal+json")
@@ -52,7 +52,7 @@ public class StreamerController {
     @GetMapping(path = "/list", produces = "application/hal+json")
     public ResponseEntity<List<StreamerDTO>> getStreamerList() {
         List<Streamer> streamers = this.streamerService.listAll();
-        return ResponseEntity.ok(StreamerDTO.parseStreamerListToStreamerDTOList(this.streamerService.listAll()));
+        return ResponseEntity.ok(List.of(new StreamerDTO()));
     }
 
     @GetMapping(path = "/pseudo/{pseudo}", produces = "application/hal+json")
@@ -61,12 +61,12 @@ public class StreamerController {
             if(pseudo == null || pseudo.isEmpty()) throw new InvalidParameterException("le paramètre pseudo est invalide!!!");
             Streamer streamer = this.streamerService.findByPseudo(pseudo);
             if(streamer == null) throw new ResourceNotFoundException("la resource streamer est introuvable !!!");
-            return ResponseEntity.ok(StreamerDTO.parse(streamer));
+            return ResponseEntity.ok(new StreamerDTO());
         } catch (Exception ex) {
             LOG.error(ex.toString());
         }
 
-        return ResponseEntity.ok(StreamerDTO.getEmpty());
+        return ResponseEntity.ok(new StreamerDTO());
 
     }
 
