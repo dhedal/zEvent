@@ -1,4 +1,4 @@
-package com.ecf.zevent.model;
+package com.ecf.zevent.model.enumerations;
 
 import com.ecf.zevent.util.RuleDeserializer;
 import com.fasterxml.jackson.annotation.JsonFormat;

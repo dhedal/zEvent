@@ -1,11 +1,9 @@
 package com.ecf.zevent.repository;
 
-import com.ecf.zevent.controller.LiveController;
 import com.ecf.zevent.model.Live;
 import com.ecf.zevent.model.Streamer;
-import com.ecf.zevent.model.ThematiqueType;
+import com.ecf.zevent.model.enumerations.ThematiqueType;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.Parameter;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import jakarta.persistence.criteria.*;

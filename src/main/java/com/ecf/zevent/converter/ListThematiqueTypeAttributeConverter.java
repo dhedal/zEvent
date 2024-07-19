@@ -1,11 +1,8 @@
 package com.ecf.zevent.converter;
 
-import com.ecf.zevent.model.ThematiqueType;
-import com.ecf.zevent.repository.LiveRepositoryCustomImpl;
+import com.ecf.zevent.model.enumerations.ThematiqueType;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.stream.Collectors;

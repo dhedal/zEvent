@@ -1,4 +1,4 @@
-package com.ecf.zevent.model;
+package com.ecf.zevent.model.embeddables;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

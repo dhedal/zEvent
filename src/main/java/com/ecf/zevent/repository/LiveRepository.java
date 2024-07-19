@@ -2,7 +2,6 @@ package com.ecf.zevent.repository;
 
 import com.ecf.zevent.model.Live;
 import com.ecf.zevent.model.Streamer;
-import com.ecf.zevent.model.ThematiqueType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

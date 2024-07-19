@@ -1,6 +1,6 @@
 package com.ecf.zevent.converter;
 
-import com.ecf.zevent.model.Rule;
+import com.ecf.zevent.model.enumerations.Rule;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 

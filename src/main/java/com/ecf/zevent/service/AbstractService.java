@@ -1,6 +1,6 @@
 package com.ecf.zevent.service;
 
-import com.ecf.zevent.model.IEntity;
+import com.ecf.zevent.model.interfaces.IEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.JpaRepository;

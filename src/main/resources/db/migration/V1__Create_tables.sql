@@ -5,16 +5,24 @@ CREATE TABLE IF NOT EXISTS `streamer` (
 `first_name` varchar(50) NOT NULL,
 `last_name` varchar(50) NOT NULL,
 `pseudo` varchar(50) NOT NULL,
-`email` varchar(100) NOT NULL,
 `channel` varchar(100) NOT NULL,
 `rule` int NOT NULL,
 `status` int NOT NULL,
+`auth_data_id` bigint DEFAULT NULL,
 `created_at` datetime(6) DEFAULT NULL,
 `updated_at` datetime(6) DEFAULT NULL,
 PRIMARY KEY (`id`),
 UNIQUE KEY `UKgx8qgn1tp5aedpoami0ilv02g` (`uuid`),
 UNIQUE KEY `UKg9wso2ihi5bm2y1kup7c250d5` (`pseudo`),
-UNIQUE KEY `UK2shs6h3sf08t0vldshliuwvjw` (`email`)
+UNIQUE KEY `UKia2nttx1btykhg9vmn1r115pj` (`auth_data_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE IF NOT EXISTS `authentication_data` (
+`id` bigint NOT NULL,
+`email` varchar(100) NOT NULL,
+`password` varchar(30) NOT NULL,
+PRIMARY KEY (`id`),
+UNIQUE KEY `UKhlvtcx7w5shxtwmpohrippwcn` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE IF NOT EXISTS `live` (

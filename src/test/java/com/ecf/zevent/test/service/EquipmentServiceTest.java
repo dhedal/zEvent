@@ -1,7 +1,7 @@
 package com.ecf.zevent.test.service;
 
 import com.ecf.zevent.model.Equipment;
-import com.ecf.zevent.model.EquipmentType;
+import com.ecf.zevent.model.enumerations.EquipmentType;
 import com.ecf.zevent.service.EquipmentService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

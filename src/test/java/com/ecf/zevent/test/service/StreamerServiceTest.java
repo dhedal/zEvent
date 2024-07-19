@@ -1,13 +1,9 @@
 package com.ecf.zevent.test.service;
 
-
-import com.ecf.zevent.model.Rule;
 import com.ecf.zevent.model.Streamer;
-import com.ecf.zevent.model.StreamerPublicData;
-import com.ecf.zevent.model.StreamerStatus;
+import com.ecf.zevent.model.embeddables.StreamerPublicData;
 import com.ecf.zevent.service.StreamerService;
 import com.ecf.zevent.test.util.StreamerDataGenerator;
-import com.ecf.zevent.test.utils.DateUtils;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +13,6 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
-import java.util.Random;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,29 +22,14 @@ public class StreamerServiceTest {
     private static final Logger LOG = LoggerFactory.getLogger(StreamerServiceTest.class);
     @Autowired
     private StreamerService streamerService;
-    private static Random random = new Random();
 
-    public static Streamer newSTreamer(String firstName, String lastName, String channel, Rule rule) {
-
-//        Streamer streamer = new Streamer();
-//        streamer.setPseudo(firstName + "-" + lastName + "-" + random.nextInt(100000));
-//        streamer.setFirstName(firstName);
-//        streamer.setLastName(lastName);
-//        streamer.setEmail(streamer.getPseudo() + "@email.com");
-//        streamer.setBirthDate(DateUtils.randomBirthDate());
-//        streamer.setChannel(channel);
-//        streamer.setRule(rule);
-//        streamer.setStatus(StreamerStatus.STREAMER_ACTIVATE);
-//        return streamer;
-        return null;
-    }
 
     /**
      *
      */
     @Test
     public void testCreateAndSaveNewStreamer () {
-        Streamer streamerCreated = this.streamerService.save(StreamerDataGenerator.generate());
+        Streamer streamerCreated = this.streamerService.save(StreamerDataGenerator.newStreamer());
         this.assertNewStreamer(streamerCreated);
         try{
             Streamer other = this.streamerService.findById(streamerCreated.getId());
@@ -62,7 +41,7 @@ public class StreamerServiceTest {
 
     @Test
     public void testStreamerUpdated() {
-        Streamer streamerCreated = this.streamerService.save(StreamerDataGenerator.generate());
+        Streamer streamerCreated = this.streamerService.save(StreamerDataGenerator.newStreamer());
         this.assertNewStreamer(streamerCreated);
 
         final String firstName = "alexandre";
@@ -81,7 +60,7 @@ public class StreamerServiceTest {
 
     @Test
     public void testDeleteStreamer() {
-        final Streamer streamer = this.streamerService.save(StreamerDataGenerator.generate());
+        final Streamer streamer = this.streamerService.save(StreamerDataGenerator.newStreamer());
         this.assertNewStreamer(streamer);
 
         assertThrows(ResourceNotFoundException.class, () -> {
@@ -96,7 +75,7 @@ public class StreamerServiceTest {
     public void testListAll() {
         int streamerCount = this.streamerService.listAll().size();
 
-        List<Streamer> streamers = StreamerDataGenerator.generateList(3);
+        List<Streamer> streamers = StreamerDataGenerator.newStreamers(3);
 
         streamers.forEach(streamer -> this.streamerService.save(streamer));
 
@@ -110,7 +89,7 @@ public class StreamerServiceTest {
     public void testPseudoList() {
         int streamerCount = this.streamerService.listAll().size();
 
-        List<Streamer> streamers = StreamerDataGenerator.generateList(3);
+        List<Streamer> streamers = StreamerDataGenerator.newStreamers(3);
         List<String> pseudoList = streamers.stream()
                 .map(Streamer::getPublicData)
                 .map(StreamerPublicData::getPseudo)
@@ -129,7 +108,7 @@ public class StreamerServiceTest {
 
     @Test
     public void testFindStreamerByPseudo() {
-        final Streamer streamer = this.streamerService.save(StreamerDataGenerator.generate());
+        final Streamer streamer = this.streamerService.save(StreamerDataGenerator.newStreamer());
         this.assertNewStreamer(streamer);
 
         Streamer result = this.streamerService.findByPseudo(streamer.getPublicData().getPseudo());
@@ -139,7 +118,7 @@ public class StreamerServiceTest {
 
     @Test
     public void testFindStreamerByUuid() {
-        final Streamer streamer = this.streamerService.save(StreamerDataGenerator.generate());
+        final Streamer streamer = this.streamerService.save(StreamerDataGenerator.newStreamer());
         this.assertNewStreamer(streamer);
 
         Streamer result = this.streamerService.findByUuid(streamer.getUuid());

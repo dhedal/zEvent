@@ -1,15 +1,18 @@
 package com.ecf.zevent.model;
 
+import com.ecf.zevent.model.embeddables.StreamerPrivateData;
+import com.ecf.zevent.model.embeddables.StreamerPublicData;
+import com.ecf.zevent.model.enumerations.Rule;
+import com.ecf.zevent.model.enumerations.StreamerStatus;
+import com.ecf.zevent.model.interfaces.IEntity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-public class Streamer implements IEntity{
+public class Streamer implements IEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

@@ -1,6 +1,6 @@
 package com.ecf.zevent.converter;
 
-import com.ecf.zevent.model.StreamerStatus;
+import com.ecf.zevent.model.enumerations.StreamerStatus;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 

@@ -2,7 +2,7 @@ package com.ecf.zevent.service;
 
 import com.ecf.zevent.model.Live;
 import com.ecf.zevent.model.Streamer;
-import com.ecf.zevent.model.ThematiqueType;
+import com.ecf.zevent.model.enumerations.ThematiqueType;
 import com.ecf.zevent.repository.LiveRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Service
 public class LiveService extends AbstractService<LiveRepository, Live> {

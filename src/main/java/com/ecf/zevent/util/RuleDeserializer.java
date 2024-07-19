@@ -1,6 +1,6 @@
 package com.ecf.zevent.util;
 
-import com.ecf.zevent.model.Rule;
+import com.ecf.zevent.model.enumerations.Rule;
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;

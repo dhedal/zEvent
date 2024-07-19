@@ -1,12 +1,14 @@
 package com.ecf.zevent.model;
 
+import com.ecf.zevent.model.enumerations.EquipmentType;
+import com.ecf.zevent.model.interfaces.IEntity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
-public class Equipment implements IEntity{
+public class Equipment implements IEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;

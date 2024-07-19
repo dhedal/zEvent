@@ -1,10 +1,10 @@
 package com.ecf.zevent.dto;
 
 import com.ecf.zevent.model.*;
-
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
+import com.ecf.zevent.model.embeddables.StreamerPrivateData;
+import com.ecf.zevent.model.embeddables.StreamerPublicData;
+import com.ecf.zevent.model.enumerations.Rule;
+import com.ecf.zevent.model.enumerations.StreamerStatus;
 
 public class StreamerDTO {
 

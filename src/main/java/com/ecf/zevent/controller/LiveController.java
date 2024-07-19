@@ -3,7 +3,7 @@ package com.ecf.zevent.controller;
 import com.ecf.zevent.dto.LiveDTO;
 import com.ecf.zevent.dto.ThemeAndPegiListDTO;
 import com.ecf.zevent.model.Live;
-import com.ecf.zevent.model.ThematiqueType;
+import com.ecf.zevent.model.enumerations.ThematiqueType;
 import com.ecf.zevent.service.LiveService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

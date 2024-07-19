@@ -1,13 +1,18 @@
 package com.ecf.zevent.test.util;
 
+import com.ecf.zevent.dto.SignupDTO;
 import com.ecf.zevent.model.*;
+import com.ecf.zevent.model.embeddables.StreamerPrivateData;
+import com.ecf.zevent.model.embeddables.StreamerPublicData;
+import com.ecf.zevent.model.enumerations.Rule;
+import com.ecf.zevent.model.enumerations.StreamerStatus;
 import com.ecf.zevent.test.utils.DateUtils;
+import com.ecf.zevent.util.PasswordUtil;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 public class StreamerDataGenerator {
 
@@ -59,7 +64,7 @@ public class StreamerDataGenerator {
         return pseudo + "@zevent.fr";
     }
 
-    public static Streamer generate() {
+    public static Streamer newStreamer() {
         StreamerPrivateData privateData = new StreamerPrivateData();
         privateData.setFirstName(instance().randomFirstName());
         privateData.setLastName(instance().randomLastName());
@@ -71,7 +76,7 @@ public class StreamerDataGenerator {
 
         AuthenticationData authenticationData = new AuthenticationData();
         authenticationData.setEmail(instance().formatEmail(publicData.getPseudo()));
-        authenticationData.setPassword("PASSWORD_TEMP");
+        authenticationData.setPassword(PasswordUtil.passwordTemp());
 
         Streamer streamer = new Streamer();
         streamer.setRule(Rule.STREAMER);
@@ -83,12 +88,24 @@ public class StreamerDataGenerator {
         return streamer;
     }
 
-    public static List<Streamer> generateList(int size) {
+    public static List<Streamer> newStreamers(int size) {
         List<Streamer> streamers = new ArrayList<>();
         for(int i = 0; i < size; i++) {
-            streamers.add(generate());
+            streamers.add(newStreamer());
         }
         return streamers;
+    }
+
+    public static SignupDTO newSignupDTO() {
+        Streamer streamer = newStreamer();
+        SignupDTO signupDTO = new SignupDTO();
+        signupDTO.setFirstName(streamer.getPrivateData().getFirstName());
+        signupDTO.setLastName(streamer.getPrivateData().getLastName());
+        signupDTO.setPseudo(streamer.getPublicData().getPseudo());
+        signupDTO.setChannel(streamer.getPublicData().getChannel());
+        signupDTO.setBirthDate(streamer.getPublicData().getBirthDate());
+        signupDTO.setEmail(streamer.getAuthenticationData().getEmail());
+        return signupDTO;
     }
 
 }

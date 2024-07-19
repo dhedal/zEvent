@@ -1,11 +1,13 @@
 package com.ecf.zevent.model;
 
+import com.ecf.zevent.model.interfaces.IEntity;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-public class AuthenticationData{
+public class AuthenticationData implements IEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
@@ -14,9 +16,6 @@ public class AuthenticationData{
     @Column(nullable = false, length = 30)
     private String password;
 
-    public Long getId() {
-        return id;
-    }
 
     public void setId(Long id) {
         this.id = id;
@@ -63,4 +62,15 @@ public class AuthenticationData{
         }
         return Objects.equals(this.id, that.id);
     }
+
+
+    public Long getId() {
+        return id;
+    }
+    @Override
+    public void setUuid(String uuid) {}
+    @Override
+    public void setCreatedAt(LocalDateTime createdAt) {}
+    @Override
+    public void setUpdatedAt(LocalDateTime updatedAt) {}
 }

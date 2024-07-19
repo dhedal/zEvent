@@ -1,6 +1,8 @@
 package com.ecf.zevent.test.service;
 
 import com.ecf.zevent.model.*;
+import com.ecf.zevent.model.enumerations.Pegi;
+import com.ecf.zevent.model.enumerations.ThematiqueType;
 import com.ecf.zevent.service.LiveService;
 import com.ecf.zevent.service.StreamerService;
 import com.ecf.zevent.test.util.StreamerDataGenerator;
@@ -17,7 +19,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.List;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -47,7 +48,7 @@ public class LiveServiceTest {
 
     @Test
     public void testCreateAndSaveNewLive() {
-        Streamer streamer = this.streamerService.save(StreamerDataGenerator.generate());
+        Streamer streamer = this.streamerService.save(StreamerDataGenerator.newStreamer());
         StreamerServiceTest.assertNewStreamer(streamer);
 
         Live live = this.newLive("let'play", List.of(ThematiqueType.FPS),
@@ -73,7 +74,7 @@ public class LiveServiceTest {
 
     @Test
     public void testLiveUpdated() {
-        Streamer streamer = this.streamerService.save(StreamerDataGenerator.generate());
+        Streamer streamer = this.streamerService.save(StreamerDataGenerator.newStreamer());
         StreamerServiceTest.assertNewStreamer(streamer);
 
         Live live = this.newLive("let'play", List.of(ThematiqueType.MOBA),
@@ -108,7 +109,7 @@ public class LiveServiceTest {
 
     @Test
     public void testDeleteLive() {
-        Streamer streamer = this.streamerService.save(StreamerDataGenerator.generate());
+        Streamer streamer = this.streamerService.save(StreamerDataGenerator.newStreamer());
         StreamerServiceTest.assertNewStreamer(streamer);
 
         Live live = this.newLive("let'play", List.of(ThematiqueType.RTS),
@@ -130,11 +131,11 @@ public class LiveServiceTest {
     public void testLiveAll() {
         int  liveCount = this.liveService.listAll().size();
 
-        Streamer s1 = this.streamerService.save(StreamerDataGenerator.generate());
+        Streamer s1 = this.streamerService.save(StreamerDataGenerator.newStreamer());
         StreamerServiceTest.assertNewStreamer(s1);
-        Streamer s2 = this.streamerService.save(StreamerDataGenerator.generate());
+        Streamer s2 = this.streamerService.save(StreamerDataGenerator.newStreamer());
         StreamerServiceTest.assertNewStreamer(s2);
-        Streamer s3 = this.streamerService.save(StreamerDataGenerator.generate());
+        Streamer s3 = this.streamerService.save(StreamerDataGenerator.newStreamer());
         StreamerServiceTest.assertNewStreamer(s3);
 
 
@@ -164,7 +165,7 @@ public class LiveServiceTest {
 
     @Test
     public void testFindLivesByDate() {
-        Streamer streamer = this.streamerService.save(StreamerDataGenerator.generate());
+        Streamer streamer = this.streamerService.save(StreamerDataGenerator.newStreamer());
         StreamerServiceTest.assertNewStreamer(streamer);
 
         Live live = this.newLive("let'play", List.of(ThematiqueType.JEUX_DE_CARTES_ET_DE_STRATEGIE),
@@ -184,7 +185,7 @@ public class LiveServiceTest {
 
     @Test
     public void testFindLivesByStreamer() {
-        Streamer streamer = this.streamerService.save(StreamerDataGenerator.generate());
+        Streamer streamer = this.streamerService.save(StreamerDataGenerator.newStreamer());
         StreamerServiceTest.assertNewStreamer(streamer);
 
         Live live = this.newLive("let'play", List.of(ThematiqueType.MMORPG),
@@ -202,7 +203,7 @@ public class LiveServiceTest {
 
     @Test
     public void testFindLivesByTheme() {
-        Streamer streamer = this.streamerService.save(StreamerDataGenerator.generate());
+        Streamer streamer = this.streamerService.save(StreamerDataGenerator.newStreamer());
         StreamerServiceTest.assertNewStreamer(streamer);
 
         List<Live> livesFPS = List.of(
@@ -236,10 +237,10 @@ public class LiveServiceTest {
 
     @Test
     public void testFindLiveByDateAndThematiqueAndStreamer() {
-        Streamer streamer = this.streamerService.save(StreamerDataGenerator.generate());
+        Streamer streamer = this.streamerService.save(StreamerDataGenerator.newStreamer());
         StreamerServiceTest.assertNewStreamer(streamer);
 
-        Streamer streamer2 = this.streamerService.save(StreamerDataGenerator.generate());
+        Streamer streamer2 = this.streamerService.save(StreamerDataGenerator.newStreamer());
         StreamerServiceTest.assertNewStreamer(streamer2);
 
         Live live1 = this.newLive(
@@ -385,7 +386,7 @@ public class LiveServiceTest {
 
     @Test
     public void testFindLivesByThemes() {
-        Streamer streamer = this.streamerService.save(StreamerDataGenerator.generate());
+        Streamer streamer = this.streamerService.save(StreamerDataGenerator.newStreamer());
         StreamerServiceTest.assertNewStreamer(streamer);
 
         List<Live> livesFPS = List.of(

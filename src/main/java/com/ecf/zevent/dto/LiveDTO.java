@@ -1,13 +1,12 @@
 package com.ecf.zevent.dto;
 
 import com.ecf.zevent.model.Live;
-import com.ecf.zevent.model.Pegi;
-import com.ecf.zevent.model.ThematiqueType;
+import com.ecf.zevent.model.enumerations.Pegi;
+import com.ecf.zevent.model.enumerations.ThematiqueType;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 public class LiveDTO {
 

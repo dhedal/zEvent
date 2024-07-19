@@ -183,3 +183,16 @@ export class Streamer {
         return JSON.stringify(this);
     }
 }
+
+export class Signup {
+    firstName;
+    lastName;
+    pseudo;
+    email;
+    birthData;
+    channel;
+
+    constructor() {
+    }
+
+}

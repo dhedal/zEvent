@@ -1,7 +1,7 @@
 package com.ecf.zevent.dto;
 
-import com.ecf.zevent.model.Pegi;
-import com.ecf.zevent.model.ThematiqueType;
+import com.ecf.zevent.model.enumerations.Pegi;
+import com.ecf.zevent.model.enumerations.ThematiqueType;
 
 public class ThemeAndPegiListDTO {
 

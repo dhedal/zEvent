@@ -1,8 +1,7 @@
 package com.ecf.zevent.converter;
 
-import com.ecf.zevent.model.ThematiqueType;
+import com.ecf.zevent.model.enumerations.ThematiqueType;
 import jakarta.persistence.AttributeConverter;
-import jakarta.persistence.Converter;
 
 import java.util.stream.Stream;
 

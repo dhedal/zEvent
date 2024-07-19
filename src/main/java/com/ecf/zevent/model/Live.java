@@ -1,18 +1,18 @@
 package com.ecf.zevent.model;
 
-import com.ecf.zevent.converter.ListThematiqueTypeAttributeConverter;
+import com.ecf.zevent.model.enumerations.Pegi;
+import com.ecf.zevent.model.enumerations.ThematiqueType;
+import com.ecf.zevent.model.interfaces.IEntity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 @Entity
-public class Live implements IEntity{
+public class Live implements IEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

@@ -1,6 +1,6 @@
 package com.ecf.zevent.util;
 
-import com.ecf.zevent.model.StreamerStatus;
+import com.ecf.zevent.model.enumerations.StreamerStatus;
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;

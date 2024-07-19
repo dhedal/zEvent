@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8080/api/";
+export const API_URL = "http://localhost:8080/api/";
 const API_STREAMER_URL = API_URL + "streamer/";
 const API_LIVE_URL = API_URL + "live/";
 

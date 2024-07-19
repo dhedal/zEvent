@@ -1,7 +1,7 @@
 package com.ecf.zevent.dto;
 
-import com.ecf.zevent.model.Rule;
-import com.ecf.zevent.model.StreamerStatus;
+import com.ecf.zevent.model.enumerations.Rule;
+import com.ecf.zevent.model.enumerations.StreamerStatus;
 
 public class RuleAndStatusListDTO {
     private Rule[] rules;

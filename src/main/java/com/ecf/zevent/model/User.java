@@ -1,11 +1,12 @@
 package com.ecf.zevent.model;
 
+import com.ecf.zevent.model.interfaces.IEntity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-public class User implements IEntity{
+public class User implements IEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;

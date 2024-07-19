@@ -1,5 +1,6 @@
 import {DateUtils} from "../util/dateUtils.js";
-import {Rule, Streamer, StreamerStatus} from "../model/models.js";
+import {Rule, Signup, StreamerStatus} from "../model/models.js";
+import {AuthService} from "../service/authService.js";
 
 class SignupForm {
     form;
@@ -108,8 +109,7 @@ class SignupForm {
         });
 
         this.submitBtn.addEventListener("click", event => {
-            const streamer = this.extractAndGetData();
-            this.form.dispatchEvent(this.dataStreamerEvent(streamer));
+            this.form.dispatchEvent(this.dataStreamerEvent(this.extractAndGetData()));
         });
     }
 
@@ -141,14 +141,14 @@ class SignupForm {
     }
 
     extractAndGetData = () => {
-        const streamer = new Streamer();
-        streamer.firstName = this.firstName.value;
-        streamer.lastName  = this.lastName.value;
-        streamer.pseudo    = this.pseudo.value;
-        streamer.email     = this.email.value;
-        streamer.birthDate = this.birthDate.value;
-        streamer.channel   = this.channel.value;
-        return streamer
+        const signup = new Signup();
+        signup.firstName = this.firstName.value;
+        signup.lastName  = this.lastName.value;
+        signup.pseudo    = this.pseudo.value;
+        signup.email     = this.email.value;
+        signup.birthDate = this.birthDate.value;
+        signup.channel   = this.channel.value;
+        return signup
     }
 }
 
@@ -156,7 +156,10 @@ class SignupForm {
 (function() {
     const form = new SignupForm("signupForm");
     form.form.addEventListener("data-signup-submit", event => {
-        const streamer = event.detail.data;
-        console.log(streamer);
+        const signup = event.detail.data;
+        console.log(signup);
+        AuthService.postSignup(signup).then(response => {
+            console.log(response);
+        })
     });
 })();

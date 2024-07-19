@@ -1,4 +1,4 @@
-package com.ecf.zevent.model;
+package com.ecf.zevent.model.interfaces;
 
 import java.time.LocalDateTime;
 

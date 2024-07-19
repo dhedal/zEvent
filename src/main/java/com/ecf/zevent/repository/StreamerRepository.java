@@ -14,4 +14,7 @@ public interface StreamerRepository extends JpaRepository<Streamer, Long> {
     public Streamer findByPseudo(String pseudo);
 
     public Streamer findByUuid(String uuid);
+
+    @Query("SELECT s FROM Streamer s WHERE s.authenticationData.id = :authenticationDataId")
+    public Streamer findByAuthenticationDataId(Long authenticationDataId);
 }

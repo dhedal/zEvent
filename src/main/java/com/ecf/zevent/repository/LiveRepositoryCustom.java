@@ -2,7 +2,7 @@ package com.ecf.zevent.repository;
 
 import com.ecf.zevent.model.Live;
 import com.ecf.zevent.model.Streamer;
-import com.ecf.zevent.model.ThematiqueType;
+import com.ecf.zevent.model.enumerations.ThematiqueType;
 
 import java.time.LocalDate;
 import java.util.List;
