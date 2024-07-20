@@ -156,12 +156,10 @@ export class Streamer {
     channel;
     rule;
     status;
-    password;
 
 
     constructor() {
-        this.uuid = "";
-        this.password = "";
+        this.uuid = null;
     }
 
     static parse(other) {
@@ -175,7 +173,6 @@ export class Streamer {
         streamer.channel = other.channel;
         streamer.rule = Rule.parse(other.rule);
         streamer.status = Rule.parse(other.status);
-        streamer.password = other.password;
         return streamer;
     }
 

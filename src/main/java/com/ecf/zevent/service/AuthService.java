@@ -12,6 +12,7 @@ import com.ecf.zevent.util.PasswordUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -22,11 +23,16 @@ public class AuthService extends AbstractService<AuthenticationDataRepository, A
 
     private static final Logger LOG = LoggerFactory.getLogger(AuthService.class);
 
+
     private StreamerService streamerService;
 
     @Autowired
-    public AuthService(AuthenticationDataRepository repository, StreamerService streamerService) {
+    public AuthService(AuthenticationDataRepository repository) {
         super(repository);
+    }
+
+    @Autowired
+    public void setStreamerService(@Lazy StreamerService streamerService) {
         this.streamerService = streamerService;
     }
 
@@ -83,7 +89,7 @@ public class AuthService extends AbstractService<AuthenticationDataRepository, A
     }
 
     public boolean isPseudoExist(String pseudo) {
-        return this.findByPseudo(pseudo) != null;
+        return this.streamerService.isPseudoExist(pseudo);
     }
 
     public boolean changePassword(String email, String newPassword, String oldPassword) {

@@ -1,5 +1,12 @@
 package com.ecf.zevent.dto;
 
+import com.ecf.zevent.model.AuthenticationData;
+import com.ecf.zevent.model.Streamer;
+import com.ecf.zevent.model.embeddables.StreamerPrivateData;
+import com.ecf.zevent.model.embeddables.StreamerPublicData;
+import com.ecf.zevent.model.enumerations.Rule;
+import com.ecf.zevent.model.enumerations.StreamerStatus;
+import com.ecf.zevent.util.PasswordUtil;
 import com.ecf.zevent.validation.constraint.ValidAge;
 
 
@@ -8,6 +15,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class SignupDTO {
 
@@ -26,6 +34,7 @@ public class SignupDTO {
     @NotNull(message = "la date de naissance est obligatoire")
     @ValidAge(ageMin = 13, ageMax = 80)
     private LocalDate birthDate;
+    @NotNull(message = "le nom de la chaîne est obligatoire")
     private String channel;
 
     public String getFirstName() {
@@ -87,5 +96,25 @@ public class SignupDTO {
         sb.append(", channel='").append(channel).append('\'');
         sb.append('}');
         return sb.toString();
+    }
+
+    public Streamer toStreamer() {
+        StreamerPrivateData privateData = new StreamerPrivateData();
+        privateData.setFirstName(this.getFirstName());
+        privateData.setLastName(this.getLastName());
+
+        StreamerPublicData publicData = new StreamerPublicData();
+        publicData.setPseudo(this.getPseudo());
+        publicData.setBirthDate(this.getBirthDate());
+        publicData.setChannel(this.getChannel());
+
+        AuthenticationData authData = new AuthenticationData();
+        authData.setEmail(this.getEmail());
+
+        Streamer streamer = new Streamer();
+        streamer.setPrivateData(privateData);
+        streamer.setPublicData(publicData);
+        streamer.setAuthenticationData(authData);
+        return streamer;
     }
 }

@@ -1,6 +1,7 @@
 package com.ecf.zevent.test.util;
 
 import com.ecf.zevent.dto.SignupDTO;
+import com.ecf.zevent.dto.StreamerDTO;
 import com.ecf.zevent.model.*;
 import com.ecf.zevent.model.embeddables.StreamerPrivateData;
 import com.ecf.zevent.model.embeddables.StreamerPublicData;
@@ -106,6 +107,10 @@ public class StreamerDataGenerator {
         signupDTO.setBirthDate(streamer.getPublicData().getBirthDate());
         signupDTO.setEmail(streamer.getAuthenticationData().getEmail());
         return signupDTO;
+    }
+
+    public static StreamerDTO newStreamerDTO() {
+        return StreamerDTO.toStreamerDTO(newStreamer());
     }
 
 }

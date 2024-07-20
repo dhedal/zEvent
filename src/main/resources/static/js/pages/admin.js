@@ -1,20 +1,21 @@
 import {StreamerForm, StreamerModal, StreamerTable} from "../component/adminComponent.js";
-import {ApiService} from "../service/apiService.js";
+import {StreamerService} from "../service/streamerService.js";
 
 let dataRuleList;
 let dataStatusList;
 let streamerArray;
 const fetchDatas = async () => {
     return Promise.all([
-        ApiService.fetchRuleAndStatusList().then(response => {
+        StreamerService.fetchRuleAndStatusList().then(response => {
             dataRuleList = response.rules;
             dataStatusList = response.status;
         }),
-        ApiService.fetchStreamerList().then(response => {
+        StreamerService.fetchStreamerList().then(response => {
             streamerArray = response;
         })
     ]);
 };
+
 
 (function() {
 
@@ -27,9 +28,27 @@ const fetchDatas = async () => {
         form.form.addEventListener("data-streamer-submit", event => {
             const streamerData = event.detail.data;
             console.log(streamerData);
-            ApiService.postSaveStreamer(streamerData).then(streamer => {
-                streamerTable.addStreamer(streamer);
-            });
+            if(streamerData.uuid == null || streamerData.uuid.length == 0) {
+                console.log("create");
+                StreamerService.postCreateStreamer(streamerData).then(streamer => {
+
+                    if(streamer != null && streamer.uuid != null && streamer.uuid.length > 0){
+                        streamerTable.addStreamer(streamer);
+                        streamerModal.close();
+                    }
+                });
+            }
+            else {
+                console.log("update");
+                StreamerService.patchUpdateStreamer(streamerData).then(streamer => {
+
+                    if(streamer != null && streamer.uuid != null && streamer.uuid.length > 0){
+                        streamerTable.addStreamer(streamer);
+                        streamerModal.close();
+                    }
+                });
+            }
+
         });
     });
 })();

@@ -28,30 +28,39 @@ public class StreamerServiceTest {
      *
      */
     @Test
-    public void testCreateAndSaveNewStreamer () {
-        Streamer streamerCreated = this.streamerService.save(StreamerDataGenerator.newStreamer());
+    public void testCreateNewStreamer () {
+        Streamer streamerCreated = this.streamerService.create(StreamerDataGenerator.newStreamer());
         this.assertNewStreamer(streamerCreated);
         try{
             Streamer other = this.streamerService.findById(streamerCreated.getId());
             assertTrue(streamerCreated.equals(other));
+
+            assertNull(this.streamerService.create(null));
+            assertNull(this.streamerService.create(other));
         } catch (Throwable ex) {
             fail(ex.toString());
         }
+
+
     }
 
     @Test
-    public void testStreamerUpdated() {
-        Streamer streamerCreated = this.streamerService.save(StreamerDataGenerator.newStreamer());
+    public void testUpdateStreamer() {
+        Streamer streamerCreated = this.streamerService.create(StreamerDataGenerator.newStreamer());
         this.assertNewStreamer(streamerCreated);
-
-        final String firstName = "alexandre";
-        streamerCreated.getPrivateData().setFirstName(firstName);
-        this.streamerService.save(streamerCreated);
-
         try {
+            final String firstName = "alexandre";
+            streamerCreated.getPrivateData().setFirstName(firstName);
+            this.streamerService.update(streamerCreated);
             Streamer streamerUpdated = this.streamerService.findById(streamerCreated.getId());
             assertNotNull(streamerUpdated.getUpdatedAt());
             assertEquals(firstName, streamerUpdated.getPrivateData().getFirstName());
+
+            assertNull(this.streamerService.update(null));
+            streamerUpdated.setUuid(null);
+            assertNull(this.streamerService.update(streamerUpdated));
+            streamerUpdated.setUuid("");
+            assertNull(this.streamerService.update(streamerUpdated));
         } catch (Throwable ex) {
             fail(ex.toString());
         }
@@ -60,7 +69,7 @@ public class StreamerServiceTest {
 
     @Test
     public void testDeleteStreamer() {
-        final Streamer streamer = this.streamerService.save(StreamerDataGenerator.newStreamer());
+        final Streamer streamer = this.streamerService.create(StreamerDataGenerator.newStreamer());
         this.assertNewStreamer(streamer);
 
         assertThrows(ResourceNotFoundException.class, () -> {
@@ -77,7 +86,7 @@ public class StreamerServiceTest {
 
         List<Streamer> streamers = StreamerDataGenerator.newStreamers(3);
 
-        streamers.forEach(streamer -> this.streamerService.save(streamer));
+        streamers.forEach(streamer -> this.streamerService.create(streamer));
 
         List<Streamer> list = this.streamerService.listAll();
 
@@ -94,7 +103,7 @@ public class StreamerServiceTest {
                 .map(Streamer::getPublicData)
                 .map(StreamerPublicData::getPseudo)
                 .toList();
-        streamers.forEach(streamer -> this.streamerService.save(streamer));
+        streamers.forEach(streamer -> this.streamerService.create(streamer));
 
         List<String> pseudos = this.streamerService.getPseudoList();
         LOG.info(pseudoList.toString());
@@ -108,7 +117,7 @@ public class StreamerServiceTest {
 
     @Test
     public void testFindStreamerByPseudo() {
-        final Streamer streamer = this.streamerService.save(StreamerDataGenerator.newStreamer());
+        final Streamer streamer = this.streamerService.create(StreamerDataGenerator.newStreamer());
         this.assertNewStreamer(streamer);
 
         Streamer result = this.streamerService.findByPseudo(streamer.getPublicData().getPseudo());
@@ -118,7 +127,7 @@ public class StreamerServiceTest {
 
     @Test
     public void testFindStreamerByUuid() {
-        final Streamer streamer = this.streamerService.save(StreamerDataGenerator.newStreamer());
+        final Streamer streamer = this.streamerService.create(StreamerDataGenerator.newStreamer());
         this.assertNewStreamer(streamer);
 
         Streamer result = this.streamerService.findByUuid(streamer.getUuid());

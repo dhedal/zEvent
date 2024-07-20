@@ -4,16 +4,7 @@ const API_LIVE_URL = API_URL + "live/";
 
 export class ApiService {
 
-    static postSaveStreamer = async (streamer) => {
-        const response = await fetch(API_STREAMER_URL, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(streamer)
-        });
-        return await response.json();
-    }
+
     static fetchStreamerPseudoList = async () => {
         const response = await fetch(API_STREAMER_URL + "pseudo/list");
         return await response.json();

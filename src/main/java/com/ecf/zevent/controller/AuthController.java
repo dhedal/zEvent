@@ -2,6 +2,7 @@ package com.ecf.zevent.controller;
 
 import com.ecf.zevent.dto.SignupDTO;
 import com.ecf.zevent.service.AuthService;
+import com.ecf.zevent.service.StreamerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,6 +2,7 @@ package com.ecf.zevent.test.validation;
 
 import com.ecf.zevent.dto.SignupDTO;
 
+import com.ecf.zevent.test.util.StreamerDataGenerator;
 import com.ecf.zevent.test.utils.DateUtils;
 import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,12 +37,7 @@ public class SignupValidatorTest {
 
     @Test
     public void testValidSignupDTO() {
-        SignupDTO signupDTO = new SignupDTO();
-        signupDTO.setFirstName("John");
-        signupDTO.setLastName("Doe");
-        signupDTO.setPseudo("johndoe");
-        signupDTO.setEmail("john.doe@example.com");
-        signupDTO.setBirthDate(LocalDate.of(2000, 1, 1));
+        SignupDTO signupDTO = StreamerDataGenerator.newSignupDTO();
         signupDTO.setChannel("John's Channel");
 
         Set<ConstraintViolation<SignupDTO>> violations = this.validator.validate(signupDTO);
@@ -54,13 +50,8 @@ public class SignupValidatorTest {
         LocalDate dateAgeMin = DateUtils.dateAgeMin();
         LocalDate dateAgeMax = DateUtils.dateAgeMax();
 
-        SignupDTO signupDTO = new SignupDTO();
-        signupDTO.setFirstName("John");
-        signupDTO.setLastName("Doe");
-        signupDTO.setPseudo("johndoe");
-        signupDTO.setEmail("john.doe@example.com");
+        SignupDTO signupDTO = StreamerDataGenerator.newSignupDTO();
         signupDTO.setBirthDate(dateAgeMax);
-        signupDTO.setChannel("John's Channel");
         Set<ConstraintViolation<SignupDTO>> violations = this.validator.validate(signupDTO);
         assertTrue(violations.isEmpty());
 

@@ -112,6 +112,7 @@ export class StreamerTable{
     }
 
     addStreamer(streamer) {
+        if(streamer.uuid == null || streamer.uuid.length == 0) return;
         if(this.streamerMap.has(streamer.uuid)) {
             const tr = document.getElementById(streamer.uuid);
             tr.innerHTML = "";
@@ -142,12 +143,12 @@ export class StreamerForm {
     channel;
     rule;
     status;
-    password;
-    password2;
-    charLengthError;
-    charUpperLowerError;
-    charNumberError;
-    charSpecialError;
+    // password;
+    // password2;
+    // charLengthError;
+    // charUpperLowerError;
+    // charNumberError;
+    // charSpecialError;
     cancelBtn;
     submitBtn;
     dataStatusMap;
@@ -167,13 +168,13 @@ export class StreamerForm {
         this.channel = document.getElementById("channel");
         this.rule = document.getElementById("rule");
         this.status = document.getElementById("status");
-        this.password = document.getElementById("passwordId");
-        this.password2 = document.getElementById("password2");
-
-        this.charLengthError = document.getElementById("charLengthError");
-        this.charUpperLowerError = document.getElementById("charUpperLowerError");
-        this.charNumberError = document.getElementById("charNumberError");
-        this.charSpecialError = document.getElementById("charSpecialError");
+        // this.password = document.getElementById("passwordId");
+        // this.password2 = document.getElementById("password2");
+        //
+        // this.charLengthError = document.getElementById("charLengthError");
+        // this.charUpperLowerError = document.getElementById("charUpperLowerError");
+        // this.charNumberError = document.getElementById("charNumberError");
+        // this.charSpecialError = document.getElementById("charSpecialError");
 
         this.cancelBtn = document.getElementById("streamerFormCancelBtn");
         this.submitBtn = document.getElementById("streamerFormSubmitBtn");
@@ -187,7 +188,7 @@ export class StreamerForm {
         this.dateLimitError = document.getElementById("dateLimitError");
         this.dateLimitError.textContent = this.dateLimit.getDateFormat_DD_MM_YYYY();
 
-        this.password.value = "";
+        // this.password.value = "";
 
         this.streamer = null;
     }
@@ -237,54 +238,54 @@ export class StreamerForm {
         return false;
     }
 
-    validatePasswordSize = (string, error) => {
-        if(!(string == null || string === "" || string.length < 8)) {
-            error.classList.add("is-valid");
-            error.classList.remove("is-invalid");
-            return true;
-        }
+    // validatePasswordSize = (string, error) => {
+    //     if(!(string == null || string === "" || string.length < 8)) {
+    //         error.classList.add("is-valid");
+    //         error.classList.remove("is-invalid");
+    //         return true;
+    //     }
+    //
+    //     error.classList.remove("is-valid");
+    //     error.classList.add("is-invalid");
+    //     return false;
+    //
+    // }
 
-        error.classList.remove("is-valid");
-        error.classList.add("is-invalid");
-        return false;
+    // validatePasswordContainsUpperAndLowerCase = (string, error) => {
+    //     if(/[A-Z]/.test(string) && /[a-z]/.test(string)) {
+    //         error.classList.add("is-valid");
+    //         error.classList.remove("is-invalid");
+    //         return true;
+    //     }
+    //
+    //     error.classList.remove("is-valid");
+    //     error.classList.add("is-invalid");
+    //     return false;
+    // }
 
-    }
+    // validatePasswordContainsCharNumber = (string, error) => {
+    //     if(/[0-9]/.test(string)) {
+    //         error.classList.add("is-valid");
+    //         error.classList.remove("is-invalid");
+    //         return true;
+    //     }
+    //
+    //     error.classList.remove("is-valid");
+    //     error.classList.add("is-invalid");
+    //     return false;
+    // }
 
-    validatePasswordContainsUpperAndLowerCase = (string, error) => {
-        if(/[A-Z]/.test(string) && /[a-z]/.test(string)) {
-            error.classList.add("is-valid");
-            error.classList.remove("is-invalid");
-            return true;
-        }
-
-        error.classList.remove("is-valid");
-        error.classList.add("is-invalid");
-        return false;
-    }
-
-    validatePasswordContainsCharNumber = (string, error) => {
-        if(/[0-9]/.test(string)) {
-            error.classList.add("is-valid");
-            error.classList.remove("is-invalid");
-            return true;
-        }
-
-        error.classList.remove("is-valid");
-        error.classList.add("is-invalid");
-        return false;
-    }
-
-    validatePasswordContainsSpecialCharacters = (string, error) => {
-        if(/[!@#$%&*?:+-]/.test(string)) {
-            error.classList.add("is-valid");
-            error.classList.remove("is-invalid");
-            return true;
-        }
-
-        error.classList.remove("is-valid");
-        error.classList.add("is-invalid");
-        return false;
-    }
+    // validatePasswordContainsSpecialCharacters = (string, error) => {
+    //     if(/[!@#$%&*?:+-]/.test(string)) {
+    //         error.classList.add("is-valid");
+    //         error.classList.remove("is-invalid");
+    //         return true;
+    //     }
+    //
+    //     error.classList.remove("is-valid");
+    //     error.classList.add("is-invalid");
+    //     return false;
+    // }
 
     validateEmail = (email) => {
         if(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
@@ -298,37 +299,37 @@ export class StreamerForm {
         return false;
     }
 
-    validatePassWord = (password) => {
-        const value = password.value;
-        const check = !Array.of(
-            this.validatePasswordSize(value, this.charLengthError),
-            this.validatePasswordContainsUpperAndLowerCase(value, this.charUpperLowerError),
-            this.validatePasswordContainsCharNumber(value, this.charNumberError),
-            this.validatePasswordContainsSpecialCharacters(value, this.charSpecialError)
-        ).includes(false);
+    // validatePassWord = (password) => {
+    //     const value = password.value;
+    //     const check = !Array.of(
+    //         this.validatePasswordSize(value, this.charLengthError),
+    //         this.validatePasswordContainsUpperAndLowerCase(value, this.charUpperLowerError),
+    //         this.validatePasswordContainsCharNumber(value, this.charNumberError),
+    //         this.validatePasswordContainsSpecialCharacters(value, this.charSpecialError)
+    //     ).includes(false);
+    //
+    //     if(check) {
+    //         password.classList.add("is-valid");
+    //         password.classList.remove("is-invalid");
+    //     }
+    //     else {
+    //         password.classList.remove("is-valid");
+    //         password.classList.add("is-invalid");
+    //     }
+    //     return check;
+    // }
 
-        if(check) {
-            password.classList.add("is-valid");
-            password.classList.remove("is-invalid");
-        }
-        else {
-            password.classList.remove("is-valid");
-            password.classList.add("is-invalid");
-        }
-        return check;
-    }
-
-    validatePasswordEquals(password, passwordValue) {
-        if(password.value === passwordValue) {
-            password.classList.add("is-valid");
-            password.classList.remove("is-invalid");
-            return true;
-        }
-
-        password.classList.remove("is-valid");
-        password.classList.add("is-invalid");
-        return false;
-    }
+    // validatePasswordEquals(password, passwordValue) {
+    //     if(password.value === passwordValue) {
+    //         password.classList.add("is-valid");
+    //         password.classList.remove("is-invalid");
+    //         return true;
+    //     }
+    //
+    //     password.classList.remove("is-valid");
+    //     password.classList.add("is-invalid");
+    //     return false;
+    // }
 
     validateForm = () => {
         this.submitBtn.disabled =  Array.of(
@@ -339,9 +340,9 @@ export class StreamerForm {
             this.validateInputRequired(this.channel),
             this.validateDateLimit(this.birthDate),
             this.validateInputRequired(this.rule),
-            this.validateInputRequired(this.status),
-            this.validatePassWord(this.password),
-            this.validatePasswordEquals(this.password2, this.password.value)
+            this.validateInputRequired(this.status)
+            // this.validatePassWord(this.password),
+            // this.validatePasswordEquals(this.password2, this.password.value)
         ).includes(false);
     }
 
@@ -362,8 +363,8 @@ export class StreamerForm {
         this.birthDate.addEventListener("change", this.validateForm);
         this.rule.addEventListener("change", this.validateForm);
         this.status.addEventListener("change", this.validateForm);
-        this.password.addEventListener("keyup", this.validateForm);
-        this.password2.addEventListener("keyup", this.validateForm);
+        // this.password.addEventListener("keyup", this.validateForm);
+        // this.password2.addEventListener("keyup", this.validateForm);
 
         this.cancelBtn.addEventListener("click", event => {
             this.clear();
@@ -409,8 +410,8 @@ export class StreamerForm {
         this.channel.value = this.streamer.channel;
         this.setSelectedIndexByValue(this.rule, this.streamer.rule.key);
         this.setSelectedIndexByValue(this.status, this.streamer.status.key);
-        this.password.value = this.streamer.password;
-        this.password2.value = this.password.value;
+        // this.password.value = this.streamer.password;
+        // this.password2.value = this.password.value;
     }
 
     clear = () => {
@@ -430,15 +431,15 @@ export class StreamerForm {
         this.clearValidOrInvalidCSS(this.rule);
         this.status.selectedIndex = 0;
         this.clearValidOrInvalidCSS(this.status);
-        this.password.value = "";
-        this.clearValidOrInvalidCSS(this.password);
-        this.password2.value = "";
-        this.clearValidOrInvalidCSS(this.password2);
+        // this.password.value = "";
+        // this.clearValidOrInvalidCSS(this.password);
+        // this.password2.value = "";
+        // this.clearValidOrInvalidCSS(this.password2);
 
-        this.clearValidOrInvalidCSS(this.charLengthError);
-        this.clearValidOrInvalidCSS(this.charUpperLowerError);
-        this.clearValidOrInvalidCSS(this.charNumberError);
-        this.clearValidOrInvalidCSS(this.charSpecialError);
+        // this.clearValidOrInvalidCSS(this.charLengthError);
+        // this.clearValidOrInvalidCSS(this.charUpperLowerError);
+        // this.clearValidOrInvalidCSS(this.charNumberError);
+        // this.clearValidOrInvalidCSS(this.charSpecialError);
 
         this.submitBtn.disabled = true;
 
@@ -456,7 +457,7 @@ export class StreamerForm {
         this.streamer.channel   = this.channel.value;
         this.streamer.rule      = Rule.parse(this.dataRuleMap.get(this.rule.value));
         this.streamer.status    = StreamerStatus.parse(this.dataStatusMap.get(this.status.value));
-        this.streamer.password  = this.password.value;
+        // this.streamer.password  = this.password.value;
     }
 }
 
@@ -475,6 +476,7 @@ export class StreamerModal {
 
     initEvent = () => {
         this.modal.addEventListener('show.bs.modal', event => {
+            this.form.clear();
             const button = event.relatedTarget
             const recipient = button.getAttribute('data-bs-whatever');
             const modalTitle = this.modal.querySelector('.modal-title');
@@ -485,6 +487,10 @@ export class StreamerModal {
                 this.form.fill(this.streamerTable.getStreamerByUUID(streamerUUID));
             }
         });
+    }
+
+    close = () => {
+        bootstrap.Modal.getInstance(this.modal).hide();
     }
 
 }
