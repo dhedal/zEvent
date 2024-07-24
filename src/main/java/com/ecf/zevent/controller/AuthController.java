@@ -1,8 +1,11 @@
 package com.ecf.zevent.controller;
 
+import com.ecf.zevent.dto.AuthDataResponse;
+import com.ecf.zevent.dto.AuthenticationDataDTO;
 import com.ecf.zevent.dto.SignupDTO;
+import com.ecf.zevent.model.AuthenticationData;
 import com.ecf.zevent.service.AuthService;
-import com.ecf.zevent.service.StreamerService;
+import com.ecf.zevent.service.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +28,14 @@ public class AuthController {
 
     private static final Logger LOG = LoggerFactory.getLogger(AuthController.class);
 
+    private final AuthService authService;
+    private final JwtService jwtService;
+
     @Autowired
-    private AuthService authService;
+    public AuthController(AuthService authService, JwtService jwtService) {
+        this.authService = authService;
+        this.jwtService = jwtService;
+    }
 
     @PostMapping(value = "/signup", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Boolean> saveSignupData(@Valid @RequestBody SignupDTO signupDTO, BindingResult bindingResult) {
@@ -46,5 +55,24 @@ public class AuthController {
             LOG.error(e.toString());
         }
         return ResponseEntity.ok(false);
+    }
+
+    @PostMapping(value = "/signin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AuthDataResponse> authenticate(@RequestBody AuthenticationDataDTO authDataDTO) {
+        try {
+            LOG.debug("## authenticate");
+            AuthenticationData authData = this.authService.authentication(authDataDTO.getEmail(), authDataDTO.getPassword());
+            String jwtToken = this.jwtService.generateToken(authData);
+            LOG.debug("jwtToken : " + jwtToken);
+            AuthDataResponse authDataResponse = new AuthDataResponse()
+                    .setToken(jwtToken)
+                    .setExpiresIn(this.jwtService.getJwtExpiration());
+            return ResponseEntity.ok(authDataResponse);
+
+        } catch (Exception ex) {
+            LOG.error(ex.toString());
+            return ResponseEntity.notFound().build();
+        }
+
     }
 }

@@ -3,16 +3,18 @@ package com.ecf.zevent.service;
 import com.ecf.zevent.dto.SignupDTO;
 import com.ecf.zevent.model.AuthenticationData;
 import com.ecf.zevent.model.Streamer;
-import com.ecf.zevent.model.embeddables.StreamerPrivateData;
-import com.ecf.zevent.model.embeddables.StreamerPublicData;
 import com.ecf.zevent.model.enumerations.Rule;
 import com.ecf.zevent.model.enumerations.StreamerStatus;
 import com.ecf.zevent.repository.AuthenticationDataRepository;
 import com.ecf.zevent.util.PasswordUtil;
+import jakarta.mail.MessagingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -25,10 +27,21 @@ public class AuthService extends AbstractService<AuthenticationDataRepository, A
 
 
     private StreamerService streamerService;
+    private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
+    private final MailService mailService;
+
 
     @Autowired
-    public AuthService(AuthenticationDataRepository repository) {
+    public AuthService(
+            AuthenticationDataRepository repository,
+            AuthenticationManager authenticationManager,
+            PasswordEncoder passwordEncoder,
+            MailService mailService) {
         super(repository);
+        this.authenticationManager = authenticationManager;
+        this.passwordEncoder = passwordEncoder;
+        this.mailService = mailService;
     }
 
     @Autowired
@@ -36,46 +49,47 @@ public class AuthService extends AbstractService<AuthenticationDataRepository, A
         this.streamerService = streamerService;
     }
 
-    public boolean save(SignupDTO signupDTO) {
+    public boolean save(SignupDTO signupDTO){
         if(signupDTO == null) return false;
 
-        StreamerPrivateData privateData = new StreamerPrivateData();
-        privateData.setFirstName(signupDTO.getFirstName());
-        privateData.setLastName(signupDTO.getLastName());
-
-        StreamerPublicData publicData = new StreamerPublicData();
-        publicData.setPseudo(signupDTO.getPseudo());
-        publicData.setBirthDate(signupDTO.getBirthDate());
-        publicData.setChannel(signupDTO.getChannel());
-
-        AuthenticationData authData = new AuthenticationData();
-        authData.setEmail(signupDTO.getEmail());
-        authData.setPassword(PasswordUtil.passwordTemp());
-
-        Streamer streamer = new Streamer();
-        streamer.setPrivateData(privateData);
-        streamer.setPublicData(publicData);
-        streamer.setAuthenticationData(authData);
+        if(!this.mailService.isMailValid(signupDTO.getEmail())) return false;
+        final String password = PasswordUtil.generateRandomPassword();
+        Streamer streamer = signupDTO.toStreamer();
+        streamer.getAuthenticationData().setPassword(this.passwordEncoder.encode(password));
         streamer.setRule(Rule.STREAMER);
         streamer.setStatus(StreamerStatus.REGISTRATION_REQUEST);
 
         streamer = this.streamerService.save(streamer);
 
-        return Objects.nonNull(streamer) &&
-                Objects.nonNull(streamer.getId()) &&
-                Objects.nonNull(streamer.getUuid()) &&
-                Objects.nonNull(streamer.getCreatedAt());
+        try {
+            if (Objects.nonNull(streamer) &&
+                    Objects.nonNull(streamer.getId()) &&
+                    Objects.nonNull(streamer.getUuid()) &&
+                    Objects.nonNull(streamer.getCreatedAt())) {
+                this.mailService.sendWelcomeMessage(streamer, password);
+                return true;
+            }
+        } catch (MessagingException ex) {
+            LOG.error(ex.toString());
+        }
+        return false;
     }
 
     public AuthenticationData authentication(String email, String password) {
-        AuthenticationData authData = this.findByEmail(email);
-        if(Objects.isNull(authData)) return null;
-        return Objects.equals(authData.getPassword(), password) ? authData : null;
+        this.authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(email, password)
+        );
+
+//        AuthenticationData authData = this.findByEmail(email);
+//        if(Objects.isNull(authData)) return null;
+//        return Objects.equals(authData.getPassword(), password) ? authData : null;
+
+        return this.findByEmail(email);
     }
 
     public AuthenticationData findByEmail(String email){
-        if(email == null || email.equals("")) return null;
-        return this.repository.findByEmail(email);
+        if(email == null || email.isEmpty()) return null;
+        return this.repository.findByEmail(email).get();
     }
 
     public AuthenticationData findByPseudo(String pseudo){
@@ -95,9 +109,13 @@ public class AuthService extends AbstractService<AuthenticationDataRepository, A
     public boolean changePassword(String email, String newPassword, String oldPassword) {
         AuthenticationData authData = this.authentication(email, oldPassword);
         if(Objects.isNull(authData)) return false;
-        authData.setPassword(newPassword);
+        authData.setPassword(this.passwordEncoder.encode(newPassword));
         this.repository.save(authData);
         return true;
+    }
+
+    public String encode(String p) {
+        return this.passwordEncoder.encode(p);
     }
 
 }

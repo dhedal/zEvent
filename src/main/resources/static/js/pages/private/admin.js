@@ -1,5 +1,5 @@
-import {StreamerForm, StreamerModal, StreamerTable} from "../component/adminComponent.js";
-import {StreamerService} from "../service/streamerService.js";
+import {StreamerForm, StreamerModal, StreamerTable} from "../../component/adminComponent.js";
+import {StreamerService} from "../../service/streamerService.js";
 
 let dataRuleList;
 let dataStatusList;

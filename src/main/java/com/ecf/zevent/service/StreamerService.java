@@ -19,7 +19,7 @@ import java.util.Objects;
 public class StreamerService extends AbstractService<StreamerRepository, Streamer>{
     private static final Logger LOG = LoggerFactory.getLogger(StreamerService.class);
 
-    private AuthService authService;
+    private final AuthService authService;
     @Autowired
     public StreamerService(StreamerRepository repository, AuthService authService ) {
         super(repository);
@@ -28,7 +28,7 @@ public class StreamerService extends AbstractService<StreamerRepository, Streame
 
     public Streamer create(Streamer streamer) {
         if(Objects.isNull(streamer) || Objects.nonNull(streamer.getId())) return null;
-        streamer.getAuthenticationData().setPassword(PasswordUtil.passwordTemp());
+        streamer.getAuthenticationData().setPassword(PasswordUtil.generateRandomPassword());
         return this.save(streamer);
     }
 

@@ -4,6 +4,8 @@ import com.ecf.zevent.model.Live;
 import com.ecf.zevent.model.Streamer;
 import com.ecf.zevent.model.enumerations.ThematiqueType;
 import com.ecf.zevent.repository.LiveRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +15,13 @@ import java.util.List;
 
 @Service
 public class LiveService extends AbstractService<LiveRepository, Live> {
+    private static final Logger LOG = LoggerFactory.getLogger(LiveService.class);
+    private final StreamerService streamerService;
 
     @Autowired
-    private StreamerService streamerService;
-
-    @Autowired
-    public LiveService(LiveRepository repository) {
+    public LiveService(LiveRepository repository, StreamerService streamerService) {
         super(repository);
+        this.streamerService = streamerService;
     }
 
     /**

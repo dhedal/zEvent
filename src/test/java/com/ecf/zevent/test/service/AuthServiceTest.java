@@ -1,6 +1,7 @@
 package com.ecf.zevent.test.service;
 
 import com.ecf.zevent.dto.SignupDTO;
+import com.ecf.zevent.dto.StreamerDTO;
 import com.ecf.zevent.model.AuthenticationData;
 import com.ecf.zevent.model.Streamer;
 import com.ecf.zevent.model.embeddables.StreamerPrivateData;
@@ -57,7 +58,7 @@ public class AuthServiceTest {
         AuthenticationData authData = this.authService.authentication(signupDTO.getEmail(), "OTHER_PASSWORD");
         assertNull(authData);
 
-        authData = this.authService.authentication(signupDTO.getEmail(), PasswordUtil.passwordTemp());
+        authData = this.authService.authentication(signupDTO.getEmail(), PasswordUtil.generateRandomPassword());
         assertNotNull(authData);
         assertEquals(authData.getId(), streamer.getAuthenticationData().getId());
     }
@@ -92,13 +93,15 @@ public class AuthServiceTest {
         this.createNewStreamerBySignupDTO(signupDTO);
 
         final String newPassword = "NEW_PASSWORD";
-        assertTrue(this.authService.changePassword(signupDTO.getEmail(), newPassword, PasswordUtil.passwordTemp()));
+        assertTrue(this.authService.changePassword(signupDTO.getEmail(), newPassword, PasswordUtil.generateRandomPassword()));
 
-        AuthenticationData authData = this.authService.authentication(signupDTO.getEmail(), PasswordUtil.passwordTemp());
+        AuthenticationData authData = this.authService.authentication(signupDTO.getEmail(), PasswordUtil.generateRandomPassword());
         assertNull(authData);
 
         authData = this.authService.authentication(signupDTO.getEmail(), newPassword);
         assertNotNull(authData);
+
+
     }
 
     private Streamer createNewStreamerBySignupDTO(SignupDTO signupDTO) {
@@ -106,11 +109,14 @@ public class AuthServiceTest {
         AuthenticationData authData = this.authService.findByEmail(signupDTO.getEmail());
         assertNotNull(authData);
         assertNotNull(authData.getId());
-        assertEquals(authData.getPassword(), PasswordUtil.passwordTemp());
+        assertEquals(authData.getPassword(), this.authService.encode(PasswordUtil.generateRandomPassword()));
 
         Streamer streamer = this.streamerService.findByAuthenticationDataId(authData.getId());
         StreamerServiceTest.assertNewStreamer(streamer);
+
         return streamer;
     }
+
+
 
 }

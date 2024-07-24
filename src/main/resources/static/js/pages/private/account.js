@@ -1,7 +1,7 @@
-import { ApiService} from "./service/apiService.js";
-import {LiveCard, ThemeButtonComponent} from "./component/liveComponent.js";
-import {DateUtils} from "./util/dateUtils.js";
-import {Live, Pegi, Streamer, Theme} from "./model/models.js";
+import { ApiService} from "../../service/apiService.js";
+import {LiveCard, ThemeButtonComponent} from "../../component/liveComponent.js";
+import {DateUtils} from "../../util/dateUtils.js";
+import {Live, Pegi, Streamer, Theme} from "../../model/models.js";
 
 const dataThemeMap = new Map();
 const dataPegiMap = new Map();

@@ -109,6 +109,7 @@ public class StreamerDataGenerator {
         return signupDTO;
     }
 
+
     public static StreamerDTO newStreamerDTO() {
         return StreamerDTO.toStreamerDTO(newStreamer());
     }

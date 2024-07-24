@@ -157,9 +157,11 @@ class SignupForm {
     const form = new SignupForm("signupForm");
     form.form.addEventListener("data-signup-submit", event => {
         const signup = event.detail.data;
-        console.log(signup);
         AuthService.postSignup(signup).then(response => {
-            console.log(response);
+            if(response == true) {
+                const toastBootstrap = bootstrap.Toast.getOrCreateInstance(document.getElementById("liveToast"));
+                toastBootstrap.show();
+            }
         })
     });
 })();

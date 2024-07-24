@@ -7,6 +7,7 @@ import com.ecf.zevent.model.enumerations.StreamerStatus;
 import com.ecf.zevent.model.interfaces.IEntity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -36,7 +37,7 @@ public class Streamer implements IEntity {
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
-    @Column(nullable = true)
+    @UpdateTimestamp
     private LocalDateTime updatedAt;
 
     @Override

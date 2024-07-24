@@ -12,17 +12,17 @@ INSERT INTO streamer (id, uuid, birth_date, first_name, last_name, pseudo, chann
 (-11, '123e4567-e89b-12d3-a456-426614174010', '1978-01-01', 'David', 'Hedgar', 'DHedgar', 'Z-Event', 3, 2, -11);
 
 INSERT INTO authentication_data (id, email, password) VALUES
-(-1, 'john.doe@example.com', 'PASSWORD_TEMP'),
-(-2, 'jane.smith@example.com', 'PASSWORD_TEMP'),
-(-3, 'alice.johnson@example.com', 'PASSWORD_TEMP'),
-(-4, 'bob.brown@example.com', 'PASSWORD_TEMP'),
-(-5, 'charlie.davis@example.com', 'PASSWORD_TEMP'),
-(-6, 'david.wilson@example.com', 'PASSWORD_TEMP'),
-(-7, 'eva.martinez@example.com', 'PASSWORD_TEMP'),
-(-8, 'frank.miller@example.com', 'PASSWORD_TEMP'),
-(-9, 'grace.lee@example.com', 'PASSWORD_TEMP'),
-(-10, 'hank.taylor@example.com', 'PASSWORD_TEMP'),
-(-11, 'davidhedgar@yahoo.fr', 'Z-PASSWORD_TEMP');
+(-1, 'john.doe@example.com', '$2a$10$OnCZRujIPqGUk4Oa3kiBg.ZM3.wpCNmlEPRCIf50L/RLJZOdVhbdK'),
+(-2, 'jane.smith@example.com', '$2a$10$OnCZRujIPqGUk4Oa3kiBg.ZM3.wpCNmlEPRCIf50L/RLJZOdVhbdK'),
+(-3, 'alice.johnson@example.com', '$2a$10$OnCZRujIPqGUk4Oa3kiBg.ZM3.wpCNmlEPRCIf50L/RLJZOdVhbdK'),
+(-4, 'bob.brown@example.com', '$2a$10$OnCZRujIPqGUk4Oa3kiBg.ZM3.wpCNmlEPRCIf50L/RLJZOdVhbdK'),
+(-5, 'charlie.davis@example.com', '$2a$10$OnCZRujIPqGUk4Oa3kiBg.ZM3.wpCNmlEPRCIf50L/RLJZOdVhbdK'),
+(-6, 'david.wilson@example.com', '$2a$10$OnCZRujIPqGUk4Oa3kiBg.ZM3.wpCNmlEPRCIf50L/RLJZOdVhbdK'),
+(-7, 'eva.martinez@example.com', '$2a$10$OnCZRujIPqGUk4Oa3kiBg.ZM3.wpCNmlEPRCIf50L/RLJZOdVhbdK'),
+(-8, 'frank.miller@example.com', '$2a$10$OnCZRujIPqGUk4Oa3kiBg.ZM3.wpCNmlEPRCIf50L/RLJZOdVhbdK'),
+(-9, 'grace.lee@example.com', '$2a$10$OnCZRujIPqGUk4Oa3kiBg.ZM3.wpCNmlEPRCIf50L/RLJZOdVhbdK'),
+(-10, 'hank.taylor@example.com', '$2a$10$OnCZRujIPqGUk4Oa3kiBg.ZM3.wpCNmlEPRCIf50L/RLJZOdVhbdK'),
+(-11, 'davidhedgar@yahoo.fr', '$2a$10$OnCZRujIPqGUk4Oa3kiBg.ZM3.wpCNmlEPRCIf50L/RLJZOdVhbdK');
 
 
 

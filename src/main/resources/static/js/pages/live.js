@@ -1,5 +1,9 @@
-import { ApiService} from "./service/apiService.js";
-import {LiveCard, extractThemeLabel} from "./component/liveComponent.js";
+import { ApiService} from "../service/apiService.js";
+import {LiveCard, extractThemeLabel} from "../component/liveComponent.js";
+
+const fetchDatas = async () => {
+
+};
 
 (function() {
     const toggleFilterMenu = () => {

@@ -1,4 +1,4 @@
-import Route from "./route.js"
+import {Route, ADMIN_AUTORIZE, STREAMER_AUTORIZE} from "./route.js"
 import {allRoutes, websiteName} from "./allRoutes.js";
 
 const route404 = new Route("404", "Page introuvable", "/pages/404.html", []);
@@ -19,10 +19,15 @@ export const loadContentPage = async () => {
 
     const actualRoute = getRouteByUrl(path);
 
-
     // TODO: vérifier si l'utilsateur à le droit d'accés à cette page
-
-    const html = await fetch(actualRoute.pathHtml).then((data) => data.text());
+    console.log(actualRoute.autorize);
+    if(actualRoute.autorize.includes(STREAMER_AUTORIZE)) return;
+    if(actualRoute.autorize.includes(ADMIN_AUTORIZE)) return;
+    const config = {
+        method: "GET",
+        headers: {"Authorization" : "Bearer "}
+    };
+    const html = await fetch(actualRoute.pathHtml, config).then((data) => data.text());
     document.getElementById("main-page").innerHTML = html;
 
     if(actualRoute.pathJs != ""){
