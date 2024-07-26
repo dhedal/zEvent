@@ -20,14 +20,14 @@
         <label for="pseudo" class="form-label">Pseudo</label>
         <input type="text" class="form-control" id="pseudo"  value="" required>
         <div class="invalid-feedback">
-          Le pseudo est requis.
+          Le pseudo est obligatoire et doit être unique.
         </div>
       </div>
       <div class="col-sm-12">
         <label for="email" class="form-label">Email</label>
         <input type="email" class="form-control" id="email"  value="" required>
         <div class="invalid-feedback">
-          L'email est requis. ex: xxxxxx@xxx.xxx
+          L'email est obligatoire et doit ête unique.
         </div>
       </div>
       <div class="col-7">
@@ -57,18 +57,4 @@
     <a href="/signin">Vous avez déjà un compte ? Connectez-vous ici !</a>
   </div>
 </div>
-<!--TOAST -->
-<div class="toast-container position-fixed bottom-0 end-0 p-3">
-  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="toast-header">
-      <img src="..." class="rounded me-2" alt="...">
-      <strong class="me-auto">Demande d'inscription</strong>
-      <small>11 mins ago</small>
-      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-    </div>
-    <div class="toast-body">
-      Votre demande d'inscription a été enregistrer.
-      Vous recevrez un mail dans les 24 heures.
-    </div>
-  </div>
-</div>
+

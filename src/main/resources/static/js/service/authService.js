@@ -53,4 +53,11 @@ export class AuthService {
         return parameters;
      }
 
+     static fetchIsEmailAndPseudoUniques = async (email, pseudo) => {
+         const response = await fetch(`${API_AUTH_URL}/unique/${email}/${pseudo}`);
+         return await response.json();
+     }
+
+
+
 }

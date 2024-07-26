@@ -1,6 +1,7 @@
 import {DateUtils} from "../util/dateUtils.js";
 import {Rule, Signup, StreamerStatus} from "../model/models.js";
 import {AuthService} from "../service/authService.js";
+import {ToastUtils} from "../util/toastUtil.js";
 
 class SignupForm {
     form;
@@ -109,7 +110,39 @@ class SignupForm {
         });
 
         this.submitBtn.addEventListener("click", event => {
-            this.form.dispatchEvent(this.dataStreamerEvent(this.extractAndGetData()));
+            const signuData = this.extractAndGetData();
+            AuthService.fetchIsEmailAndPseudoUniques(signuData.email, signuData.pseudo).then(response => {
+                console.log(response);
+                if(response.emailUnique && response.pseudoUnique){
+                    this.form.dispatchEvent(this.dataStreamerEvent(this.extractAndGetData()));
+                    return;
+                }
+                else {
+                    this.submitBtn.disabled = true;
+                    if(!response.emailUnique) {
+                        this.email.classList.remove("is-valid");
+                        this.email.classList.add("is-invalid");
+                        ToastUtils.show(
+                            {
+                                title: "email invalide",
+                                text: "l'email existe de déja"
+                            }
+                        );
+                    }
+                    if(!response.pseudoUnique) {
+                        this.pseudo.classList.remove("is-valid");
+                        this.pseudo.classList.add("is-invalid");
+                        ToastUtils.show(
+                            {
+                                title: "pseudo invalide",
+                                text: "le pseudo existe déja."
+                            }
+                        );
+                    }
+                }
+
+            });
+
         });
     }
 
@@ -159,8 +192,11 @@ class SignupForm {
         const signup = event.detail.data;
         AuthService.postSignup(signup).then(response => {
             if(response == true) {
-                const toastBootstrap = bootstrap.Toast.getOrCreateInstance(document.getElementById("liveToast"));
-                toastBootstrap.show();
+               const message = {
+                   title: "demande d'inscription",
+                   text: "Vous recevrez un email d'ici 24 heures"
+               };
+               ToastUtils.show(message);
             }
         })
     });

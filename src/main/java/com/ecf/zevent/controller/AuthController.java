@@ -2,6 +2,7 @@ package com.ecf.zevent.controller;
 
 import com.ecf.zevent.dto.AuthDataResponse;
 import com.ecf.zevent.dto.AuthenticationDataDTO;
+import com.ecf.zevent.dto.CheckIsEmailAndPseudoUniqueResponse;
 import com.ecf.zevent.dto.SignupDTO;
 import com.ecf.zevent.model.AuthenticationData;
 import com.ecf.zevent.service.AuthService;
@@ -12,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -39,6 +37,7 @@ public class AuthController {
 
     @PostMapping(value = "/signup", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Boolean> saveSignupData(@Valid @RequestBody SignupDTO signupDTO, BindingResult bindingResult) {
+        LOG.debug("## saveSignupData");
         try {
             if(bindingResult.hasErrors()) {
                 List<String> errors = new ArrayList<>();
@@ -46,11 +45,13 @@ public class AuthController {
                     errors.add(error.getDefaultMessage());
                 });
                 LOG.debug(errors.stream().collect(Collectors.joining("\n")));
-                return ResponseEntity.ok(false);
             }
-            LOG.debug(signupDTO.toString());
-            boolean response = this.authService.save(signupDTO);
-            return ResponseEntity.ok(response);
+            else {
+                LOG.debug(signupDTO.toString());
+                boolean response = this.authService.save(signupDTO);
+                return ResponseEntity.ok(response);
+            }
+
         } catch (Exception e){
             LOG.error(e.toString());
         }
@@ -59,8 +60,9 @@ public class AuthController {
 
     @PostMapping(value = "/signin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AuthDataResponse> authenticate(@RequestBody AuthenticationDataDTO authDataDTO) {
+        LOG.debug("## authenticate");
         try {
-            LOG.debug("## authenticate");
+
             AuthenticationData authData = this.authService.authentication(authDataDTO.getEmail(), authDataDTO.getPassword());
             String jwtToken = this.jwtService.generateToken(authData);
             LOG.debug("jwtToken : " + jwtToken);
@@ -75,4 +77,24 @@ public class AuthController {
         }
 
     }
+
+    @GetMapping(path = "/unique/{email}/{pseudo}", produces = "application/hal+json")
+    public ResponseEntity<CheckIsEmailAndPseudoUniqueResponse> isEmailAndPseudoUniques(
+            @PathVariable(required = true) String email,
+            @PathVariable(required = true) String pseudo) {
+        LOG.debug("## CheckIsEmailAndPseudoUniqueResponse");
+        try {
+            CheckIsEmailAndPseudoUniqueResponse response = new CheckIsEmailAndPseudoUniqueResponse(
+                    !this.authService.isEmailExist(email),
+                    !this.authService.isPseudoExist(pseudo)
+            );
+            LOG.debug(response.toString());
+            return ResponseEntity.ok(response);
+        } catch (Exception ex) {
+            LOG.error(ex.toString());
+            return ResponseEntity.ok(new CheckIsEmailAndPseudoUniqueResponse());
+        }
+    }
+
+
 }

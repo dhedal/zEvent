@@ -89,7 +89,7 @@ public class AuthService extends AbstractService<AuthenticationDataRepository, A
 
     public AuthenticationData findByEmail(String email){
         if(email == null || email.isEmpty()) return null;
-        return this.repository.findByEmail(email).get();
+        return this.repository.findByEmail(email).orElse(null);
     }
 
     public AuthenticationData findByPseudo(String pseudo){
