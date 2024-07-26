@@ -1,10 +1,8 @@
 package com.ecf.zevent.controller;
 
-import com.ecf.zevent.dto.AuthDataResponse;
-import com.ecf.zevent.dto.AuthenticationDataDTO;
-import com.ecf.zevent.dto.CheckIsEmailAndPseudoUniqueResponse;
-import com.ecf.zevent.dto.SignupDTO;
+import com.ecf.zevent.dto.*;
 import com.ecf.zevent.model.AuthenticationData;
+import com.ecf.zevent.model.Streamer;
 import com.ecf.zevent.service.AuthService;
 import com.ecf.zevent.service.JwtService;
 import org.slf4j.Logger;
@@ -62,13 +60,13 @@ public class AuthController {
     public ResponseEntity<AuthDataResponse> authenticate(@RequestBody AuthenticationDataDTO authDataDTO) {
         LOG.debug("## authenticate");
         try {
-
             AuthenticationData authData = this.authService.authentication(authDataDTO.getEmail(), authDataDTO.getPassword());
+            Streamer streamer = this.authService.findStreamerByAuthDataId(authData.getId());
             String jwtToken = this.jwtService.generateToken(authData);
-            LOG.debug("jwtToken : " + jwtToken);
             AuthDataResponse authDataResponse = new AuthDataResponse()
                     .setToken(jwtToken)
-                    .setExpiresIn(this.jwtService.getJwtExpiration());
+                    .setExpiresIn(this.jwtService.getJwtExpiration())
+                    .setStreamerDTO(StreamerDTO.toStreamerDTO(streamer));
             return ResponseEntity.ok(authDataResponse);
 
         } catch (Exception ex) {

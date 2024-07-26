@@ -1,7 +1,10 @@
 import {API_URL} from "./apiService.js"
 
+
 export const API_AUTH_URL = API_URL + "auth";
 export class AuthService {
+
+    static AUTH_DATA_ITEM = "authData";
 
     static postSignup = async (streamer) => {
         const parameters = AuthService.fetchParameter("POST");
@@ -10,30 +13,33 @@ export class AuthService {
         return await response.json();
     }
 
-    static setToken(token) {
-        localStorage.setItem("jwt", token);
+    static postSignin = async (authData) => {
+        const parameters = AuthService.fetchParameter("POST");
+        parameters.body = JSON.stringify(authData);
+        const response = await fetch(`${API_AUTH_URL}/signin`, parameters);
+        return await response.json();
+    };
+
+    static setAuthData(authData) {
+        localStorage.setItem(AuthService.AUTH_DATA_ITEM, JSON.stringify(authData));
+    }
+
+    static getAuthData() {
+        const authDataStr = localStorage.getItem(AuthService.AUTH_DATA_ITEM);
+        return authDataStr ? JSON.parse(authDataStr) : null;
+    }
+    static getRule() {
+        const authData = AuthService.getAuthData();
+        return authData ? authData.streamerDTO.rule.label : null;
     }
 
     static getToken() {
-        return localStorage.getItem("jwt");
-    }
-
-    static setRule(rule) {
-        return localStorage.setItem("rule", rule);
-    }
-
-    static getRule() {
-        return localStorage.getItem("rule");
+        const authData = AuthService.getAuthData();
+        return authData ? authData.token : null;
     }
 
     static logout() {
-        AuthService.setToken(null);
-        AuthService.setRule(null);
-    }
-
-    static signin(token, rule) {
-        AuthService.setToken(token);
-        AuthService.setRule(rule);
+        AuthService.setAuthData(null);
     }
 
     static isConnected() {

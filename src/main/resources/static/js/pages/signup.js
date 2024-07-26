@@ -114,7 +114,7 @@ class SignupForm {
             AuthService.fetchIsEmailAndPseudoUniques(signuData.email, signuData.pseudo).then(response => {
                 console.log(response);
                 if(response.emailUnique && response.pseudoUnique){
-                    this.form.dispatchEvent(this.dataStreamerEvent(this.extractAndGetData()));
+                    this.form.dispatchEvent(this.dataStreamerEvent(signuData));
                     return;
                 }
                 else {

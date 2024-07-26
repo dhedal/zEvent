@@ -22,7 +22,7 @@ INSERT INTO authentication_data (id, email, password) VALUES
 (-8, 'frank.miller@example.com', '$2a$10$OnCZRujIPqGUk4Oa3kiBg.ZM3.wpCNmlEPRCIf50L/RLJZOdVhbdK'),
 (-9, 'grace.lee@example.com', '$2a$10$OnCZRujIPqGUk4Oa3kiBg.ZM3.wpCNmlEPRCIf50L/RLJZOdVhbdK'),
 (-10, 'hank.taylor@example.com', '$2a$10$OnCZRujIPqGUk4Oa3kiBg.ZM3.wpCNmlEPRCIf50L/RLJZOdVhbdK'),
-(-11, 'davidhedgar@yahoo.fr', '$2a$10$OnCZRujIPqGUk4Oa3kiBg.ZM3.wpCNmlEPRCIf50L/RLJZOdVhbdK');
+(-11, 'davidhedgar@yahoo.fr', '$2a$10$cNncfgaW297f4J0F/H57GObLhjpaoozO5UGTYWHCkud.g8eMrQlMu');
 
 INSERT INTO live (id, uuid, title, description, themes, date_start, date_end, pegi, streamer_id) VALUES
 (-1, UUID(), 'Live 1', 'Description 1: Lorem ipsum dolor sit amet, consectetur adipiscing elit.', '1', '2025-01-01 10:00:00', '2025-01-01 12:00:00', 1, -1),

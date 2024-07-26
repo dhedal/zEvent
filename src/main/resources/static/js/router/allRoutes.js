@@ -5,7 +5,7 @@ export const allRoutes = [
     new Route("/live", "Live", "/pages/live.html", [], "/js/pages/live.js"),
     new Route("/account", "Mon Compte", "/pages/private/account.html", [STREAMER_AUTORIZE, ADMIN_AUTORIZE], "/js/pages/private/account.js"),
     new Route("/admin", "Admin", "/pages/private/admin.html", [ADMIN_AUTORIZE], "/js/pages/private/admin.js"),
-    new Route("/signin", "Inscription", "/pages/signin.html", [], "/js/pages/auth.js"),
+    new Route("/signin", "Inscription", "/pages/signin.html", [], "/js/pages/signin.js"),
     new Route("/signup", "Connexion", "/pages/signup.html", [], "/js/pages/signup.js")
 ];
 

@@ -77,6 +77,7 @@ public class AuthServiceTest {
 
     @Test
     public void testIsPseudoExist(){
+        System.out.println(this.authService.encode("ZE2++admin4++"));
         SignupDTO signupDTO = StreamerDataGenerator.newSignupDTO();
         Streamer streamer = this.createNewStreamerBySignupDTO(signupDTO);
 

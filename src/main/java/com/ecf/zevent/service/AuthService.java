@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -28,7 +28,7 @@ public class AuthService extends AbstractService<AuthenticationDataRepository, A
 
     private StreamerService streamerService;
     private final AuthenticationManager authenticationManager;
-    private final PasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
     private final MailService mailService;
 
 
@@ -36,7 +36,7 @@ public class AuthService extends AbstractService<AuthenticationDataRepository, A
     public AuthService(
             AuthenticationDataRepository repository,
             AuthenticationManager authenticationManager,
-            PasswordEncoder passwordEncoder,
+            BCryptPasswordEncoder  passwordEncoder,
             MailService mailService) {
         super(repository);
         this.authenticationManager = authenticationManager;
@@ -77,14 +77,13 @@ public class AuthService extends AbstractService<AuthenticationDataRepository, A
 
     public AuthenticationData authentication(String email, String password) {
         this.authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(email, password)
-        );
-
-//        AuthenticationData authData = this.findByEmail(email);
-//        if(Objects.isNull(authData)) return null;
-//        return Objects.equals(authData.getPassword(), password) ? authData : null;
+            new UsernamePasswordAuthenticationToken(email, password));
 
         return this.findByEmail(email);
+    }
+
+    public Streamer findStreamerByAuthDataId(Long authDataId){
+        return this.streamerService.findByAuthenticationDataId(authDataId);
     }
 
     public AuthenticationData findByEmail(String email){
