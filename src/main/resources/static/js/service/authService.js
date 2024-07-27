@@ -47,6 +47,10 @@ export class AuthService {
         return token != null && token.length > 1;
     }
 
+    static disconnect() {
+        AuthService.setAuthData(null);
+    }
+
     static fetchParameter(method = "POST", withAuthorization = false) {
         const parameters = {
             method: method,
@@ -64,6 +68,12 @@ export class AuthService {
          return await response.json();
      }
 
+     static isAdmin() {
+        return AuthService.getRule() === "admin";
+     }
 
+     static isStreamer() {
+        return AuthService.getRule() === "streamer";
+    }
 
 }

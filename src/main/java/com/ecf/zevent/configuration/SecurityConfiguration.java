@@ -36,8 +36,7 @@ public class SecurityConfiguration {
                .csrf(AbstractHttpConfigurer::disable)
                .authorizeHttpRequests(authorize -> authorize
                        .requestMatchers(
-                               "/pages/private/**",
-                               "/js/pages/private/**"
+                               "/pages/private/**"
                        ).authenticated()
                        .anyRequest().permitAll()
                )

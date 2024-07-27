@@ -1,5 +1,6 @@
 import {AuthService} from "../service/authService.js";
 import {ToastUtils} from "../util/toastUtil.js";
+import {gotTo} from "../router/router.js";
 
 
 class SigninForm {
@@ -34,6 +35,15 @@ class SigninForm {
             };
             AuthService.postSignin(authData).then(response => {
                 AuthService.setAuthData(response);
+                if(AuthService.isAdmin()) {
+                    gotTo('/admin');
+                }
+                else if(AuthService.isStreamer()) {
+                    gotTo('/account');
+                }
+                else {
+                    gotTo('/');
+                }
             });
         });
     }
