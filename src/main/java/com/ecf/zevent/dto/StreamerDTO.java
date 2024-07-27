@@ -112,9 +112,7 @@ public class StreamerDTO {
         return status;
     }
 
-    public void setStatus(StreamerStatus status) {
-        this.status = status;
-    }
+    public void setStatus(StreamerStatus status) { this.status = status;}
 
     @Override
     public String toString() {

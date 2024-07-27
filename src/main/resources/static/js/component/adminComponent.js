@@ -401,28 +401,43 @@ export class StreamerForm {
     fill = (streamer) => {
         this.streamer = streamer;
         if(this.streamer == null) return;
+
         this.firstName.value = this.streamer.firstName;
+        this.firstName.disabled = true;
+
         this.lastName.value = this.streamer.lastName;
+        this.lastName.disabled = true;
+
         this.pseudo.value = this.streamer.pseudo;
+        this.pseudo.disabled = true;
+
         this.email.value = this.streamer.email;
+        this.email.disabled = true;
+
         const birthDate= DateUtils.buildDate(this.streamer.birthDate);
         this.birthDate.value = birthDate.getDateFormat_YYYY_MM_DD();
         this.channel.value = this.streamer.channel;
         this.setSelectedIndexByValue(this.rule, this.streamer.rule.key);
         this.setSelectedIndexByValue(this.status, this.streamer.status.key);
-        // this.password.value = this.streamer.password;
-        // this.password2.value = this.password.value;
     }
 
     clear = () => {
+        this.firstName.disabled = false;
         this.firstName.value = "";
         this.clearValidOrInvalidCSS(this.firstName);
+
+        this.lastName.disabled = false;
         this.lastName.value = "";
         this.clearValidOrInvalidCSS(this.lastName);
+
+        this.pseudo.disabled = false;
         this.pseudo.value = "";
         this.clearValidOrInvalidCSS(this.pseudo);
+
+        this.email.disabled = false;
         this.email.value = "";
         this.clearValidOrInvalidCSS(this.email);
+
         this.channel.value = "";
         this.clearValidOrInvalidCSS(this.channel);
         this.birthDate.value = "";

@@ -66,7 +66,7 @@ public class AuthService extends AbstractService<AuthenticationDataRepository, A
                     Objects.nonNull(streamer.getId()) &&
                     Objects.nonNull(streamer.getUuid()) &&
                     Objects.nonNull(streamer.getCreatedAt())) {
-                this.mailService.sendWelcomeMessage(streamer, password);
+                this.mailService.sendConfirmationRegistrationMessage(streamer);
                 return true;
             }
         } catch (MessagingException ex) {

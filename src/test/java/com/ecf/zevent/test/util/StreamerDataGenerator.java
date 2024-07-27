@@ -114,4 +114,12 @@ public class StreamerDataGenerator {
         return StreamerDTO.toStreamerDTO(newStreamer());
     }
 
+    public static List<StreamerDTO> newStreamerDTOs(int size) {
+        List<StreamerDTO> dtos = new ArrayList<>();
+        for(int i = 0; i < size; i++) {
+            dtos.add(newStreamerDTO());
+        }
+        return dtos;
+    }
+
 }

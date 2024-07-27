@@ -2,6 +2,7 @@ import {DateUtils} from "../util/dateUtils.js";
 import {Rule, Signup, StreamerStatus} from "../model/models.js";
 import {AuthService} from "../service/authService.js";
 import {ToastUtils} from "../util/toastUtil.js";
+import {gotTo} from "../router/router.js";
 
 class SignupForm {
     form;
@@ -194,9 +195,11 @@ class SignupForm {
             if(response == true) {
                const message = {
                    title: "demande d'inscription",
-                   text: "Vous recevrez un email d'ici 24 heures"
+                   text: "Nous vous avons envoyer un email"
                };
                ToastUtils.show(message);
+               form.clear();
+               gotTo("/");
             }
         })
     });

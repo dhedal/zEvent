@@ -35,18 +35,52 @@ public class MailService {
                     Votre compte a été créé avec succès.    
                             
                     Pseudo : %s
+                    Email  : %s
                     Mot de passe provisoire: %s
                             
                     Veuiller vous connecter à l'application web en utilisant le lien suivant :
-                    [%s] 
+                    %s
                             
                     Cordialement,
                     L'équipe Z-Event           
                     """.formatted(
                     streamer.getPrivateData().getFirstName(),
                     streamer.getPublicData().getPseudo(),
+                    streamer.getAuthenticationData().getEmail(),
                     password,
                     link));
+            MimeMessage message = this.mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setTo(EMAIL_FOR_TEST);
+            helper.setSubject(subject);
+            helper.setText(text);
+
+            this.mailSender.send(message);
+        } catch (MailException | MessagingException e) {
+            LOG.error("Failed to send email: " + e.getMessage());
+        }
+    }
+
+    public void sendConfirmationRegistrationMessage(Streamer streamer) throws MessagingException {
+        LOG.debug("## sendConfirmationRegistrationMessage");
+        try {
+            String subject = "Confirmation de Réception de votre Demande d'Inscription";
+            String text = String.format("""
+                    Bonjour %s
+                    Nous vous remercions d'avoir soumis votre demande d'inscription à notre événement. 
+                    Nous confirmons par la présente que nous avons bien reçu votre demande et que notre équipe est en train de la traiter.   
+                                        
+                    Nous vous contacterons par email dans les prochaines 48 heures pour vous informer de la suite de votre inscription.
+                                        
+                    Si vous avez des questions ou des préoccupations en attendant, n'hésitez pas à nous contacter à cette adresse email.
+                                        
+                    Merci de votre intérêt pour Z-Event et de votre compréhension.
+                                        
+                    Cordialement,
+                                        
+                    L'équipe Z-Event         
+                    """.formatted(
+                    streamer.getPrivateData().getFirstName()));
             MimeMessage message = this.mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setTo(EMAIL_FOR_TEST);
@@ -76,3 +110,5 @@ public class MailService {
         return false;
     }
 }
+
+// TODO: ne pas oublier de remplacer EMAIL_FOR_TEST par le vrai email du streamer ou admin

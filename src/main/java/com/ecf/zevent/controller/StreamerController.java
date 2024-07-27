@@ -42,7 +42,7 @@ public class StreamerController {
                 return ResponseEntity.ok(new StreamerDTO());
             }
 
-            Streamer streamer = this.streamerService.create(streamerDTO.toStreamer());
+            Streamer streamer = this.streamerService.create(streamerDTO);
             if(Objects.isNull(streamer)) return ResponseEntity.ok(new StreamerDTO());
             return ResponseEntity.ok(StreamerDTO.toStreamerDTO(streamer));
 
@@ -62,7 +62,7 @@ public class StreamerController {
                 return ResponseEntity.ok(new StreamerDTO());
             }
 
-            Streamer streamer = this.streamerService.update(streamerDTO.toStreamer());
+            Streamer streamer = this.streamerService.update(streamerDTO);
             if(Objects.isNull(streamer)) return ResponseEntity.ok(new StreamerDTO());
             return ResponseEntity.ok(StreamerDTO.toStreamerDTO(streamer));
 
