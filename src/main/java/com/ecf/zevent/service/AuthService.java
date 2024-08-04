@@ -1,7 +1,10 @@
 package com.ecf.zevent.service;
 
+import com.ecf.zevent.dto.ForgotPasswordResponse;
+import com.ecf.zevent.dto.ResetPasswordDTO;
 import com.ecf.zevent.dto.SignupDTO;
 import com.ecf.zevent.model.AuthenticationData;
+import com.ecf.zevent.model.PasswordResetToken;
 import com.ecf.zevent.model.Streamer;
 import com.ecf.zevent.model.enumerations.Rule;
 import com.ecf.zevent.model.enumerations.StreamerStatus;
@@ -30,6 +33,7 @@ public class AuthService extends AbstractService<AuthenticationDataRepository, A
     private final AuthenticationManager authenticationManager;
     private final BCryptPasswordEncoder passwordEncoder;
     private final MailService mailService;
+    private final PasswordResetTokenService passwordResetTokenService;
 
 
     @Autowired
@@ -37,11 +41,13 @@ public class AuthService extends AbstractService<AuthenticationDataRepository, A
             AuthenticationDataRepository repository,
             AuthenticationManager authenticationManager,
             BCryptPasswordEncoder  passwordEncoder,
-            MailService mailService) {
+            MailService mailService,
+            PasswordResetTokenService passwordResetTokenService) {
         super(repository);
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
         this.mailService = mailService;
+        this.passwordResetTokenService = passwordResetTokenService;
     }
 
     @Autowired
@@ -115,6 +121,44 @@ public class AuthService extends AbstractService<AuthenticationDataRepository, A
 
     public String encode(String p) {
         return this.passwordEncoder.encode(p);
+    }
+
+    public ForgotPasswordResponse forgotPassword(final String email) {
+        LOG.debug("## forgotPassword");
+        AuthenticationData authData = null;
+        if (Objects.nonNull(email) && email.contains("@")) {
+            authData = this.findByEmail(email);
+        }
+
+        if (Objects.isNull(authData)) return new ForgotPasswordResponse()
+                .setOk(false)
+                .setMessage("Il n'existe pas de compte avec cette email!");
+
+        final PasswordResetToken token = this.passwordResetTokenService.create(authData);
+
+        Streamer streamer = this.streamerService.findByAuthenticationDataId(authData.getId());
+        if (!this.mailService.forgotPassword(streamer.getPrivateData().getFirstName(), token.getToken())) {
+            LOG.error("Pb lors de l'envoi de l'email de réinitialisation de mot de passe : %s".formatted(email));
+            return new ForgotPasswordResponse().setOk(false).setMessage("Problème interne, en cours de traitement");
+        }
+
+        return new ForgotPasswordResponse().setOk(true).setMessage("Vérifiez vos emails");
+    }
+
+    public boolean resetPassword(ResetPasswordDTO resetPasswordDTO) {
+        LOG.debug("## resetPassword");
+        if(Objects.isNull(resetPasswordDTO)) return false;
+
+        PasswordResetToken token = this.passwordResetTokenService.findByToken(resetPasswordDTO.getToken());
+        if(Objects.isNull(token)) return false;
+
+        AuthenticationData authData = token.getAuthData();
+        if(Objects.isNull(authData)) return false;
+
+        authData.setPassword(this.passwordEncoder.encode(resetPasswordDTO.getPassword()));
+        this.repository.save(authData);
+        this.passwordResetTokenService.delete(token);
+        return true;
     }
 
 }

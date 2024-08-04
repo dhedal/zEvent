@@ -124,7 +124,7 @@ public class StreamerService extends AbstractService<StreamerRepository, Streame
     }
 
     public Streamer findByUuid(String uuid) {
-        if(uuid == null || uuid.equals("")) return null;
+        if(Objects.isNull(uuid) || uuid.isEmpty()) return null;
         return this.repository.findByUuid(uuid);
     }
 

@@ -17,9 +17,10 @@ public class LiveDTO {
     private LocalDateTime dateStart;
     private LocalDateTime dateEnd;
     private Pegi pegi;
+    private String streamerUuid;
     private String streamerPseudo;
 
-    private LiveDTO(){}
+    public LiveDTO(){}
     private LiveDTO(Live live) {
         this.uuid = live.getUuid();
         this.title = live.getTitle();
@@ -28,6 +29,7 @@ public class LiveDTO {
         this.pegi = live.getPegi();
         this.dateStart = live.getDateStart();
         this.dateEnd = live.getDateEnd();
+        this.streamerUuid = live.getStreamer().getUuid();
         this.streamerPseudo = live.getStreamer().getPublicData().getPseudo();
     }
 
@@ -87,6 +89,9 @@ public class LiveDTO {
         this.pegi = pegi;
     }
 
+    public String getStreamerUuid() { return this.streamerUuid;}
+    public void setStreamerUuid(String streamerUuid) { this.streamerUuid = streamerUuid;}
+
     public String getStreamerPseudo() {
         return streamerPseudo;
     }
@@ -116,8 +121,8 @@ public class LiveDTO {
     }
 
     public static List<LiveDTO> parse(List<Live> lives) {
+        if(lives == null) return List.of();
         return lives.stream()
-                .filter(Objects::nonNull)
                 .map(LiveDTO::parse)
                 .toList();
     }

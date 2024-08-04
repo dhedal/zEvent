@@ -2,6 +2,8 @@ import { ApiService} from "../../service/apiService.js";
 import {LiveCard, ThemeButtonComponent} from "../../component/liveComponent.js";
 import {DateUtils} from "../../util/dateUtils.js";
 import {Live, Pegi, Streamer, Theme} from "../../model/models.js";
+import {AuthService} from "../../service/authService.js";
+import {LiveService} from "../../service/LiveService.js";
 
 const dataThemeMap = new Map();
 const dataPegiMap = new Map();
@@ -10,7 +12,7 @@ let form;
 
 const fetchDatas = async () => {
     return Promise.all([
-        ApiService.fetchThemeAndPegiList().then(response => {
+        LiveService.fetchThemesAndPegiList().then(response => {
             if(response.themes !== null) {
                 response.themes.forEach(theme => dataThemeMap.set(theme.key+"", theme));
             }
@@ -20,18 +22,12 @@ const fetchDatas = async () => {
             }
 
         }),
-        ApiService.fetchStreamerByPseudo("HankTaylor").then(response => {
-            const streamer = Streamer.parse(response);
-
-            return ApiService.fetchLivesByStreamerPseudo(streamer.pseudo)
-                .then(response => {
-                    response.forEach(live => {
-                        dataLiveMap.set(live.uuid, live);
-                    });
-                });
+        LiveService.fetchMyLives().then(response => {
+            response.forEach(live => {
+                dataLiveMap.set(live.uuid, live);
+            });
         })
     ]);
-
 };
 
 const showLivesTab = (tabId) => {
@@ -323,11 +319,6 @@ class LiveForm {
         addDataLivesInLiveTabPane();
         form = new LiveForm();
         form.buildForm(Array.from(dataThemeMap.values()), Array.from(dataPegiMap.values()));
-
-        // const tabEl = document.querySelector('button[data-bs-toggle="tab"]');
-        // tabEl.addEventListener("shown.bs.tab", event => {
-        //     if("live-edit-tab" === event.originalTarget.id) {}
-        // });
 
         const livesTabBtn = document.getElementById("lives-tab-btn");
         livesTabBtn.addEventListener("click", event => {

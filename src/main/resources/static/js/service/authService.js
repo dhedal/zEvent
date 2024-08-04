@@ -6,19 +6,31 @@ export class AuthService {
 
     static AUTH_DATA_ITEM = "authData";
 
+    static postRestPassword = async (resetPassword) => {
+        const parameters = AuthService.httpHeader("POST");
+        parameters.body = JSON.stringify(resetPassword);
+        const response = await fetch(`${API_AUTH_URL}/reset-password`, parameters);
+        return await response.json();
+    }
+
     static postSignup = async (streamer) => {
-        const parameters = AuthService.fetchParameter("POST");
+        const parameters = AuthService.httpHeader("POST");
         parameters.body = JSON.stringify(streamer);
         const response = await fetch(`${API_AUTH_URL}/signup`, parameters);
         return await response.json();
     }
 
     static postSignin = async (authData) => {
-        const parameters = AuthService.fetchParameter("POST");
+        const parameters = AuthService.httpHeader("POST");
         parameters.body = JSON.stringify(authData);
         const response = await fetch(`${API_AUTH_URL}/signin`, parameters);
         return await response.json();
     };
+
+    static fetchForgotPassword = async(email) => {
+        const response = await fetch(`${API_AUTH_URL}/forgot-password/${email}`);
+        return await response.json();
+    }
 
     static setAuthData(authData) {
         localStorage.setItem(AuthService.AUTH_DATA_ITEM, JSON.stringify(authData));
@@ -28,9 +40,14 @@ export class AuthService {
         const authDataStr = localStorage.getItem(AuthService.AUTH_DATA_ITEM);
         return authDataStr ? JSON.parse(authDataStr) : null;
     }
-    static getRule() {
+
+    static getStreamer() {
         const authData = AuthService.getAuthData();
-        return authData ? authData.streamerDTO.rule.label : null;
+        return authData ? authData.streamerDTO : null;
+    }
+    static getRule() {
+        const streamer = AuthService.getStreamer();
+        return streamer ? streamer.rule.label : null;
     }
 
     static getToken() {
@@ -51,7 +68,7 @@ export class AuthService {
         AuthService.setAuthData(null);
     }
 
-    static fetchParameter(method = "POST", withAuthorization = false) {
+    static httpHeader(method, withAuthorization = false) {
         const parameters = {
             method: method,
             headers : {

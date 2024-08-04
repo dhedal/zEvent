@@ -1,16 +1,20 @@
 package com.ecf.zevent.controller;
 
 import com.ecf.zevent.dto.*;
+import com.ecf.zevent.error.ErrorHandlers;
 import com.ecf.zevent.model.AuthenticationData;
 import com.ecf.zevent.model.Streamer;
 import com.ecf.zevent.service.AuthService;
 import com.ecf.zevent.service.JwtService;
+import com.ecf.zevent.validation.constraint.interfaces.Update;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -95,4 +99,36 @@ public class AuthController {
     }
 
 
+    @GetMapping(path = "/forgot-password/{email}", produces = "application/hal+json")
+    public ResponseEntity<ForgotPasswordResponse> forgotPassword(@PathVariable(required = true) String email) {
+        LOG.debug("## forgotPassword");
+        LOG.debug(email);
+        try {
+            return ResponseEntity.ok(this.authService.forgotPassword(email));
+        } catch (Exception e) {
+            LOG.error(e.toString());
+        }
+
+        return ResponseEntity.ok(new ForgotPasswordResponse().setOk(false).setMessage("Problème interne, en cours de traitement"));
+    }
+
+    @PostMapping(value = "/reset-password", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Boolean> resetPassword(@Validated(Update.class) @RequestBody ResetPasswordDTO resetPasswordDTO, BindingResult bindingResult) {
+        LOG.debug("## resetPassword");
+        try {
+            if(bindingResult.hasErrors()) {
+                List<String> errors = new ArrayList<>();
+                bindingResult.getAllErrors().forEach(error -> {
+                    errors.add(error.getDefaultMessage());
+                });
+                LOG.debug(errors.stream().collect(Collectors.joining("\n")));
+            }
+            else {
+                return ResponseEntity.ok(this.authService.resetPassword(resetPasswordDTO));
+            }
+        } catch (Exception e){
+            LOG.error(e.toString());
+        }
+        return ResponseEntity.ok(Boolean.FALSE);
+    }
 }

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class MailService {
     private final static String EMAIL_FOR_TEST = "client4test@yahoo.com";
     private final static String EMAIL_FOR_TEST_PASSWORD = "ZEVENT4ecf++";
+    private final static String RESET_PASSWORD_API_LINK_TEST = "http://localhost:8080/api/reset-password?token=";
 
     private static final Logger LOG = LoggerFactory.getLogger(MailService.class);
 
@@ -101,6 +102,35 @@ public class MailService {
             helper.setTo(EMAIL_FOR_TEST);
             helper.setSubject("Test Email");
             helper.setText("This is a test email to verify your email address.");
+
+            mailSender.send(message);
+            return true;
+        } catch (MailException | MessagingException e) {
+            LOG.error("Failed to send email: " + e.toString());
+        }
+        return false;
+    }
+
+    public boolean forgotPassword(String name, String token) {
+        LOG.debug("## forgotPassword");
+        try {
+
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setTo(EMAIL_FOR_TEST);
+            helper.setSubject("Réinitialisation de votre mot de passe");
+            final String resetLink = RESET_PASSWORD_API_LINK_TEST + token;
+            String text = String.format("""
+                    Bonjour %s
+                    Vous avez demandé une réinitialisation de votre mot de passe.
+                    Cliquez sur le lien ci-dessous pour réinitialiser votre mot de passe :    
+                    %s   
+                               
+                    Cordialement,
+                                        
+                    L'équipe Z-Event         
+                    """.formatted(name, resetLink));
+            helper.setText(text);
 
             mailSender.send(message);
             return true;

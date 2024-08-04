@@ -3,8 +3,10 @@ package com.ecf.zevent.controller;
 import com.ecf.zevent.dto.LiveDTO;
 import com.ecf.zevent.dto.ThemeAndPegiListDTO;
 import com.ecf.zevent.model.Live;
+import com.ecf.zevent.model.Streamer;
 import com.ecf.zevent.model.enumerations.ThematiqueType;
 import com.ecf.zevent.service.LiveService;
+import com.ecf.zevent.service.StreamerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,19 +19,43 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(value = "/api/live")
 public class LiveController {
     private static final Logger LOG = LoggerFactory.getLogger(LiveController.class);
 
+    private final LiveService liveService;
+    private final StreamerService streamerService;
     @Autowired
-    private LiveService liveService;
+    public LiveController(LiveService liveService, StreamerService streamerService) {
+        this.liveService = liveService;
+        this.streamerService = streamerService;
+    }
 
     @GetMapping(path = "/id", produces = "application/hal+json")
     public ResponseEntity<Live> getStreamer() {
         return ResponseEntity.ok(new Live());
     }
+
+    @GetMapping(path = "/streamer/{streamerUuid}", produces = "application/hal+json")
+    public ResponseEntity<List<LiveDTO>> getLivesByStreamerUuid(@PathVariable String streamerUuid) {
+        LOG.debug("## getLivesByStreamerUuid");
+        try {
+            if (Objects.isNull(streamerUuid) || streamerUuid.isEmpty()) return ResponseEntity.ok(List.of());
+
+            Streamer streamer = this.streamerService.findByUuid(streamerUuid);
+            if (Objects.nonNull(streamer)) {
+                List<Live> lives = this.liveService.findLivesByStreamer(streamer);
+                return ResponseEntity.ok(LiveDTO.parse(lives));
+            }
+        } catch (Exception e){
+            LOG.error(e.toString());
+        }
+        return ResponseEntity.ok(List.of());
+    }
+
 
     @GetMapping(path = "/thematique/list", produces = "application/hal+json")
     public ResponseEntity<List<ThematiqueType>> getThematiqueType() {
